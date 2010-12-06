@@ -4,6 +4,7 @@
 
 " Save as UTF-8
 setglobal fenc=utf8
+
 set enc=utf8
 
 " Jamessan's sweet trick for sourcing vimrc
