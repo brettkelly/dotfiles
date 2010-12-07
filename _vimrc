@@ -273,4 +273,4 @@ endfunction
 nmap <Leader>bd :call <SID>CloseIfOnlyWindow(0)<CR>
 nmap <Leader>bD :call <SID>CloseIfOnlyWindow(1)<CR>
 
-
+call pathogen#runtime_append_all_bundles()
