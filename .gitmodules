@@ -10,3 +10,6 @@
 [submodule "vimfiles/bundle/rails"]
 	path = vimfiles/bundle/rails
 	url = git://github.com/tpope/vim-rails.git
+[submodule "vimfiles/bundle/surround"]
+	path = vimfiles/bundle/surround
+	url = git://github.com/vim-scripts/surround.vim.git
