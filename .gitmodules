@@ -1,0 +1,12 @@
+[submodule "vimfiles/bundle/vim-fugitive"]
+	path = vimfiles/bundle/vim-fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule "vimfiles/bundle/nerdcommenter"]
+	path = vimfiles/bundle/nerdcommenter
+	url = git://github.com/scrooloose/nerdcommenter.git
+[submodule "vimfiles/bundle/snipmate"]
+	path = vimfiles/bundle/snipmate
+	url = git://github.com/msanders/snipmate.vim.git
+[submodule "vimfiles/bundle/rails"]
+	path = vimfiles/bundle/rails
+	url = git://github.com/tpope/vim-rails.git
