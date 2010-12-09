@@ -13,3 +13,6 @@
 [submodule "vimfiles/bundle/snipmate"]
 	path = vimfiles/bundle/snipmate
 	url = git://github.com/msanders/snipmate.vim.git
+[submodule "vimfiles/snippets/cakephp.vim"]
+	path = vimfiles/snippets/cakephp.vim
+	url = git@github.com:inkedmn/vim-snippets-cakephp.git
