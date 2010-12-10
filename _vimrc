@@ -81,13 +81,15 @@ else
 endif
 
 if has('gui_running')
-    set guifont="Consolas":h13:cDEFAULT
+    set guifont=DejaVu\ Sans\ Mono:h13
     set guioptions-=T
     set guioptions-=r
     set guioptions-=l
     nmap <F11> :color billw<CR>
     nmap <F12> :color inkpot<CR>
-    colorscheme inkpot
+    colorscheme jellybeans
+    hi ColorLine guibg=darkred
+    set cursorline
 else
     colorscheme blue
 endif
