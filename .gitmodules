@@ -16,3 +16,6 @@
 [submodule "vimfiles/snippets/cakephp.vim"]
 	path = vimfiles/snippets/cakephp.vim
 	url = git@github.com:inkedmn/vim-snippets-cakephp.git
+[submodule "vimfiles/snippets/cakephp"]
+	path = vimfiles/snippets/cakephp
+	url = git@github.com:inkedmn/vim-snippets-cakephp.git
