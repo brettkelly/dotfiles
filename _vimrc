@@ -22,6 +22,10 @@ set nobackup writebackup
 set nu
 syntax on
 
+""" Pathogen
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
 """ Visual Suspects
 set ts=4 
 set sw=4
@@ -157,8 +161,11 @@ imap    <Leader>td      <td></td><ESC>4hi<CR><CR><C-o>k<TAB>
 imap    <Leader>te     $html->tagErrorMsg('');<ESC>?g<CR>3li
 imap    <Leader>js     <script type="text/javascript"><CR></script><ESC>O
 
-" Actionscript
+" Filetypes
 au BufNewFile,BufRead *.as set filetype=actionscript
+au BufRead,BufNewFile *.thtml   set filetype=php.html
+au BufRead,BufNewFile *.php   set filetype=php.html
+au BufRead,BufNewFile *.ctp   set filetype=php.html
 
 " jamessan's smart window/buffer closing functions
 
@@ -273,7 +280,5 @@ endfunction
 nmap <Leader>bd :call <SID>CloseIfOnlyWindow(0)<CR>
 nmap <Leader>bD :call <SID>CloseIfOnlyWindow(1)<CR>
 
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
 
 nmap ,r :call ReloadAllSnippets()<CR> 
