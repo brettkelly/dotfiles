@@ -4,12 +4,15 @@
 [submodule "vimfiles/bundle/nerdcommenter"]
 	path = vimfiles/bundle/nerdcommenter
 	url = git://github.com/scrooloose/nerdcommenter.git
-[submodule "vimfiles/bundle/snipmate"]
-	path = vimfiles/bundle/snipmate
-	url = git://github.com/msanders/snipmate.vim.git
 [submodule "vimfiles/bundle/rails"]
 	path = vimfiles/bundle/rails
 	url = git://github.com/tpope/vim-rails.git
 [submodule "vimfiles/bundle/surround"]
 	path = vimfiles/bundle/surround
 	url = git://github.com/vim-scripts/surround.vim.git
+[submodule "vimfiles/bundle/snipmate"]
+	path = vimfiles/bundle/snipmate
+	url = git://github.com/msanders/snipmate.vim.git
+[submodule "vimfiles/snippets/cakephp.vim"]
+	path = vimfiles/snippets/cakephp.vim
+	url = git@github.com:inkedmn/vim-snippets-cakephp.git

@@ -86,10 +86,8 @@ if has('gui_running')
     set guioptions-=r
     set guioptions-=l
     nmap <F11> :color billw<CR>
-    nmap <F12> :color inkpot<CR>
+    nmap <F12> :color jellybeans<CR>
     colorscheme jellybeans
-    hi ColorLine guibg=darkred
-    set cursorline
 else
     colorscheme blue
 endif
@@ -277,3 +275,5 @@ nmap <Leader>bD :call <SID>CloseIfOnlyWindow(1)<CR>
 
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
+
+nmap ,r :call ReloadAllSnippets()<CR> 
