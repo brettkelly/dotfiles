@@ -275,3 +275,5 @@ nmap <Leader>bD :call <SID>CloseIfOnlyWindow(1)<CR>
 
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
+
+nmap ,r :call ReloadAllSnippets()<CR> 
