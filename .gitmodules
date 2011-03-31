@@ -9,13 +9,13 @@
 	url = git://github.com/tpope/vim-rails.git
 [submodule "vimfiles/bundle/surround"]
 	path = vimfiles/bundle/surround
-	url = git://github.com/vim-scripts/surround.vim.git
-[submodule "vimfiles/bundle/snipmate"]
-	path = vimfiles/bundle/snipmate
-	url = git://github.com/msanders/snipmate.vim.git
+	url = git://github.com/tpope/vim-surround.git
 [submodule "vimfiles/snippets/cakephp.vim"]
 	path = vimfiles/snippets/cakephp.vim
 	url = git@github.com:inkedmn/vim-snippets-cakephp.git
 [submodule "vimfiles/snippets/cakephp"]
 	path = vimfiles/snippets/cakephp
 	url = git@github.com:inkedmn/vim-snippets-cakephp.git
+[submodule "vimfiles/bundle/snipmate"]
+	path = vimfiles/bundle/snipmate
+	url = git://github.com/msanders/snipmate.vim.git
