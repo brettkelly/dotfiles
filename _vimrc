@@ -166,6 +166,11 @@ au BufNewFile,BufRead *.as set filetype=actionscript
 au BufRead,BufNewFile *.thtml   set filetype=php.html
 au BufRead,BufNewFile *.php   set filetype=php.html
 au BufRead,BufNewFile *.ctp   set filetype=php.html
+" Markdown
+au BufRead,BufNewFile *.md   set filetype=markdown
+au BufRead,BufNewFile *.markdown   set filetype=markdown
+
+
 
 " jamessan's smart window/buffer closing functions
 
