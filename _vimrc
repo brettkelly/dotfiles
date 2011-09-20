@@ -85,7 +85,7 @@ else
 endif
 
 if has('gui_running')
-    set guifont=DejaVu\ Sans\ Mono:h13
+    set guifont=Inconsolata:h14
     set guioptions-=T
     set guioptions-=r
     set guioptions-=l
@@ -166,14 +166,11 @@ au BufNewFile,BufRead *.as set filetype=actionscript
 au BufRead,BufNewFile *.thtml   set filetype=php.html
 au BufRead,BufNewFile *.php   set filetype=php.html
 au BufRead,BufNewFile *.ctp   set filetype=php.html
-<<<<<<< HEAD
 au BufRead,BufNewFile *.xml   set filetype=xml.html
-=======
 " Markdown
 au BufRead,BufNewFile *.md   set filetype=markdown
 au BufRead,BufNewFile *.markdown   set filetype=markdown
-
->>>>>>> e85ac4ba16688ca4312bc44e736f4ff0e058cb22
+au BufRead,BufNewFile *.txt colo inkpot
 
 
 " jamessan's smart window/buffer closing functions
