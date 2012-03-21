@@ -67,21 +67,12 @@ if has('win32')
     set backupdir=$HOME/vim-backup
     set directory=$HOME/vim-tmp
     set linespace=1
-    nmap ,h :e! C:\Windows\System32\drivers\etc\hosts <CR>
-    nmap ,t :e! C:\Documents\ and\ Settings\Brett\My\ Documents\My\ Dropbox\Projects.txt<CR>
-    nmap <F8> :!ctags -R *<CR>
-    nmap <F2> :vsplit<CR>
-    imap <F3> <ESC>"+gPi
-    vmap <F4> <ESC>"+y
-    nmap <F3> "+gPi
-    nmap <A-$> :BufGrep <C-r><C-w><CR>:copen<CR>
 else
     let g:vimdir = expand("~/.vim/")
     let g:vimrc  = expand("~/.vimrc")
     set ffs=unix,mac,dos
     set backupdir=$HOME/.vim/backup
     set directory=$HOME/.vim/tmp
-    nmap ,t :e! /Users/inkedmn/Dropbox/Projects.txt<CR>
 endif
 
 if has('gui_running')
