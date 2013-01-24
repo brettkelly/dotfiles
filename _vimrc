@@ -20,11 +20,16 @@ filetype plugin indent on
 filetype on
 set nobackup writebackup
 set nu
+set noswapfile
 syntax on
 
 """ Pathogen
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
+
+""" Some variables!
+let g:author = "Brett Kelly"
+let g:email = "brett@brettkelly.org"
 
 """ Visual Suspects
 set ts=4 
@@ -87,6 +92,8 @@ else
     colorscheme blue
 endif
 
+" Match VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 """ Folding 
 set foldenable
@@ -153,15 +160,15 @@ imap    <Leader>te     $html->tagErrorMsg('');<ESC>?g<CR>3li
 imap    <Leader>js     <script type="text/javascript"><CR></script><ESC>O
 
 " Filetypes
-au BufNewFile,BufRead *.as set filetype=actionscript
+au BufNewFile,BufRead *.as      set filetype=actionscript
 au BufRead,BufNewFile *.thtml   set filetype=php.html
-au BufRead,BufNewFile *.php   set filetype=php.html
-au BufRead,BufNewFile *.ctp   set filetype=php.html
-au BufRead,BufNewFile *.xml   set filetype=xml.html
+au BufRead,BufNewFile *.php     set filetype=php.html
+au BufRead,BufNewFile *.ctp     set filetype=php.html
+au BufRead,BufNewFile *.xml     set filetype=xml.html
+
 " Markdown
 au BufRead,BufNewFile *.md   set filetype=markdown
 au BufRead,BufNewFile *.markdown   set filetype=markdown
-au BufRead,BufNewFile *.txt colo inkpot
 
 
 " jamessan's smart window/buffer closing functions
@@ -279,3 +286,4 @@ nmap <Leader>bD :call <SID>CloseIfOnlyWindow(1)<CR>
 
 
 nmap ,r :call ReloadAllSnippets()<CR> 
+nmap ,S :e ~/.vim/snippets/<CR>
