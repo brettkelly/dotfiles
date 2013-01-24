@@ -1,8 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
-let g:netrw_dirhist_1='/Users/bkelly/Development/evernote_about/www/trunk/about/trunk/app/webroot'
-let g:netrw_dirhist_2='/Users/bkelly/Development/evernote_about/www/trunk/about/getting_started'
-let g:netrw_dirhist_3='/Users/bkelly/Development/evernote_about/www/trunk/about'
-let g:netrw_dirhist_4='/Users/bkelly/Development/evernote_about/www/trunk'
-let g:netrw_dirhist_5='/Users/bkelly/Development/evernote_about/www/trunk/inc'
-let g:netrw_dirhist_6='/Users/bkelly/Development/evernote_about/www/trunk/about/kb/app'
