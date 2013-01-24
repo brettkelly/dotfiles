@@ -28,3 +28,6 @@
 [submodule "vimfiles/bundle/peepopen"]
 	path = vimfiles/bundle/peepopen
 	url = git://github.com/shemerey/vim-peepopen.git
+[submodule "vimfiles/bundle/command-t"]
+	path = vimfiles/bundle/command-t
+	url = git://git.wincent.com/command-t.git
