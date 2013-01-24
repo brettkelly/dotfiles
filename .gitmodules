@@ -10,21 +10,12 @@
 [submodule "vimfiles/bundle/surround"]
 	path = vimfiles/bundle/surround
 	url = git://github.com/tpope/vim-surround.git
-[submodule "vimfiles/snippets/cakephp.vim"]
-	path = vimfiles/snippets/cakephp.vim
-	url = git@github.com:inkedmn/vim-snippets-cakephp.git
-[submodule "vimfiles/snippets/cakephp"]
-	path = vimfiles/snippets/cakephp
-	url = git@github.com:inkedmn/vim-snippets-cakephp.git
 [submodule "vimfiles/bundle/snipmate"]
 	path = vimfiles/bundle/snipmate
 	url = git://github.com/msanders/snipmate.vim.git
 [submodule "vimfiles/bundle/vim-markdown"]
 	path = vimfiles/bundle/vim-markdown
 	url = git://github.com/tpope/vim-markdown.git
-[submodule "vimfiles/bundle/matchit"]
-	path = vimfiles/bundle/matchit
-	url = git://github.com/edsono/vim-matchit.git
 [submodule "vimfiles/bundle/peepopen"]
 	path = vimfiles/bundle/peepopen
 	url = git://github.com/shemerey/vim-peepopen.git
