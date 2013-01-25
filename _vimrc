@@ -50,7 +50,18 @@ set ts=4
 set sw=4
 set tw=0 
 set nohlsearch 
-set statusline=%t%m%r%w%y[C:%c,L:%l][%P]
+"set statusline=%t%m%r%w%y[C:%c,L:%l][%P]
+"set statusline+=%{fugitive#statusline()}
+
+" statusline experimentation
+set statusline=%<%f\    " Filename
+set statusline+=%w%h%m%r " Options
+set statusline+=%{fugitive#statusline()} "  Git Hotness
+set statusline+=\ [%{&ff}/%Y]            " filetype
+set statusline+=\ [%{getcwd()}]          " current dir
+set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
+" end statusline
+
 set cmdheight=2 
 set lazyredraw 
 set ignorecase
@@ -146,6 +157,8 @@ nmap    ,s :source `=g:vimrc`<CR>
 let Tlist_WinWidth = 40
 map <F4> :TlistToggle<cr>
 
+" NERDtree
+map <C-n> :NERDTreeToggle<CR>
 
 " Abbreviations and Mappings
 iabbr   enctp   enctype="multipart/form-data"<BS><ESC>
