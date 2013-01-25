@@ -15,6 +15,20 @@ if !exists("g:loaded_vimrc")
     set all&
 endif
 
+"function! WordCount()
+  "let s:old_status = v:statusmsg
+  "let position = getpos(".")
+  "exe ':silent normal g\'
+  "let stat = v:statusmsg
+  "let s:word_count = 0
+  "if stat != '--No lines in buffer--'
+    "let s:word_count = str2nr(split(v:statusmsg)[11])
+    "let v:statusmsg = s:old_status
+  "end
+  "call setpos('.', position)
+  "return s:word_count 
+"endfunction
+
 """ Startup
 filetype plugin indent on
 filetype on
@@ -85,9 +99,8 @@ if has('gui_running')
     set guioptions-=T
     set guioptions-=r
     set guioptions-=l
-    nmap <F11> :color billw<CR>
-    nmap <F12> :color jellybeans<CR>
-    colorscheme jellybeans
+    set bg=dark
+    colorscheme solarized
 else
     colorscheme blue
 endif
@@ -167,9 +180,9 @@ au BufRead,BufNewFile *.ctp     set filetype=php.html
 au BufRead,BufNewFile *.xml     set filetype=xml.html
 
 " Markdown
-au BufRead,BufNewFile *.md   set filetype=markdown
-au BufRead,BufNewFile *.markdown   set filetype=markdown
-
+au BufRead,BufNewFile,BufEnter *.md   set filetype=markdown 
+au BufRead,BufNewFile,BufEnter *.markdown   set filetype=markdown
+"autocmd FileType markdown set statusline+=wc:%{WordCount()}
 
 " jamessan's smart window/buffer closing functions
 
