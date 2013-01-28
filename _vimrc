@@ -50,18 +50,6 @@ set ts=4
 set sw=4
 set tw=0 
 set nohlsearch 
-"set statusline=%t%m%r%w%y[C:%c,L:%l][%P]
-"set statusline+=%{fugitive#statusline()}
-
-" statusline experimentation
-set statusline=%<%f\    " Filename
-set statusline+=%w%h%m%r " Options
-set statusline+=%{fugitive#statusline()} "  Git Hotness
-set statusline+=\ [%{&ff}/%Y]            " filetype
-set statusline+=\ [%{getcwd()}]          " current dir
-set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
-" end statusline
-
 set cmdheight=2 
 set lazyredraw 
 set ignorecase
@@ -80,8 +68,18 @@ set noerrorbells
 set wrap
 set smarttab
 set completeopt=menu
-set laststatus=2
+set laststatus=1
 set hidden
+
+" Status Line ---------------------- {{{
+set statusline=%<%f\    " Filename
+set statusline+=%w%h%m%r " Options
+set statusline+=%{fugitive#statusline()} "  Git Hotness
+set statusline+=\ [%{&ff}/%Y]            " filetype
+set statusline+=\ [%{getcwd()}]          " current dir
+set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
+" }}}
+
 
 set lcs=tab:>-,trail:-
 
@@ -106,7 +104,7 @@ else
 endif
 
 if has('gui_running')
-    set guifont=Inconsolata:h14
+    set guifont=Inconsolata:h16
     set guioptions-=T
     set guioptions-=r
     set guioptions-=l
@@ -126,7 +124,7 @@ set foldlevel=2
 set foldcolumn=1
 
 
-""" Keybindings
+" Mappings ---------------------- {{{
 " Some mappings to move easily between windows
 nmap	<C-h>	<C-w>h
 nmap	<C-j>	<C-w>j
@@ -135,7 +133,7 @@ nmap	<C-l>	<C-w>l
 
 cmap    w!!     %!sudo tee > /dev/null %
 
-" I like emacs C-a and C-e
+" I like emacs-style home and end
 imap    <C-a> <Home>
 imap    <C-e> <End>
 nmap    <C-a> <Home>
@@ -145,45 +143,18 @@ cmap    <C-e> <End>
 vmap    <C-a> <Home>
 vmap    <C-e> <End>
 
-" Show me da bufferz
-nmap    <F5>    \be
+nmap    <F5>    \be  " show buffer list
 imap    <F5>    \be
 
-" Edit and source .vimrc easily
-nmap    ,v :e! `=g:vimrc`<CR>
-nmap    ,s :source `=g:vimrc`<CR>
+nmap    ,v :e! `=g:vimrc`<CR>   " edit .vimrc
+nmap    ,s :source `=g:vimrc`<CR> " :source .vimrc
 
-" ctags
-let Tlist_WinWidth = 40
-map <F4> :TlistToggle<cr>
-
-" NERDtree
-map <C-n> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeToggle<CR> "
 
 " Abbreviations and Mappings
-iabbr   enctp   enctype="multipart/form-data"<BS><ESC>
-imap    <Leader>dd     debug(); die();<C-o>2F)
-imap    <Leader>dtd     debug($this->data); die();<C-o>2F)
-imap    <Leader>bb     {<CR>}<ESC>O
-imap    <Leader>bl     <?php  ?><ESC>?p<CR>lli
-imap    <Leader>be     <?php echo  ?><ESC>?o<CR>lli
-imap    <Leader>ts     $this->set();<ESC>hi
-imap    <Leader>md     $this->data;
-imap    <Leader>tb     ['']['']<ESC>?[<CR>nlli
-imap    <Leader>sb      []
-imap    <Leader>sg      []<ESC>i
-imap    <Leader>fe      foreach(){<CR>}<ESC>O<ESC>?h<CR>lli
-imap    <Leader>fl      for($i=0;$i< ;$i++){<CR>}<ESC>O<ESC>?<<CR>li
-imap    <Leader>img    <img src="" alt="" /><ESC>?src<CR>5li
-imap    <Leader>ff     <ESC>bdwifunction <ESC>pA<BS>(){<CR>}<ESC>O
-vmap    <Leader>link   c<a href="<C-r>""></a><C-o>F<
-imap    <Leader>table  <table id="" cellpadding="0" cellspacing="0"><CR></table><ESC>?id<CR>4li
-imap    <Leader>div    <div id=""><CR></div><ESC>?id<CR>4li
-imap    <Leader>tt      <tr><CR><td></td><CR></tr><ESC>?<td><CR>4li
-imap    <Leader>tr      <tr></tr><ESC>4hi<CR><TAB>
-imap    <Leader>td      <td></td><ESC>4hi<CR><CR><C-o>k<TAB> 
-imap    <Leader>te     $html->tagErrorMsg('');<ESC>?g<CR>3li
-imap    <Leader>js     <script type="text/javascript"><CR></script><ESC>O
+imap    <Leader>bb     {<CR>}<ESC>O  " quick and easy brace pairs
+
+" }}}
 
 " Filetypes
 au BufNewFile,BufRead *.as      set filetype=actionscript
@@ -192,10 +163,17 @@ au BufRead,BufNewFile *.php     set filetype=php.html
 au BufRead,BufNewFile *.ctp     set filetype=php.html
 au BufRead,BufNewFile *.xml     set filetype=xml.html
 
-" Markdown
+" Markdown 
 au BufRead,BufNewFile,BufEnter *.md   set filetype=markdown 
 au BufRead,BufNewFile,BufEnter *.markdown   set filetype=markdown
 "autocmd FileType markdown set statusline+=wc:%{WordCount()}
+
+" Vimscript file settings ---------------------- {{{
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
+" }}}
 
 " jamessan's smart window/buffer closing functions
 
@@ -313,3 +291,12 @@ nmap <Leader>bD :call <SID>CloseIfOnlyWindow(1)<CR>
 
 nmap ,r :call ReloadAllSnippets()<CR> 
 nmap ,S :e ~/.vim/snippets/<CR>
+
+function! s:get_visual_selection()
+  let [lnum1, col1] = getpos("'<")[1:2]
+  let [lnum2, col2] = getpos("'>")[1:2]
+  let lines = getline(lnum1, lnum2)
+  let lines[-1] = lines[-1][: col2 - 2]
+  let lines[0] = lines[0][col1 - 1:]
+  return join(lines, "\n")
+endfunction
