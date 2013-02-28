@@ -80,7 +80,6 @@ set statusline+=\ [%{getcwd()}]          " current dir
 set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
 " }}}
 
-
 set lcs=tab:>-,trail:-
 
 if v:version >= 700
@@ -104,12 +103,12 @@ else
 endif
 
 if has('gui_running')
-    set guifont=Inconsolata:h16
+    set guifont=Inconsolata:h14
     set guioptions-=T
     set guioptions-=r
     set guioptions-=l
     set bg=dark
-    colorscheme solarized
+    colorscheme jellybeans
 else
     colorscheme blue
 endif
@@ -117,12 +116,12 @@ endif
 " Match VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
-""" Folding 
+" Folding ---------------------- {{{
 set foldenable
-set foldmethod=indent
+set foldmethod=marker
 set foldlevel=2
 set foldcolumn=1
-
+" }}}
 
 " Mappings ---------------------- {{{
 " Some mappings to move easily between windows
@@ -132,6 +131,9 @@ nmap	<C-k>	<C-w>k
 nmap	<C-l>	<C-w>l
 
 cmap    w!!     %!sudo tee > /dev/null %
+
+" Open current buffer in Marked
+nnoremap <leader>m :silent !open -a Marked.app '%:p'<cr>
 
 " I like emacs-style home and end
 imap    <C-a> <Home>
@@ -152,7 +154,7 @@ nmap    ,s :source `=g:vimrc`<CR> " :source .vimrc
 map <C-n> :NERDTreeToggle<CR> "
 
 " Abbreviations and Mappings
-imap    <Leader>bb     {<CR>}<ESC>O  " quick and easy brace pairs
+imap    <Leader>bb     {<CR>}<ESC>O  
 
 " }}}
 
