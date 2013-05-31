@@ -154,7 +154,7 @@ nmap    ,s :source `=g:vimrc`<CR> " :source .vimrc
 map <C-n> :NERDTreeToggle<CR> "
 
 " Abbreviations and Mappings
-imap    <Leader>bb     {<CR>}<ESC>O  
+imap    <Leader>bb     {<CR><CR>}<ESC>ki<TAB>
 
 " }}}
 
