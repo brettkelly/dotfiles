@@ -15,27 +15,14 @@ if !exists("g:loaded_vimrc")
     set all&
 endif
 
-"function! WordCount()
-  "let s:old_status = v:statusmsg
-  "let position = getpos(".")
-  "exe ':silent normal g\'
-  "let stat = v:statusmsg
-  "let s:word_count = 0
-  "if stat != '--No lines in buffer--'
-    "let s:word_count = str2nr(split(v:statusmsg)[11])
-    "let v:statusmsg = s:old_status
-  "end
-  "call setpos('.', position)
-  "return s:word_count 
-"endfunction
-
 """ Startup
 filetype plugin indent on
 filetype on
-set nobackup writebackup
-set nu
-set noswapfile
 syntax on
+
+""" Backups
+set backup 
+set noswapfile
 
 """ Pathogen
 call pathogen#runtime_append_all_bundles()
@@ -66,10 +53,12 @@ set showcmd
 set pumheight=5
 set noerrorbells
 set wrap
+set linebreak
 set smarttab
 set completeopt=menu
 set laststatus=1
 set hidden
+set nu
 
 " Status Line ---------------------- {{{
 set statusline=%<%f\    " Filename
@@ -130,6 +119,10 @@ nmap	<C-j>	<C-w>j
 nmap	<C-k>	<C-w>k
 nmap	<C-l>	<C-w>l
 
+" Testing
+"imap <c-u> <esc>viwUa
+"imap <c-u> mz<esc>viwU'zi
+
 cmap    w!!     %!sudo tee > /dev/null %
 
 " Open current buffer in Marked
@@ -168,13 +161,20 @@ au BufRead,BufNewFile *.xml     set filetype=xml.html
 " Markdown 
 au BufRead,BufNewFile,BufEnter *.md   set filetype=markdown 
 au BufRead,BufNewFile,BufEnter *.markdown   set filetype=markdown
-"autocmd FileType markdown set statusline+=wc:%{WordCount()}
 
 " Vimscript file settings ---------------------- {{{
 augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
+" }}}
+
+" Markdown file settings ----------------------- {{{
+augroup filetype_markdown
+    autocmd!
+    autocmd Filetype markdown setlocal 
+    
+augroup end
 " }}}
 
 " jamessan's smart window/buffer closing functions
