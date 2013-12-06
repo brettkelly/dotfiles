@@ -169,14 +169,6 @@ augroup filetype_vim
 augroup END
 " }}}
 
-" Markdown file settings ----------------------- {{{
-augroup filetype_markdown
-    autocmd!
-    autocmd Filetype markdown setlocal 
-    
-augroup end
-" }}}
-
 " jamessan's smart window/buffer closing functions
 
 function! <SID>ValidAltBuffer(bufnr)
