@@ -92,7 +92,7 @@ else
 endif
 
 if has('gui_running')
-    set guifont=Consolas:h14
+    set guifont=Menlo:h14
     set guioptions-=T
     set guioptions-=r
     set guioptions-=l
