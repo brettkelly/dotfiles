@@ -1,0 +1,18 @@
+Plugins
+======
+
+Command T
+Vim-Plug
+vim-snippets
+nerdcommenter
+vim-surround
+Syntastic
+fzf
+
+https://github.com/junegunn/vim-plug
+
+https://github.com/srsudar/dotfiles/commit/1f8ec53d273d7e3d86479ce5f399cb45b090b66c
+
+https://github.com/inkedmn/vimconfig/blob/master/.gitmodules
+
+https://medium.com/@huntie/10-essential-vim-plugins-for-2018-39957190b7a9
