@@ -24,9 +24,16 @@ syntax on
 set backup 
 set noswapfile
 
-""" Pathogen
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+""" vim-plug
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'https://github.com/tpope/vim-surround'
+Plug 'garbas/vim-snipmate'
+Plug 'tpope/vim-fugitive'
+Plug 'altercation/vim-colors-solarized'
+Plug 'scrooloose/nerdcommenter'
+call plug#end()
 
 """ Some variables!
 let g:author = "Brett Kelly"
@@ -97,7 +104,7 @@ if has('gui_running')
     set guioptions-=r
     set guioptions-=l
     set bg=dark
-    colorscheme jellybeans
+    colorscheme solarized
 else
     colorscheme blue
 endif
