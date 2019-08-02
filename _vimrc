@@ -19,6 +19,7 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'marcweber/vim-addon-mw-utils'
 Plug 'https://github.com/tpope/vim-surround'
 Plug 'garbas/vim-snipmate'
 set runtimepath+='~/.vim/snippets/'
@@ -129,7 +130,7 @@ nmap	<C-k>	<C-w>k
 nmap	<C-l>	<C-w>l
 
 " SnipMate? Are you there?
-inoremap <TAB> <Plug>snipMapNextOrTrigger
+inoremap <C-TAB> <Plug>snipMapNextOrTrigger
 
 " Testing
 "imap <c-u> <esc>viwUa
