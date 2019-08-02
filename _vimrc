@@ -15,6 +15,18 @@ if !exists("g:loaded_vimrc")
     set all&
 endif
 
+""" Load plugins via vim-plug
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'https://github.com/tpope/vim-surround'
+Plug 'garbas/vim-snipmate'
+set runtimepath+='~/.vim/snippets/'
+Plug 'tpope/vim-fugitive'
+Plug 'altercation/vim-colors-solarized'
+Plug 'scrooloose/nerdcommenter'
+call plug#end()
+
 """ Startup
 filetype plugin indent on
 filetype on
@@ -24,16 +36,6 @@ syntax on
 set backup 
 set noswapfile
 
-""" vim-plug
-call plug#begin('~/.vim/plugged')
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'https://github.com/tpope/vim-surround'
-Plug 'garbas/vim-snipmate'
-Plug 'tpope/vim-fugitive'
-Plug 'altercation/vim-colors-solarized'
-Plug 'scrooloose/nerdcommenter'
-call plug#end()
 
 """ Some variables!
 let g:author = "Brett Kelly"
@@ -125,6 +127,9 @@ nmap	<C-h>	<C-w>h
 nmap	<C-j>	<C-w>j
 nmap	<C-k>	<C-w>k
 nmap	<C-l>	<C-w>l
+
+" SnipMate? Are you there?
+inoremap <TAB> <Plug>snipMapNextOrTrigger
 
 " Testing
 "imap <c-u> <esc>viwUa
