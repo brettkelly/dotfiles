@@ -18,6 +18,7 @@ endif
 """ Load plugins via vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'https://github.com/tomtom/tlib_vim'
 Plug 'junegunn/fzf.vim'
 Plug 'marcweber/vim-addon-mw-utils'
 Plug 'https://github.com/tpope/vim-surround'
