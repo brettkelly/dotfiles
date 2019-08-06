@@ -27,6 +27,7 @@ set runtimepath+='~/.vim/snippets/'
 Plug 'tpope/vim-fugitive'
 Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
 call plug#end()
 
 """ Startup
