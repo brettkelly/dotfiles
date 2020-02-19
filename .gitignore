@@ -1,3 +1,5 @@
 vimfiles/backup/*
+.vim/backup/*
 vimfiles/.netrwhist
+.vim/.netrwhist
 .DS_Store
