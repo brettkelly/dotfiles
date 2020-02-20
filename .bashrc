@@ -2,6 +2,9 @@
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+# Aliases 
+source .aliases
+
 # Custom prompt
 export PS1="\u [\w] \\$ "
 
@@ -28,3 +31,4 @@ extract () {
        echo "'$1' is not a valid file!"
    fi
  }
+

@@ -1,3 +1,5 @@
+.*.sw?
+*~
 vimfiles/backup/*
 .vim/backup/*
 vimfiles/.netrwhist
