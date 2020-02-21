@@ -21,6 +21,9 @@ HISTSIZE=1000
 # Custom prompt
 export PS1="\u [\w] \\$ "
 
+# Homebrew completion
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
 ##
 # Useful commands are useful.
 ##
