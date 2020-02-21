@@ -2,6 +2,10 @@
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+# Defaults
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
 # Aliases 
 source .aliases
 
@@ -31,5 +35,18 @@ extract () {
        echo "'$1' is not a valid file!"
    fi
  }
+
+## Create a grayscale/blurred version of an image;
+# I use this in my BLOGGING.
+
+grayblurs () {
+
+    filename=$(basename -- "$1")
+    extension="${filename##*.}"
+    plain="${filename%.*}";
+    newfile="${plain}.blurred.${extension}";
+
+    convert ${filename} -blur 0x4 -set colorspace Gray -separate -average ${newfile}
+}
 
 export PATH="/usr/local/opt/ruby/bin:$PATH"
