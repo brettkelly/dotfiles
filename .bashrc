@@ -12,6 +12,12 @@ export EDITOR="$VISUAL"
 # Aliases 
 source .aliases
 
+# History
+HISTCONTROL=ignoredups
+HISTCONTROL=ignoreboth
+HISTFILESIZE=20000 
+HISTSIZE=1000
+
 # Custom prompt
 export PS1="\u [\w] \\$ "
 
