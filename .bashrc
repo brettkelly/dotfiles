@@ -45,6 +45,11 @@ extract () {
    fi
  }
 
+
+nf () { 
+    gvim ~/Development/Scratch/$1 
+}
+
 ## Create a grayscale/blurred version of an image;
 # I use this in my BLOGGING.
 
