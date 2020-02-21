@@ -2,6 +2,9 @@
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+# Path crap
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+
 # Defaults
 export VISUAL=vim
 export EDITOR="$VISUAL"
@@ -40,7 +43,6 @@ extract () {
 # I use this in my BLOGGING.
 
 grayblurs () {
-
     filename=$(basename -- "$1")
     extension="${filename##*.}"
     plain="${filename%.*}";
@@ -49,4 +51,16 @@ grayblurs () {
     convert ${filename} -blur 0x4 -set colorspace Gray -separate -average ${newfile}
 }
 
-export PATH="/usr/local/opt/ruby/bin:$PATH"
+# Grab a high-resolution thumbnail for a youtube video by URL
+ytthumb () {
+    vid=$(echo "$1" | perl -ne 'print "$1\n" if /^.+v=(.*)/')
+    outf="youtube-$vid.jpg"
+    wget -O $outf http://i3.ytimg.com/vi/$vid/maxresdefault.jpg
+}
+
+# Same for vimeo
+# This used to work, but now does not
+
+# vimeothumb () {
+#     wget $(curl -s http://vimeo.com/api/oembed.json?url="${1}" | python -c "import sys,json; print json.load(sys.stdin)['thumbnail_url']") 
+# }
