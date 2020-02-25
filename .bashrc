@@ -22,7 +22,8 @@ HISTSIZE=1000
 export PS1="\u [\w] \\$ "
 
 # Homebrew completion
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+# this is making everything hang; dunno why.
+# [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 ##
 # Useful commands are useful.
