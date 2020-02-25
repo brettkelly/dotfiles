@@ -20,3 +20,6 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
+
+# remotes
+alias pessh="ssh bkelly@104.200.25.22"
