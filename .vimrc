@@ -26,8 +26,11 @@ Plug 'garbas/vim-snipmate'
 set runtimepath+='~/.vim/snippets/'
 Plug 'tpope/vim-fugitive'
 Plug 'altercation/vim-colors-solarized'
+Plug 'arzg/vim-colors-xcode'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim'
 call plug#end()
 
 """ Startup
@@ -43,6 +46,11 @@ set noswapfile
 """ Some variables!
 let g:author = "Brett Kelly"
 let g:email = "brett@brettkelly.org"
+
+"""" Gist plugin options
+let g:gist_clip_command = 'pbcopy'
+let g:gist_show_privates = 1
+let g:gist_post_private = 1
 
 """ Visual Suspects
 set ts=4 
