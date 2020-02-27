@@ -117,7 +117,7 @@ if has('gui_running')
     set guioptions-=r
     set guioptions-=l
     set bg=light
-    colorscheme solarized
+    colorscheme xcodedarkhc
     let g:solarized_bold = 1
     let g:solarized_italic = 1
 else
