@@ -10,7 +10,7 @@ export VISUAL=vim
 export EDITOR="$VISUAL"
 
 # Aliases 
-source .aliases
+source ~/.aliases
 
 # History
 HISTCONTROL=ignoredups
@@ -49,11 +49,6 @@ extract () {
    fi
  }
 
-
-nf () { 
-    gvim ~/Development/Scratch/$1 
-}
-
 ## Create a grayscale/blurred version of an image;
 # I use this in my BLOGGING.
 
@@ -62,8 +57,15 @@ grayblurs () {
     extension="${filename##*.}"
     plain="${filename%.*}";
     newfile="${plain}.blurred.${extension}";
-
     convert ${filename} -blur 0x4 -set colorspace Gray -separate -average ${newfile}
+}
+
+## Thumbnail a PDF to a JPG since that's my job now.
+pdfthumb () {
+    filename=$(basename -- "$1")
+    plain="${filename%.*}";
+    newfile="${plain}.thumb.jpg";
+    convert -density 288 "${1}"[0] -resize 50% -background White -layers flatten "${newfile}"
 }
 
 # Grab a high-resolution thumbnail for a youtube video by URL
