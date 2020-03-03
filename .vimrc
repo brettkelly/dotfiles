@@ -1,6 +1,6 @@
 " Brett Kelly
 " .vimrc
-" http://brettkelly.org
+" https://brettkelly.org
 
 " Save as UTF-8
 setglobal fenc=utf8
@@ -113,7 +113,7 @@ else
 endif
 
 if has('gui_running')
-    set guifont=Menlo:h14
+    set guifont=Inconsolata:h16
     set guioptions-=T
     set guioptions-=r
     set guioptions-=l
