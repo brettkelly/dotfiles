@@ -37,6 +37,7 @@ call plug#end()
 filetype plugin indent on
 filetype on
 syntax on
+set omnifunc=syntaxcomplete#Complete
 
 """ Backups
 set backup 

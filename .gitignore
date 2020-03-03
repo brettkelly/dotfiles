@@ -3,3 +3,4 @@
 .DS_Store
 .vim/backu*
 Brewfile.lock.json
+.vim/plugge*
