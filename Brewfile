@@ -8,6 +8,7 @@ brew "wpscan"
 brew "wget"
 brew "python"
 brew "macvim"
+brew "ffmpeg"
 
 # Apps
 cask "google-drive-file-stream"
