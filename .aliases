@@ -11,6 +11,7 @@ alias ll="ls -la"
 alias h="history"
 alias hg="history | grep"
 alias sbr="source ~/.bashrc"
+alias cpssh="pbcopy < $HOME/.ssh/id_rsa.pub"
 
 # view folders sorted by disk usage
 alias folders='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'
