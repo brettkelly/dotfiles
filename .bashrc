@@ -75,6 +75,12 @@ ytthumb () {
     wget -O $outf http://i3.ytimg.com/vi/$vid/maxresdefault.jpg
 }
 
+# one-shot git add, commit (with args as the commit message) and push to master.
+# who's screwing around? we're not.
+gcp () {
+    git commit -a -m "$*" && git push origin master
+}
+
 # Same for vimeo
 # This used to work, but now does not
 
