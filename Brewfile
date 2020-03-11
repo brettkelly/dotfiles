@@ -8,6 +8,7 @@ brew "wpscan"
 brew "wget"
 brew "python"
 brew "macvim"
+brew "tmux"
 brew "ffmpeg"
 
 # Apps
