@@ -1,7 +1,7 @@
 # vim: filetype=sh
 
 alias dl="cd ~/Downloads"
-alias dt="cd ~/Desktop"
+alias de="cd ~/Desktop"
 alias dev="cd ~/Development"
 alias gd="cd /Volumes/GoogleDrive/My\ Drive"
 alias dt="cd ~/dotfiles"
@@ -24,6 +24,3 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-
-# remotes
-alias pessh="ssh bkelly@104.200.25.22"

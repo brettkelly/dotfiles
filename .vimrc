@@ -148,6 +148,13 @@ nmap	<C-l>	<C-w>l
 
 cmap    w!!     %!sudo tee > /dev/null %
 
+" FZF key bindings
+nnoremap <C-f> :FZF<CR>
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-i': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
 " Open current buffer in Marked
 nnoremap <leader>m :silent !open -a Marked.app '%:p'<cr>
 
