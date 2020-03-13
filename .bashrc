@@ -81,6 +81,16 @@ gcp () {
     git commit -a -m "$*" && git push origin master
 }
 
+# quick and ugly way to generate passwords of varying length
+genp () {
+    if [ "$1" == "" ] ; then
+        # default to 12 characters
+        date | md5 | head -c12; echo
+    else
+        date | md5 | head -c${1}; echo
+    fi
+}
+
 # Same for vimeo
 # This used to work, but now does not
 

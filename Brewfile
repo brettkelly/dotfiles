@@ -23,6 +23,15 @@ cask "google-chrome"
 cask "zoomus"
 cask "slack"
 cask "cloudapp"
+cask "hazel"
+cask "popclip"
+cask "backblaze"
+cask "sketch"
+cask "transmit"
+cask "iterm2"
+cask "kindlegen"
+cask "virtualbox"
+cask "daisydisk"
 
 # Fonts
 cask 'font-lato'
