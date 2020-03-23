@@ -1,0 +1,38 @@
+# Internal sites
+
+@yourrobotarmy.com:
+    ssh: master_gpebuksdac@138.197.192.68 
+    path: applications/mbhttfuvzd/public_html/
+
+@admin.robotarmy.industries:
+    ssh: master_gpebuksdac@138.197.192.68 
+    path: applications/kbzzcnerqt/public_html/
+
+@brettkelly.org:
+    ssh: master_gpebuksdac@138.197.192.68 
+    path: applications/cukredbfzy/public_html/
+
+@thestronghold.host:
+    ssh: master_gpebuksdac@138.197.192.68 
+    path: applications/nmkrrszykv/public_html/
+
+@hangonwhat.com:
+    ssh: master_gpebuksdac@138.197.192.68 
+    path: applications/bmmwmxfzzj/public_html/
+
+@geniusdistillery.com:
+    ssh: master_gpebuksdac@138.197.192.68 
+    path: applications/sumbezxrrn/public_html/
+
+@lab.robotarmy.industries:
+    ssh: master_gpebuksdac@138.197.192.68 
+    path: applications/eyntqnwzzq/public_html/
+
+@internal:
+    - @yourrobotarmy.com
+    - @admin.robotarmy.industries
+    - @thestronghold.host
+    - @brettkelly.org
+    - @hangonwhat.com
+    - @geniusdistillery.com
+    - @lab.robotarmy.industries
