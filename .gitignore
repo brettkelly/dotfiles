@@ -4,3 +4,4 @@
 .vim/backu*
 Brewfile.lock.json
 .vim/plugge*
+.wp-cli/packages/cache
