@@ -36,3 +36,48 @@
     - @hangonwhat.com
     - @geniusdistillery.com
     - @lab.robotarmy.industries
+
+
+# M&A
+
+@mahl:
+    ssh: master_khfrabbytg@45.79.177.82
+    path: applications/hucbcngfaj/public_html
+
+@cma:
+    ssh: master_khfrabbytg@45.79.177.82
+    path: applications/twnqpdafvf/public_html
+
+@tqc:
+    ssh: master_khfrabbytg@45.79.177.82
+    path: applications/cfdkmehntm/public_html
+
+@manda:
+    - @mahl
+    - @cma
+    - @tqc
+
+# CC
+
+@bmwl:
+    ssh: master_hfrgwfwchs@149.28.112.15
+    path: applications/jsastksfjs/public_html
+
+@ssim:
+    ssh: master_hfrgwfwchs@149.28.112.15
+    path: applications/zbqgxdmduy/public_html
+
+@bede:
+    ssh: master_hfrgwfwchs@149.28.112.15
+    path: applications/htyexyvgjz/public_html
+
+@ptc:
+    ssh: master_hfrgwfwchs@149.28.112.15
+    path: applications/nssycrwjsr/public_html
+
+@ceecee:
+    - @bmwl
+    - @ssim
+    - @bede
+    - @ptc
+
