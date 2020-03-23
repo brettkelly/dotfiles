@@ -57,7 +57,7 @@ grayblurs () {
     extension="${filename##*.}"
     plain="${filename%.*}";
     newfile="${plain}.blurred.${extension}";
-    convert ${filename} -blur 0x4 -set colorspace Gray -separate -average ${newfile}
+    convert ${filename} -blur 0x5 -set colorspace Gray -separate -average ${newfile}
 }
 
 ## Thumbnail a PDF to a JPG since that's my job now.

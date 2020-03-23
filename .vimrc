@@ -31,6 +31,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
+Plug 'tpope/vim-repeat'
 call plug#end()
 
 """ Startup

@@ -10,6 +10,7 @@ brew "python"
 brew "macvim"
 brew "tmux"
 brew "ffmpeg"
+brew "reattach-to-user-namespace"
 
 # Apps
 cask "google-drive-file-stream"
