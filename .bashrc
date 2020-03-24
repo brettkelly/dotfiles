@@ -85,10 +85,12 @@ gcp () {
 genp () {
     if [ "$1" == "" ] ; then
         # default to 12 characters
-        date | md5 | head -c12; echo
+        OUTP=$(date | md5 | head -c12)
     else
-        date | md5 | head -c${1}; echo
+        OUTP=$(date | md5 | head -c${1})
     fi
+    echo "${OUTP}"
+    echo "${OUTP}" | pbcopy
 }
 
 # Get the registrar of a domain without having to sift through hundreds of 
