@@ -91,9 +91,9 @@ genp () {
     fi
 }
 
-# Same for vimeo
-# This used to work, but now does not
+# Get the registrar of a domain without having to sift through hundreds of 
+# lines of `whois` output
+getreg() {
+    whois "$1" | grep -m 1 Registrar\ URL:\ http | sed -e 's/.*: //g'
+}
 
-# vimeothumb () {
-#     wget $(curl -s http://vimeo.com/api/oembed.json?url="${1}" | python -c "import sys,json; print json.load(sys.stdin)['thumbnail_url']") 
-# }
