@@ -32,6 +32,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
 Plug 'tpope/vim-repeat'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 """ Startup
@@ -48,6 +50,7 @@ set noswapfile
 """ Some variables!
 let g:author = "Brett Kelly"
 let g:email = "brett@brettkelly.org"
+"let g:airline_theme = "jellybeans"
 
 """" Gist plugin options
 let g:gist_clip_command = 'pbcopy'
@@ -81,6 +84,8 @@ set completeopt=menu
 set laststatus=1
 set hidden
 set nu
+set number relativenumber
+set splitbelow splitright
 
 " Status Line ---------------------- {{{
 set statusline=%<%f\    " Filename
