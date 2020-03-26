@@ -11,6 +11,7 @@ brew "macvim"
 brew "tmux"
 brew "ffmpeg"
 brew "reattach-to-user-namespace"
+brew "pandoc"
 
 # Apps
 cask "google-drive-file-stream"
