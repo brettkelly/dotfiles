@@ -87,6 +87,7 @@ set hidden
 set nu
 set number relativenumber
 set splitbelow splitright
+set smartindent
 
 " Status Line ---------------------- {{{
 set statusline=%<%f\    " Filename

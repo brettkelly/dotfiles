@@ -1,3 +1,20 @@
+export VISUAL=vim
+export EDITOR="$VISUAL"
+export DOTFILES="$HOME/dotfiles"
+export SHELL="/bin/bash"
+export PS1="\u [\w] \\$ "
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+# Jacked from github.com/lukesmithxyz; for future use if I end up categorizing 
+# home-grown scripts into subdirs.
+# export PATH="$PATH:$(du "$HOME/.local/bin/" | cut -f2 | tr '\n' ':' | sed 's/:*$//')"
+
+HISTCONTROL=ignoredups
+HISTCONTROL=ignoreboth
+HISTFILESIZE=20000 
+HISTSIZE=1000
+
 if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi

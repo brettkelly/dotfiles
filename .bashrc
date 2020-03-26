@@ -1,29 +1,8 @@
-# I jacked most of this from the internet. Shocking, I know.
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-# Path crap
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-
-# Defaults
-export VISUAL=vim
-export EDITOR="$VISUAL"
-
 # Aliases 
 source ~/.aliases
-
-# History
-HISTCONTROL=ignoredups
-HISTCONTROL=ignoreboth
-HISTFILESIZE=20000 
-HISTSIZE=1000
-
-# Custom prompt
-export PS1="\u [\w] \\$ "
-
-# Homebrew completion
-# this is making everything hang; dunno why.
-# [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 ##
 # Useful commands are useful.
@@ -65,7 +44,7 @@ pdfthumb () {
     filename=$(basename -- "$1")
     plain="${filename%.*}";
     newfile="${plain}.thumb.jpg";
-    convert -density 288 "${1}"[0] -resize 50% -background White -layers flatten "${newfile}"
+    convert -density 288 "${1}"[0] -resize 75% -background White -layers flatten "${newfile}"
 }
 
 # Grab a high-resolution thumbnail for a youtube video by URL
