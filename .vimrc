@@ -34,6 +34,7 @@ Plug 'mattn/gist-vim'
 Plug 'tpope/vim-repeat'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'junegunn/goyo.vim'
 call plug#end()
 
 """ Startup
@@ -147,6 +148,7 @@ nmap	<C-h>	<C-w>h
 nmap	<C-j>	<C-w>j
 nmap	<C-k>	<C-w>k
 nmap	<C-l>	<C-w>l
+vnoremap <C-c> "*y " copy to system clipboard
 
 " Testing
 "imap <c-u> <esc>viwUa
