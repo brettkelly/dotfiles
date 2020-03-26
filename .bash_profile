@@ -5,6 +5,8 @@ export SHELL="/bin/bash"
 export PS1="\u [\w] \\$ "
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+# So Apple will stop bugging me about zsh being the default shell
+export BASH_SILENCE_DEPRECATION_WARNING=1
 
 # Jacked from github.com/lukesmithxyz; for future use if I end up categorizing 
 # home-grown scripts into subdirs.
