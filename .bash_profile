@@ -1,7 +1,9 @@
 export VISUAL=vim
 export EDITOR="$VISUAL"
-export DOTFILES="$HOME/dotfiles"
-export DOWNLOADS="$HOME/Downloads"
+export DOTFILES="$HOME/dotfiles/"
+export DOWNLOADS="$HOME/Downloads/"
+export DEV="$HOME/Development/"
+export SCRATCH="$DEV/Scratch/"
 export SHELL="/bin/bash"
 export PS1="\u [\w] \\$ "
 export PATH="/usr/local/opt/ruby/bin:$PATH"
@@ -25,3 +27,4 @@ fi
 
 # Give me vi keybindings in bash
 set -o vi
+
