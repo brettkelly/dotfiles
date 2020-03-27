@@ -22,3 +22,6 @@ HISTSIZE=1000
 if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
+
+# Give me vi keybindings in bash
+set -o vi
