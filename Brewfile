@@ -12,6 +12,7 @@ brew "tmux"
 brew "ffmpeg"
 brew "reattach-to-user-namespace"
 brew "pandoc"
+brew "shellcheck"
 
 # Apps
 cask "google-drive-file-stream"
