@@ -5,3 +5,4 @@
 Brewfile.lock.json
 .vim/plugge*
 .wp-cli/packages/cache
+.local/share/virtualen*
