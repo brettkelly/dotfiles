@@ -1,6 +1,7 @@
 export VISUAL=vim
 export EDITOR="$VISUAL"
 export DOTFILES="$HOME/dotfiles"
+export DOWNLOADS="$HOME/Downloads"
 export SHELL="/bin/bash"
 export PS1="\u [\w] \\$ "
 export PATH="/usr/local/opt/ruby/bin:$PATH"
@@ -12,6 +13,7 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 # home-grown scripts into subdirs.
 # export PATH="$PATH:$(du "$HOME/.local/bin/" | cut -f2 | tr '\n' ':' | sed 's/:*$//')"
 
+# History
 HISTCONTROL=ignoredups
 HISTCONTROL=ignoreboth
 HISTFILESIZE=20000 
