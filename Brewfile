@@ -13,6 +13,7 @@ brew "ffmpeg"
 brew "reattach-to-user-namespace"
 brew "pandoc"
 brew "shellcheck"
+brew "zsh"
 
 # Apps
 cask "google-drive-file-stream"
@@ -35,6 +36,7 @@ cask "iterm2"
 cask "kindlegen"
 cask "virtualbox"
 cask "daisydisk"
+cask "blue-jeans"
 
 # Fonts
 cask 'font-lato'
