@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # generate a scratch vim buffer in the existing gvim instance
 # so I can quickly paste some code from the web to mess with
@@ -23,7 +23,7 @@ OUTP="${DEST}$(date +%s).${1:-txt}"
 APPS=("MacVim" "gvim")
 for i in "${APPS[@]}"
     do
-        if $(pgrep -x ${i} > /dev/null)
+        if pgrep -x "${i}" > /dev/null
         then
             # Already running, attach to current session
             # MacVim goes by 'gvim' in shell.
