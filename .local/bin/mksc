@@ -1,14 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
 # generate a scratch vim buffer in the existing gvim instance
 # so I can quickly paste some code from the web to mess with
-# without having to add a file to ~/Development/scratch, name
+# without having to add a file to ~/Development/Scratch, name
 # it, save, etc. to get syntax highlighting.
-
-# Yes, some of this could be done in fancy one-liners. I'm new at
-# this. Sue me.
-
-# Assign destination directory; use quick temp dir if unset
 
 if [[ -z "${SCRATCH}" ]]; then
     DEST="$(mktemp -d 2>/dev/null || mktemp -d -t 'devtemp')"
@@ -23,7 +18,7 @@ OUTP="${DEST}$(date +%s).${1:-txt}"
 APPS=("MacVim" "gvim")
 for i in "${APPS[@]}"
     do
-        if $(pgrep -x ${i} > /dev/null)
+        if pgrep -x "${i}" > /dev/null
         then
             # Already running, attach to current session
             # MacVim goes by 'gvim' in shell.
