@@ -5,7 +5,7 @@
 # without having to add a file to ~/Development/Scratch, name
 # it, save, etc. to get syntax highlighting.
 
-if [[ -z "${SCRATCH}" ]]; then
+if [ -z "${SCRATCH}" ]; then
     DEST="$(mktemp -d 2>/dev/null || mktemp -d -t 'devtemp')"
 else
     DEST="${SCRATCH}"
@@ -15,17 +15,23 @@ fi
 OUTP="${DEST}$(date +%s).${1:-txt}"
 
 # check if gvim/MacVim are running; use the existing session if so
-APPS=("MacVim" "gvim")
-for i in "${APPS[@]}"
-    do
-        if pgrep -x "${i}" > /dev/null
-        then
-            # Already running, attach to current session
-            # MacVim goes by 'gvim' in shell.
-            gvim --remote "${OUTP}"
-            exit 0 # quit without error
-        fi
-done
+if  pgrep -i '[gc]vim' > /dev/null
+then
+    gvim --remote "${OUTP}"
+else
+    gvim "${OUTP}"
+fi
+#APPS=("MacVim" "gvim")
+#for i in "${APPS[@]}"
+    #do
+        #if pgrep -x "${i}" > /dev/null
+        #then
+            ## Already running, attach to current session
+            ## MacVim goes by 'gvim' in shell.
+            #gvim --remote "${OUTP}"
+            #exit 0 # quit without error
+        #fi
+#done
 
-# Not running, start a new session
-gvim "${OUTP}"
+## Not running, start a new session
+#gvim "${OUTP}"

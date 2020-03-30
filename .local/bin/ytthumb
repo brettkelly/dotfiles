@@ -1,0 +1,5 @@
+#!/bin/sh
+
+vid=$(echo "$1" | perl -ne 'print "$1\n" if /^.+v=(.*)/')
+outf="youtube-$vid.jpg"
+wget -O "$outf" http://i3.ytimg.com/vi/"$vid"/maxresdefault.jpg

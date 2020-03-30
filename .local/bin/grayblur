@@ -1,0 +1,10 @@
+#!/bin/sh
+
+## Create a grayscale/blurred version of an image;
+# I use this in my BLOGGING.
+
+filename=$(basename -- "$1")
+extension="${filename##*.}"
+plain="${filename%.*}";
+newfile="${plain}.blurred.${extension}";
+convert "${filename}" -blur 0x5 -set colorspace Gray -separate -average "${newfile}"

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# one-shot git add, commit (with args as the commit message) and push to master.
+# who's screwing around? we're not.
+
+git commit -a -m "$*" && git push origin master

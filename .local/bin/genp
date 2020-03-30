@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# quick and ugly way to generate passwords of varying length
+if [ "$1" = "" ] ; then
+    # default to 12 characters
+    OUTP=$(date | md5 | head -c12)
+else
+    OUTP=$(date | md5 | head -c"${1}")
+fi
+echo "${OUTP}"
+echo "${OUTP}" | pbcopy
