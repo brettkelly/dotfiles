@@ -1,7 +1,6 @@
 tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 
-brew "bash-completion"
 brew "git"
 brew "imagemagick"
 brew "wpscan"
@@ -14,6 +13,7 @@ brew "reattach-to-user-namespace"
 brew "pandoc"
 brew "shellcheck"
 brew "zsh"
+brew "zsh-syntax-highlighting"
 
 # Apps
 cask "google-drive-file-stream"
