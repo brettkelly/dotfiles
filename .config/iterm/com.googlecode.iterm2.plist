@@ -701,7 +701,9 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>599 552 570 452 0 0 2560 1417 </string>
+	<string>1301 23 1258 1394 0 0 2560 1417 </string>
+	<key>NSWindow Frame iTerm Window 1</key>
+	<string>490 504 650 473 0 0 2560 1417 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -1421,15 +1423,17 @@
 	<key>NoSyncInstallationId</key>
 	<string>1EC854DB-0A0B-432C-8148-2A5510DA0AE1</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>2</integer>
+	<integer>4</integer>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
 	<integer>0</integer>
 	<key>NoSyncNextAnnoyanceTime</key>
-	<real>605986637.09650195</real>
+	<real>607106800.24909103</real>
 	<key>NoSyncOnboardingWindowHasBeenShown</key>
 	<true/>
+	<key>NoSyncPermissionToShowTip</key>
+	<false/>
 	<key>NoSyncRecordedVariables</key>
 	<dict>
 		<key>0</key>
@@ -2130,6 +2134,8 @@
 	</dict>
 	<key>NoSyncTipOfTheDayEligibilityBeganTime</key>
 	<real>605813837.09617996</real>
+	<key>PMPrintingExpandedStateForPrint2</key>
+	<false/>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -2165,6 +2171,8 @@
 	</dict>
 	<key>PrefsCustomFolder</key>
 	<string>/Users/bkelly/dotfiles/.config/iterm</string>
+	<key>Print In Black And White</key>
+	<true/>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedAlternateAppNameKey</key>
@@ -2174,7 +2182,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2020-03-26T18:27:22Z</date>
+	<date>2020-03-30T18:28:08Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SoundForEsc</key>

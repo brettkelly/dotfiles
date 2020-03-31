@@ -20,6 +20,7 @@ alias gdig="dig @8.8.8.8"
 alias hlist="cat ~/.ssh/config | grep \"Host\s\""
 # Open with existing gvim instance; "existing vim"
 alias exv="gvim --remote"
+alias vh="sudo vim /etc/hosts"
 
 # view folders sorted by disk usage
 alias folders='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'
