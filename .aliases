@@ -18,6 +18,7 @@ alias grep="grep --color=auto"
 alias cpssh="pbcopy < $HOME/.ssh/id_rsa.pub"
 alias gdig="dig @8.8.8.8"
 alias hlist="cat ~/.ssh/config | grep \"Host\s\""
+alias res="cd ~ && clear" # reset terminal
 # Open with existing gvim instance; "existing vim"
 alias exv="gvim --remote"
 alias vh="sudo vim /etc/hosts"
