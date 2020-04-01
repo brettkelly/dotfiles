@@ -50,3 +50,6 @@ cask 'font-source-sans-pro'
 cask 'font-source-serif-pro'
 cask 'playfair-display'
 cask 'inconsolata'
+cask 'font-fira-code'
+cask 'font-fira-mono'
+

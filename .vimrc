@@ -127,11 +127,11 @@ if has('gui_running')
     set guioptions-=r
     set guioptions-=l
     set bg=light
-    colorscheme xcodedarkhc
-    let g:solarized_bold = 1
-    let g:solarized_italic = 1
+    colorscheme badwolf
+    "let g:solarized_bold = 1
+    "let g:solarized_italic = 1
 else
-    colorscheme blue
+    colorscheme badwolf
 endif
 
 " Match VCS conflict markers
