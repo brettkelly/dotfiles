@@ -1,4 +1,5 @@
 #!/bin/sh
 # view DNS history for provided domain at securitytrails.com
 
-[ -n "$1" ] && open https://securitytrails.com/domain/"${1}"/history/
+rtype=${2:-a} # default to A record unless otherwise instructed
+[ -n "$1" ] && open https://securitytrails.com/domain/"${1}"/history/"${rtype}"
