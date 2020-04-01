@@ -14,6 +14,7 @@ brew "pandoc"
 brew "shellcheck"
 brew "zsh"
 brew "zsh-syntax-highlighting"
+brew "figlet"
 
 # Apps
 cask "google-drive-file-stream"

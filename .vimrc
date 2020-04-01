@@ -34,6 +34,7 @@ Plug 'mattn/gist-vim'
 Plug 'tpope/vim-repeat'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'https://github.com/sjl/badwolf'
 " Plug 'junegunn/goyo.vim'
 call plug#end()
 
