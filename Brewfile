@@ -1,3 +1,5 @@
+update
+
 tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 
@@ -15,6 +17,7 @@ brew "shellcheck"
 brew "zsh"
 brew "zsh-syntax-highlighting"
 brew "figlet"
+brew "fzf"
 
 # Apps
 cask "google-drive-file-stream"
@@ -52,4 +55,3 @@ cask 'playfair-display'
 cask 'inconsolata'
 cask 'font-fira-code'
 cask 'font-fira-mono'
-
