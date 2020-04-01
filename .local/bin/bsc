@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Bullshit commit
+git add -A && git commit -m 'BS commit' && git push origin master
