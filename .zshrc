@@ -16,3 +16,6 @@ source ~/.zsh/prompt
 
 # run this at the end
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2> /dev/null
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
