@@ -6,3 +6,4 @@ Brewfile.lock.json
 .vim/plugge*
 .wp-cli/packages/cache
 .local/share/virtualen*
+.ssh/id_rs*
