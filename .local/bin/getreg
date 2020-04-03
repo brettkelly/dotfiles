@@ -2,6 +2,4 @@
 
 # Get the registrar of a domain without having to sift through hundreds of 
 # lines of `whois` output
-getreg() {
-    whois "$1" | grep -m 1 Registrar\ URL:\ http | sed -e 's/.*: //g'
-}
+whois "$1" | grep -m 1 Registrar\ URL:\ http | sed -e 's/.*: //g'
