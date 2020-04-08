@@ -2,6 +2,7 @@ update
 
 tap "homebrew/cask"
 tap "homebrew/cask-fonts"
+tap "phinze/cask" # mactex
 
 brew "git"
 brew "imagemagick"
@@ -13,6 +14,7 @@ brew "tmux"
 brew "ffmpeg"
 brew "reattach-to-user-namespace"
 brew "pandoc"
+brew "firefox"
 brew "shellcheck"
 brew "zsh"
 brew "zsh-syntax-highlighting"
@@ -41,6 +43,10 @@ cask "kindlegen"
 cask "virtualbox"
 cask "daisydisk"
 cask "blue-jeans"
+# this requires symlinking the pdflatex binary 
+# to /usr/local/bin after install
+cask "mactex"
+
 
 # Fonts
 cask 'font-lato'
