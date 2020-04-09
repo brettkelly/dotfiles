@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# convert Markdown document to MS Word
+# this produces a word-compatible document that has to
+# be converted in Word. File > Convert Document
+
+# pandoc -o test.docx -f markdown -t docx 1586465218.md
+
+#fname=$(basename -- "$1")
+filename=$(basename -- "$1")
+outf="${filename%.*}.docx";
+pandoc "$1" -f markdown -t docx -o "$outf"
