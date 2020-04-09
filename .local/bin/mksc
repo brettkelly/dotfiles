@@ -1,9 +1,12 @@
 #!/bin/sh
 
-# generate a scratch vim buffer in the existing gvim instance
+# generate a scratch vim buffer with an associated filetype
 # so I can quickly paste some code from the web to mess with
 # without having to add a file to ~/Development/Scratch, name
 # it, save, etc. to get syntax highlighting.
+
+# this used to fire up gvim, but I'm not really using that 
+# anymore. So here we are.
 
 if [ -z "${SCRATCH}" ]; then
     DEST="$(mktemp -d 2>/dev/null || mktemp -d -t 'devtemp')"
@@ -11,27 +14,5 @@ else
     DEST="${SCRATCH}"
 fi
 
-# Define the path and temp filename
-OUTP="${DEST}$(date +%s).${1:-txt}"
-
-# check if gvim/MacVim are running; use the existing session if so
-if  pgrep -i '[gc]vim' > /dev/null
-then
-    gvim --remote "${OUTP}"
-else
-    gvim "${OUTP}"
-fi
-#APPS=("MacVim" "gvim")
-#for i in "${APPS[@]}"
-    #do
-        #if pgrep -x "${i}" > /dev/null
-        #then
-            ## Already running, attach to current session
-            ## MacVim goes by 'gvim' in shell.
-            #gvim --remote "${OUTP}"
-            #exit 0 # quit without error
-        #fi
-#done
-
-## Not running, start a new session
-#gvim "${OUTP}"
+# Define the path and temp filename, then open it
+vim "${DEST}$(date +%s).${1:-txt}"
