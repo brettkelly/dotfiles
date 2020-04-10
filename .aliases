@@ -24,6 +24,7 @@ alias exv="gvim --remote"
 alias vh="sudo vim /etc/hosts"
 alias fdns="sudo killall -HUP mDNDResponder"
 alias wps="wpscan --url"
+alias mmd="multimarkdown"
 
 # view folders sorted by disk usage
 alias folders='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'

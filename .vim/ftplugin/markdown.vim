@@ -1,3 +1,3 @@
 nnoremap <F12> ggVGgw
-" nnoremap <Leader>g :Goyo<CR>
-set nonumber
+" Set column width to something sane since we're writing prose
+set textwidth=80
