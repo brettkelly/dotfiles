@@ -46,7 +46,7 @@ cask "blue-jeans"
 # this requires symlinking the pdflatex binary 
 # to /usr/local/bin after install
 cask "mactex"
-
+cask "marked"
 
 # Fonts
 cask 'font-lato'

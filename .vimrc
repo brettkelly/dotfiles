@@ -35,6 +35,7 @@ Plug 'tpope/vim-repeat'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'https://github.com/sjl/badwolf'
+Plug 'itspriddle/vim-marked'
 " Plug 'junegunn/goyo.vim'
 call plug#end()
 
@@ -58,6 +59,9 @@ let g:email = "brett@brettkelly.org"
 let g:gist_clip_command = 'pbcopy'
 let g:gist_show_privates = 1
 let g:gist_post_private = 1
+
+""" Marked plugin options
+let g:marked_filetypes = ["markdown", "md", "mmd"]
 
 """ Visual Suspects
 set ts=4 
