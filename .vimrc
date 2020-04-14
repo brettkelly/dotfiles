@@ -4,7 +4,6 @@
 
 " Save as UTF-8
 setglobal fenc=utf8
-
 set enc=utf8
 
 " Jamessan's sweet trick for sourcing vimrc
@@ -36,6 +35,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'https://github.com/sjl/badwolf'
 Plug 'itspriddle/vim-marked'
+Plug 'vimwiki/vimwiki'
 " Plug 'junegunn/goyo.vim'
 call plug#end()
 
@@ -93,6 +93,7 @@ set nu
 set number relativenumber
 set splitbelow splitright
 set smartindent
+set nocompatible
 
 " Status Line ---------------------- {{{
 set statusline=%<%f\    " Filename
@@ -109,21 +110,11 @@ if v:version >= 700
     set numberwidth=3
 endif
 
-""" Platform Dependent Stuff
-if has('win32')
-    let g:vimdir = expand("~/vimfiles/")
-    let g:vimrc  = expand("~/_vimrc")
-    set ffs=dos,unix,mac
-    set backupdir=$HOME/vim-backup
-    set directory=$HOME/vim-tmp
-    set linespace=1
-else
-    let g:vimdir = expand("~/.vim/")
-    let g:vimrc  = expand("~/.vimrc")
-    set ffs=unix,mac,dos
-    set backupdir=$HOME/.vim/backup
-    set directory=$HOME/.vim/tmp
-endif
+let g:vimdir = expand("~/.vim/")
+let g:vimrc  = expand("~/.vimrc")
+set ffs=unix,mac,dos
+set backupdir=$HOME/.vim/backup
+set directory=$HOME/.vim/tmp
 
 if has('gui_running')
     set guifont=Inconsolata:h16
@@ -132,8 +123,6 @@ if has('gui_running')
     set guioptions-=l
     set bg=light
     colorscheme badwolf
-    "let g:solarized_bold = 1
-    "let g:solarized_italic = 1
 else
     colorscheme badwolf
 endif
@@ -154,11 +143,9 @@ nmap	<C-h>	<C-w>h
 nmap	<C-j>	<C-w>j
 nmap	<C-k>	<C-w>k
 nmap	<C-l>	<C-w>l
-vnoremap <C-c> "*y " copy to system clipboard
 
-" Testing
-"imap <c-u> <esc>viwUa
-"imap <c-u> mz<esc>viwU'zi
+" copy to system clipboard
+vnoremap <C-c> "*y 
 
 cmap    w!!     %!sudo tee > /dev/null %
 
@@ -168,9 +155,6 @@ let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-i': 'split',
   \ 'ctrl-v': 'vsplit' }
-
-" Open current buffer in Marked
-nnoremap <leader>m :silent !open -a Marked.app '%:p'<cr>
 
 " I like emacs-style home and end
 imap    <C-a> <Home>
@@ -191,14 +175,14 @@ nmap    ,s :source `=g:vimrc`<CR> " :source .vimrc
 map <C-n> :NERDTreeToggle<CR> "
 let NERDTreeShowHidden = 1
 
-" Abbreviations and Mappings
+" I use lots of curly braces.
 imap    <Leader>bb     {<CR><CR>}<ESC>ki<TAB>
-
-" }}}
 
 " Filetypes
 au BufRead,BufNewFile *.php     set filetype=php.html
-au BufRead,BufNewFile *.xml     set filetype=xml.html
+
+" Enable cursorline in normal mode
+autocmd InsertEnter,InsertLeave * set cul! 
 
 " Markdown 
 au BufRead,BufNewFile,BufEnter *.md   set filetype=markdown 
@@ -210,6 +194,15 @@ augroup filetype_vim
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
 " }}}
+
+" vimwiki
+let g:vimwiki_global_ext=0
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
+
+""""""
+" Functions 
+""""""
 
 " jamessan's smart window/buffer closing functions
 
