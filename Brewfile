@@ -18,8 +18,14 @@ brew "firefox"
 brew "shellcheck"
 brew "zsh"
 brew "zsh-syntax-highlighting"
-brew "figlet"
 brew "fzf"
+###
+# Dumb, fun stuff
+###
+brew "figlet"
+brew "cmatrix"
+brew "cowsay"
+brew "sl"
 
 # Apps
 cask "google-drive-file-stream"
