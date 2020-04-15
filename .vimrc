@@ -16,27 +16,36 @@ endif
 
 """ Load plugins via vim-plug
 call plug#begin('~/.vim/plugged')
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'https://github.com/tomtom/tlib_vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'marcweber/vim-addon-mw-utils'
 Plug 'https://github.com/tpope/vim-surround'
 Plug 'garbas/vim-snipmate'
 set runtimepath+='~/.vim/snippets/'
 Plug 'tpope/vim-fugitive'
-Plug 'altercation/vim-colors-solarized'
-Plug 'arzg/vim-colors-xcode'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
 Plug 'tpope/vim-repeat'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'https://github.com/sjl/badwolf'
 Plug 'itspriddle/vim-marked'
 Plug 'vimwiki/vimwiki'
+
+""""""""""
+"" Colors
+""""""""""
+Plug 'vim-airline/vim-airline-themes'
+Plug 'https://github.com/sjl/badwolf'
+Plug 'altercation/vim-colors-solarized'
+Plug 'arzg/vim-colors-xcode'
+Plug 'phanviet/vim-monokai-pro'
+""""""""""
+"" The Bench
+""""""""""
 " Plug 'junegunn/goyo.vim'
+
 call plug#end()
 
 """ Startup

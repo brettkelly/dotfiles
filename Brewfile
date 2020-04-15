@@ -43,10 +43,11 @@ cask "kindlegen"
 cask "virtualbox"
 cask "daisydisk"
 cask "blue-jeans"
-# this requires symlinking the pdflatex binary 
-# to /usr/local/bin after install
-cask "mactex"
+cask "soulver"
+cask "mactex" # symlink the pdflatex binary to /usr/local/bin 
 cask "marked"
+cask "wkhtmltopdf"
+cask "inkscape"
 
 # Fonts
 cask 'font-lato'
