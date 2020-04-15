@@ -14,7 +14,7 @@ deletes up to the end of the deleted sentence.
 
 ### Argument List
 
-Versus buffer list. Never heard of this.
+Versus buffer list. Never heard of this. Looks interesting.
 
 ### VimWiki ideas
 
@@ -45,5 +45,13 @@ Get fzf set up correctly.
 
 You probably don't need ctags. 
 
-
 Look into filemarks.
+
+### Markdown Preview
+
+This isn't working yet. I can make it work with a manual command, but the
+keybinding isn't doing the job.
+
+`!open Marked\ 2.app %`
+
+that works.  The keybinding in the ftplugin doesn't. Also, I'm kinda drunk.

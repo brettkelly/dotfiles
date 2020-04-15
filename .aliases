@@ -3,6 +3,7 @@
 alias dl="cd ~/Downloads"
 alias de="cd ~/Desktop"
 alias dev="cd ~/Development"
+alias sc="cd ~/Development/Scratch/"
 alias gd="cd /Volumes/GoogleDrive/My\ Drive"
 alias dt="cd ~/dotfiles"
 alias gpom="git push origin master"
@@ -24,7 +25,7 @@ alias vh="sudo vim /etc/hosts"
 alias fdns="sudo killall -HUP mDNDResponder"
 alias wps="wpscan --url"
 alias mmd="multimarkdown"
-alias vwiki="vim -c 'execute \"normal \\\\ww\"'"
+alias vw="vim -c 'execute \"normal \\\\ww\"'"
 
 # view folders sorted by disk usage
 alias folders='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'
