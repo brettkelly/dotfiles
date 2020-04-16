@@ -31,7 +31,12 @@ Plug 'mattn/gist-vim'
 Plug 'tpope/vim-repeat'
 Plug 'vim-airline/vim-airline'
 Plug 'itspriddle/vim-marked'
+
+""""""""""
+"" Wiki Stuff
+""""""""""
 Plug 'vimwiki/vimwiki'
+Plug 'mattn/calendar-vim'
 
 """"""""""
 "" Colors
@@ -206,8 +211,11 @@ augroup END
 
 " vimwiki
 let g:vimwiki_global_ext=0
-let g:vimwiki_list = [{'path': '~/vimwiki/',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [
+            \{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'},
+            \{'path': '~/journal/', 'syntax': 'markdown', 'ext': '.md'},
+            \{'path': '~/fivemin/', 'syntax': 'markdown', 'ext': '.md'}
+            \]
 
 """"""
 " Functions 

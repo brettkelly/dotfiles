@@ -55,3 +55,21 @@ keybinding isn't doing the job.
 `!open Marked\ 2.app %`
 
 that works.  The keybinding in the ftplugin doesn't. Also, I'm kinda drunk.
+
+### Journaling
+
+Having a general-purpose journal a la Day One in one section. The five minute
+journal in another.
+
+Prompts for the latter:
+
+*AM*
+1. I am grateful for... 3 things
+2. What would make today great? 3 things
+3. Daily Affirmations; I am... 2 things
+
+*PM*
+1. 3 Amazig things that happened today
+2. How could today have been better? 2 things
+
+
