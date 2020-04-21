@@ -12,10 +12,8 @@
 
 # use who-hosts-this.com and whois and dig
 
-echo "Getting IP..."
-IP="$(dig @8.8.8.8 A $1 | sed '/^;/d; /^$/d' | awk '{print $5}')"
-echo $IP
-echo "Getting Registrar..."
-REG="$(whois $1 | grep -m 1 "Registrar\ URL:" | awk '{print $3}')"
-echo $REG
+# Host address
+echo "$(dig @8.8.8.8 +short A $1)"
+# Registrar URL
+echo "$(whois $1 | grep -m 1 "Registrar\ URL:" | awk '{print $3}')"
 
