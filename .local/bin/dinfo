@@ -3,17 +3,22 @@
 # get quick domain info
 # included:
 
-#1. Get domain registrar
-#2. Get webhost
+#1. Get domain registrar - Done
+#2. Get webhost - Done
 #3. Get CMS, if applicable
 #4. Get domain expiration
-#5. Get other DNS records (MX, especially)
+#5. Get other DNS records (MX, especially) - Done
 #6. Other stuff I haven't thought of
 
 # use who-hosts-this.com and whois and dig
 
 # Host address
-echo "$(dig @8.8.8.8 +short A $1)"
+IP="$(dig @8.8.8.8 +short A $1)"
+echo "$IP"
+echo "MX"
+echo "$(dig @8.8.8.8 +short MX $1)"
 # Registrar URL
-echo "$(whois $1 | grep -m 1 "Registrar\ URL:" | awk '{print $3}')"
-
+echo "Registrar: $(whois $1 | grep -m 1 "Registrar\ URL:" | awk '{print $3}')"
+# Attempt to get the webhost using the ptr record for the host ip
+HOST="$(whois $IP | grep 'OrgName' | awk '{$1=""; print $0;}' | sed 's/^ *//')"
+echo "(Possible) Host: $HOST"
