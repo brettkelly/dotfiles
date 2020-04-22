@@ -18,7 +18,7 @@ alias szr="source ~/.zshrc"
 alias c="clear"
 alias grep="grep --color=auto"
 alias cpssh="pbcopy < $HOME/.ssh/id_rsa.pub"
-alias gdig="dig @8.8.8.8"
+alias gdig="dig @8.8.8.8 +noall"
 alias hlist="cat ~/.ssh/config | tail -n +3 | grep \"Host\s\""
 alias res="cd $HOME && clear" # reset terminal
 alias vh="sudo vim /etc/hosts"

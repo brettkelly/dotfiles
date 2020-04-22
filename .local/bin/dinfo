@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# get quick domain info
+# included:
+
+#1. Get domain registrar
+#2. Get webhost
+#3. Get CMS, if applicable
+#4. Get domain expiration
+#5. Get other DNS records (MX, especially)
+#6. Other stuff I haven't thought of
+
+# use who-hosts-this.com and whois and dig
+
+# Host address
+echo "$(dig @8.8.8.8 +short A $1)"
+# Registrar URL
+echo "$(whois $1 | grep -m 1 "Registrar\ URL:" | awk '{print $3}')"
+
