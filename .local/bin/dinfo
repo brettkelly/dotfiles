@@ -16,7 +16,7 @@
 IP="$(dig @8.8.8.8 +short A $1)"
 echo "$IP"
 echo "MX"
-echo "$(dig @8.8.8.8 +short MX $1)"
+echo "$(dig @8.8.8.8 +short MX $1 | sed 's/\n/, /g')"
 # Registrar URL
 echo "Registrar: $(whois $1 | grep -m 1 "Registrar\ URL:" | awk '{print $3}')"
 # Attempt to get the webhost using the ptr record for the host ip
