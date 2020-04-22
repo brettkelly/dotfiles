@@ -1,7 +1,4 @@
 # starting anew; the scripts are in .local/bin
-export PATH="$HOME/.local/bin:$PATH"
-export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH="/usr/local/opt/ruby/bin:$PATH"
 source ~/.aliases
 
 autoload -Uz compinit
