@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+
+import urllib2
+import json
+import os.path
+import sys
+
+BASE_URL = "https://www.whatcms.com/APIEndpoint/Detect"
+keypath = os.path.expanduser("~/.whtapi")
+params = {}
+
+if not sys.argv[1]:
+    print("You didn't include a URL")
+    sys.exit(1)
+params['url'] = sys.argv[1].strip()
+
+if not os.path.exists(keypath):
+    print("No API key")
+    sys.exit(1)
+params['key'] = file(keypath).read().strip()
+
+u = BASE_URL+"?"+ "&".join({k+"="+v for (k,v) in params.items()})
+print(u)
+raise SystemExit
+
+req = urllib2.Request(u)
+response = urllib2.urlopen(req)
+
+rdict = json.load(response)
+print rdict
+
+# this is timing out for some reason. same with curl.
