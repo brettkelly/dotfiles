@@ -3,6 +3,7 @@ nnoremap <F12> ggVGgw
 set textwidth=80
 set spell
 set spelllang=en_us
+set wrap
+set linebreak
 
-" open current buffer in Marked
-nnoremap <F6> !open -a Marked\ 2.app % <CR><CR>
+nmap <silent> <leader>m :call OpenInMarked2() <CR><CR>

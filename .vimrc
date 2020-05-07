@@ -217,6 +217,12 @@ let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}
 " Functions 
 """"""
 
+" Open current file in Marked 2.app
+" Keys bound in ftplugin
+function OpenInMarked2()
+    !open -a Marked\ 2.app %
+endfunction
+
 " jamessan's smart window/buffer closing functions
 
 function! <SID>ValidAltBuffer(bufnr)
