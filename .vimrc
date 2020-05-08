@@ -209,6 +209,9 @@ augroup filetype_vim
 augroup END
 " }}}
 
+" give me sane column sizes in markdown
+autocmd FileType markdown,vimwiki setlocal columns=80 wrap linebreak
+
 " vimwiki
 let g:vimwiki_global_ext=0
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
@@ -220,7 +223,7 @@ let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}
 " Open current file in Marked 2.app
 " Keys bound in ftplugin
 function OpenInMarked2()
-    !open -a Marked\ 2.app %
+    !open -a Marked\ 2.app "%"
 endfunction
 
 " jamessan's smart window/buffer closing functions
