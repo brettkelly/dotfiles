@@ -10,7 +10,7 @@ set enc=utf8
 " without losing syntax highlighting
 if !exists("g:loaded_vimrc")
     let g:loaded_vimrc = 1
-    set nocompatible     
+    set nocompatible " we don't need/want vi compatibility
     set all&
 endif
 
@@ -57,7 +57,7 @@ call plug#end()
 filetype plugin indent on
 filetype on
 syntax on
-set omnifunc=syntaxcomplete#Complete
+set omnifunc=syntaxcomplete#Complete " completion
 
 """ Backups
 set backup 
@@ -78,22 +78,22 @@ let g:gist_post_private = 1
 let g:marked_filetypes = ["markdown", "md", "mmd"]
 
 """ Visual Suspects
-set ts=4 
-set sw=4
-set tw=0 
-set nohlsearch 
-set cmdheight=2 
-set lazyredraw 
-set ignorecase
-set autoindent
-set expandtab
-set incsearch
-set showmatch
-set matchtime=5
-set wildmenu
-set ruler
+set tabstop=4               " tabs
+set shiftwidth=4
+set textwidth=0             " no fixed width
+"set nohlsearch              " don't highlight as I search
+set cmdheight=2             " breathing room when typing commands
+"set lazyredraw 
+set ignorecase              " case-insensitive search
+set autoindent              " maintain the same indentation level on new lines
+set expandtab               " spaces, not tabs
+set incsearch               " show matches as I type
+"set showmatch              " show matching brackes/braces
+"set matchtime=5        
+set wildmenu                " better command completion
+set ruler                   " show relative cursor coordinates
 set backspace=2
-set modeline
+set modeline                " respect the modeline
 set showcmd
 set pumheight=5
 set noerrorbells
