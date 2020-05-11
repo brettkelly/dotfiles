@@ -8,3 +8,4 @@ Brewfile.lock.json
 .local/share/virtualen*
 .ssh/id_rs*
 *.spl
+.bash*
