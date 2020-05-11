@@ -82,7 +82,7 @@ let g:marked_filetypes = ["markdown", "md", "mmd"]
 set tabstop=4               " tabs
 set shiftwidth=4
 set textwidth=0             " no fixed width
-"set nohlsearch              " don't highlight as I search
+"set nohlsearch             " don't highlight as I search
 set cmdheight=2             " breathing room when typing commands
 "set lazyredraw 
 set ignorecase              " case-insensitive search
@@ -95,20 +95,19 @@ set wildmenu                " better command completion
 set ruler                   " show relative cursor coordinates
 set backspace=2
 set modeline                " respect the modeline
-set showcmd
-set pumheight=5
-set noerrorbells
-set wrap
-set linebreak
-set smarttab
-set completeopt=menu
-set laststatus=1
-set hidden
-set nu
-set number relativenumber
-set splitbelow splitright
-set smartindent
-set nocompatible
+set showcmd                 " show my commands
+set pumheight=10            " 10 items in the completion popup
+set noerrorbells            " no error bells
+set wrap                    " softwrap text
+set linebreak               " intelligent linebreaks
+set smarttab                " no dumb tabs
+set completeopt=menu        " show the popup for completion
+set laststatus=1            " show statusline on multiple windows
+set hidden                  " still confused about this one
+set number relativenumber   " show relative line numbers
+set splitbelow splitright   " create new splits below and right
+set smartindent             " like it says on the tin
+set nocompatible            " disable vi compatibility
 
 " Status Line ---------------------- {{{
 set statusline=%<%f\    " Filename
@@ -118,12 +117,6 @@ set statusline+=\ [%{&ff}/%Y]            " filetype
 set statusline+=\ [%{getcwd()}]          " current dir
 set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
 " }}}
-
-set lcs=tab:>-,trail:-
-
-if v:version >= 700
-    set numberwidth=3
-endif
 
 let g:vimdir = expand("~/.vim/")
 let g:vimrc  = expand("~/.vimrc")
@@ -137,10 +130,9 @@ if has('gui_running')
     set guioptions-=r
     set guioptions-=l
     set bg=light
-    colorscheme badwolf
-else
-    colorscheme badwolf
 endif
+
+colorscheme badwolf
 
 " Match VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
@@ -159,10 +151,8 @@ nmap	<C-j>	<C-w>j
 nmap	<C-k>	<C-w>k
 nmap	<C-l>	<C-w>l
 
-" copy to system clipboard
+" Copy to system clipboard
 vnoremap <C-c> "*y 
-
-cmap    w!!     %!sudo tee > /dev/null %
 
 " FZF key bindings
 nnoremap <C-f> :FZF<CR>
@@ -189,29 +179,29 @@ nmap    ,s :source `=g:vimrc`<CR> " :source .vimrc
 
 map <C-n> :NERDTreeToggle<CR> "
 let NERDTreeShowHidden = 1
-
-" I use lots of curly braces.
+"{{{
+" I use lots of curly braces.}}}
 imap    <Leader>bb     {<CR><CR>}<ESC>ki<TAB>
-
+" ----------------- }}}
+"
+" Autocommands  ---------------------- {{{
 " Filetypes
-au BufRead,BufNewFile *.php     set filetype=php.html
-
+autocmd BufRead,BufNewFile *.php     set filetype=php.html
 " Enable cursorline in normal mode
 autocmd InsertEnter,InsertLeave * set cul! 
-
-" Markdown 
-au BufRead,BufNewFile,BufEnter *.md   set filetype=markdown 
-au BufRead,BufNewFile,BufEnter *.markdown   set filetype=markdown
-
-" Vimscript file settings ---------------------- {{{
+" Set Markdown filetype
+autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown   set filetype=markdown 
+" give me sane column sizes in markdown
+autocmd FileType markdown,vimwiki setlocal columns=80 wrap linebreak
+" Remove trailing whitespace on save
+" autocmd BufWritePre * %s/\s\+$//e
+" Vimscript file settings 
 augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
-" }}}
+" ----------------- }}}
 
-" give me sane column sizes in markdown
-autocmd FileType markdown,vimwiki setlocal columns=80 wrap linebreak
 
 " vimwiki
 let g:vimwiki_global_ext=0
