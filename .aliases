@@ -6,7 +6,7 @@ alias dev="cd ~/Development"
 alias sc="cd ~/Development/Scratch/"
 alias gd="cd /Volumes/GoogleDrive/My\ Drive"
 alias dt="cd ~/dotfiles"
-alias cw="cd ~/vimwiki"
+alias cw="cd $WIKI"
 alias gpom="git push origin master"
 alias gst="git status"
 alias gcm="git commit -a -m "
@@ -26,7 +26,7 @@ alias fdns="sudo killall -HUP mDNDResponder"
 alias wps="wpscan --url"
 alias mmd="multimarkdown"
 alias vw="cd $WIKI && vim -c 'execute \"normal \\\\ww\"'"
-alias wup="cd ~/vimwiki && git pull origin master"
+alias wup="cd $WIKI && git pull origin master"
 
 # view folders sorted by disk usage
 alias folders='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'
