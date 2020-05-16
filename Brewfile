@@ -54,6 +54,7 @@ cask "mactex" # symlink the pdflatex binary to /usr/local/bin
 cask "marked"
 cask "wkhtmltopdf"
 cask "inkscape"
+cask "notion"
 
 # Fonts
 cask 'font-lato'
