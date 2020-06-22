@@ -193,6 +193,8 @@ autocmd InsertEnter,InsertLeave * set cul!
 autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown   set filetype=markdown 
 " give me sane column sizes in markdown
 autocmd FileType markdown,vimwiki setlocal columns=80 wrap linebreak
+" quickly split up long HTML documents by tag
+autocmd FileType xml,html nmap <LocalLeader>s :s;>\s*<;>\r<;g<CR>='[
 " Remove trailing whitespace on save
 " autocmd BufWritePre * %s/\s\+$//e
 " Vimscript file settings 
