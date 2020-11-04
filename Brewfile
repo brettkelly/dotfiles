@@ -19,6 +19,7 @@ brew "shellcheck"
 brew "zsh"
 brew "zsh-syntax-highlighting"
 brew "fzf"
+brew "csvkit"
 ###
 # Dumb, fun stuff
 ###
