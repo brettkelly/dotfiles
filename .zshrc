@@ -20,3 +20,4 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 export PYTHONPATH="/usr/local/lib/python3.8/site-packages/":$PYTHONPATH
 export PYTHONWARNINGS="ignore:Unverified HTTPS request"
+export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
