@@ -31,6 +31,15 @@ Plug 'mattn/gist-vim'
 Plug 'tpope/vim-repeat'
 Plug 'vim-airline/vim-airline'
 Plug 'itspriddle/vim-marked'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+""""""""""
+" Syntax for JS/React/Whatever
+""""""""""
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
 """"""""""
 "" Wiki Stuff
