@@ -56,6 +56,8 @@ cask "marked"
 cask "wkhtmltopdf"
 cask "inkscape"
 cask "notion"
+cask "adobe-creative-cloud"
+
 
 # Fonts
 cask 'font-lato'
