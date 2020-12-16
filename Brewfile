@@ -57,6 +57,7 @@ cask "wkhtmltopdf"
 cask "inkscape"
 cask "notion"
 cask "adobe-creative-cloud"
+cask "visual-studio-code"
 
 
 # Fonts
