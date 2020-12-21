@@ -1,5 +1,3 @@
-update
-
 tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "phinze/cask" # mactex
