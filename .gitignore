@@ -9,3 +9,4 @@ Brewfile.lock.json
 .ssh/id_rs*
 *.spl
 .bash*
+hosts.yml
