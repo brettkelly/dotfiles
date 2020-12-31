@@ -22,3 +22,6 @@ export PYTHONPATH="/usr/local/lib/python3.8/site-packages/":$PYTHONPATH
 export PYTHONWARNINGS="ignore:Unverified HTTPS request"
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/opt/php@7.4/bin:$PATH"
+export PATH="/usr/local/opt/php@7.4/sbin:$PATH"
+export PATH="~/.local/bin:$PATH"
