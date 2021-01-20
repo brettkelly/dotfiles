@@ -18,6 +18,8 @@ brew "zsh"
 brew "zsh-syntax-highlighting"
 brew "fzf"
 brew "csvkit"
+brew "awscli"
+
 ###
 # Dumb, fun stuff
 ###
