@@ -1,17 +1,12 @@
 #!/bin/bash
 
-# ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=noprint_wrappers=1:nokey=1 frametest.mp4
-
 if [ -f "$1" ]; then
     fname=$(basename -- "$1")  # get the base filename
     noext="${fname%.*}"        # trim the extension
     outf="${noext}.thumb.jpg"  # generate the output filename
     # count the frames with ffprobe
     frames=$(ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=noprint_wrappers=1:nokey=1 "$1")
-    # calculate the frame at 20% through
-    pickf="$((frames / 20 ))"
-    # print for debugging 
-    echo "$pickf"
+    pickf="$((frames / 20 ))" # calculate the frame at 20% through
     ffmpeg -hide_banner -loglevel warning -y -i "$1" -vf select="eq(n\,${pickf})" -vframes 1 ${outf}
 else
     echo "'$1' is not a valid file"
