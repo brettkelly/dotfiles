@@ -78,3 +78,6 @@ cask 'font-montserrat'
 cask 'font-rubik'
 cask 'font-cinzel'
 cask 'font-barlow-semi-condensed'
+cask 'font-libre-caslon-text'
+cask 'font-libre-caslon-display'
+
