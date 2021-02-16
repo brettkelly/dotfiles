@@ -1,0 +1,6 @@
+#!/bin/sh
+
+filename=$(basename -- "$1")
+plain="${filename%.*}";
+newfile="${plain}.compressed.jpg";
+gs -sDEVICE=pdfwrite -o "$newfile" -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH "$1"
