@@ -18,10 +18,11 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2> /
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
-export PYTHONPATH="/usr/local/lib/python3.8/site-packages/":$PYTHONPATH
+export PYTHONPATH="/usr/local/lib/python3.9/site-packages/":$PYTHONPATH
 export PYTHONWARNINGS="ignore:Unverified HTTPS request"
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/php@7.4/bin:$PATH"
 export PATH="/usr/local/opt/php@7.4/sbin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
