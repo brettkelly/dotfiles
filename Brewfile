@@ -19,6 +19,8 @@ brew "zsh-syntax-highlighting"
 brew "fzf"
 brew "csvkit"
 brew "awscli"
+brew "git-ftp"
+brew "brotli"
 
 ###
 # Dumb, fun stuff
