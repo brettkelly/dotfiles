@@ -6,7 +6,6 @@ alias dev="cd ~/Development"
 alias sc="cd ~/Development/Scratch/"
 alias gd="cd /Volumes/GoogleDrive/My\ Drive"
 alias dt="cd ~/dotfiles"
-alias cw="cd $WIKI"
 alias gpom="git push origin master"
 alias gitz="git archive --format zip --output \"\$(PWD).zip\" master -0"
 alias gst="git status"
@@ -26,9 +25,8 @@ alias vh="sudo vim /etc/hosts"
 alias fdns="sudo killall -HUP mDNDResponder"
 alias wps="wpscan --url"
 alias mmd="multimarkdown"
-alias vw="cd $WIKI && vim -c 'execute \"normal \\\\ww\"'"
-alias wup="cd $WIKI && git pull origin master"
 alias python=/usr/local/bin/python3 
+alias bigfiles="du -a . | sort -n -r | head -n 20"
 
 # view folders sorted by disk usage
 alias folders='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'

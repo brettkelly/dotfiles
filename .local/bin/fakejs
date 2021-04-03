@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+// screwing around with JS shell scripting
+// this is what we call in the biz a "proof of concept"
+
+const fakeArray = [1,2,3];
+for (let index = 0; index < fakeArray.length; index++) {
+    const el = fakeArray[index];
+    console.log(el)
+}
