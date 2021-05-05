@@ -60,6 +60,7 @@ cask "inkscape"
 cask "notion"
 cask "adobe-creative-cloud"
 cask "visual-studio-code"
+cask "microsoft-remote-desktop"
 
 
 # Fonts
@@ -88,3 +89,4 @@ cask 'font-inter'
 cask 'font-josefin-sans'
 cask 'font-assistant'
 cask 'font-mulish'
+

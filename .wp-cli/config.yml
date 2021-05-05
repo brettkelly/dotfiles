@@ -81,3 +81,9 @@
     - @bede
     - @ptc
 
+
+# Pattern
+@logansgapwind.com:
+    ssh: bkelly@patternmicro.site
+    path: /var/www/microsites/lgw/
+
