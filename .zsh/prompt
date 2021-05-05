@@ -20,7 +20,7 @@ autoload -U colors && colors # Enable colors in prompt
 
 # Echoes a username/host string when connected over SSH (empty otherwise)
 ssh_info() {
-  [[ "$SSH_CONNECTION" != '' ]] && echo '%F{yellow}%n%F{blue}@%F{green}%m%: ' || echo ''
+  [[ "$SSH_CONNECTION" != '' ]] && echo '%F{yellow}%n%F{blue}@%F{green}%M%: ' || echo ''
 }
 
 # Echoes information about Git repository status when inside a Git repository
