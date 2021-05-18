@@ -16,5 +16,9 @@
     "liveServer.settings.donotShowInfoMsg": true,
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "files.exclude": {
+        "**/.pyc": true
+    },
+    "editor.formatOnSave": true
 }
