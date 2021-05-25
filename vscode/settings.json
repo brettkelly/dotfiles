@@ -39,5 +39,6 @@
     },
     "files.exclude": {
         "**/.pyc": true
-    }
+    },
+    "workbench.startupEditor": "none"
 }
