@@ -3,12 +3,9 @@
     "python.formatting.provider": "autopep8",
     "git.autofetch": true,
     "git.enableSmartCommit": true,
-    "workbench.editorAssociations": [
-        {
-            "viewType": "jupyter.notebook.ipynb",
-            "filenamePattern": "*.ipynb"
-        }
-    ],
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
     "editor.fontFamily": "Fira Code Regular, Monaco, 'Courier New', monospace",
     "editor.fontSize": 16,
     "workbench.iconTheme": "vscode-icons",
@@ -16,6 +13,10 @@
     "window.autoDetectColorScheme": true,
     "liveServer.settings.donotShowInfoMsg": true,
     "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "eslint.validate": ["javascript"],
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
@@ -40,5 +41,11 @@
     "files.exclude": {
         "**/.pyc": true
     },
-    "workbench.startupEditor": "none"
+    "workbench.startupEditor": "none",
+    "gitlens.advanced.messages": {
+        "suppressCreatePullRequestPrompt": true
+    },
+    "git.confirmSync": false,
+    "explorer.confirmDelete": false,
+    "editor.minimap.enabled": false
 }
