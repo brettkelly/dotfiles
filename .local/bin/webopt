@@ -1,0 +1,12 @@
+#!/bin/sh
+
+filename=$(basename -- "$1")
+plain="${filename%.*}";
+newf="${plain}.optimized.jpg";
+if [ -z "$2" ]
+then
+    width="2000"
+else
+    width="$2"
+fi
+convert "$filename" -sampling-factor 4:2:0 -strip -resize "$width"x -quality 85 -interlace JPEG "$newf"

@@ -27,6 +27,7 @@ alias wps="wpscan --url"
 alias mmd="multimarkdown"
 alias python=/usr/local/bin/python3 
 alias bigfiles="du -a . | sort -n -r | head -n 20"
+alias cil="curl -IL"
 
 # view folders sorted by disk usage
 alias folders='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'

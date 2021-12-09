@@ -47,5 +47,7 @@
     },
     "git.confirmSync": false,
     "explorer.confirmDelete": false,
-    "editor.minimap.enabled": false
+    "editor.minimap.enabled": false,
+    "python.defaultInterpreterPath": "/usr/local/opt/python@3.9/bin/python3.9",
+    "vsicons.dontShowNewVersionMessage": true
 }
