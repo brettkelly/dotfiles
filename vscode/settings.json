@@ -9,7 +9,6 @@
     "editor.fontFamily": "Fira Code Regular, Monaco, 'Courier New', monospace",
     "editor.fontSize": 16,
     "workbench.iconTheme": "vscode-icons",
-    "workbench.colorTheme": "Dracula Soft",
     "window.autoDetectColorScheme": true,
     "liveServer.settings.donotShowInfoMsg": true,
     "editor.formatOnSave": true,
@@ -51,5 +50,6 @@
     "python.defaultInterpreterPath": "/usr/local/opt/python@3.9/bin/python3.9",
     "vsicons.dontShowNewVersionMessage": true,
     "editor.linkedEditing": true,
-    "workbench.editor.enablePreview": false
+    "workbench.editor.enablePreview": false,
+    "workbench.colorTheme": "Dracula"
 }
