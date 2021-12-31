@@ -9,7 +9,6 @@
     "editor.fontFamily": "Fira Code Regular, Monaco, 'Courier New', monospace",
     "editor.fontSize": 16,
     "workbench.iconTheme": "vscode-icons",
-    "window.autoDetectColorScheme": true,
     "liveServer.settings.donotShowInfoMsg": true,
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
@@ -51,5 +50,6 @@
     "vsicons.dontShowNewVersionMessage": true,
     "editor.linkedEditing": true,
     "workbench.editor.enablePreview": false,
-    "workbench.colorTheme": "Dracula"
+    "explorer.confirmDragAndDrop": false,
+    "workbench.colorTheme": "Dracula Soft"
 }
