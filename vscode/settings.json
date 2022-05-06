@@ -14,7 +14,9 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "eslint.validate": ["javascript"],
+    "eslint.validate": [
+        "javascript"
+    ],
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
@@ -49,9 +51,12 @@
     "python.defaultInterpreterPath": "/usr/local/opt/python@3.9/bin/python3.9",
     "vsicons.dontShowNewVersionMessage": true,
     "editor.linkedEditing": true,
-    "workbench.editor.enablePreview": false,
     "explorer.confirmDragAndDrop": false,
     "workbench.colorTheme": "Dracula Soft",
     "liveServer.settings.donotVerifyTags": true,
-    "editor.hover.delay": 2000
+    "editor.hover.delay": 2000,
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "security.workspace.trust.untrustedFiles": "open"
 }
