@@ -15,4 +15,4 @@ else
 fi
 
 # Define the path and temp filename, then open it
-vim "${DEST}$(date +%s).${1:-txt}"
+code "${DEST}$(date +%s).${1:-txt}"
