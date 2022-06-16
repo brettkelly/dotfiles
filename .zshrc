@@ -18,8 +18,8 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2> /
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
-export PYTHONPATH="/usr/local/lib/python3.9/site-packages/":$PYTHONPATH
-export PYTHONWARNINGS="ignore:Unverified HTTPS request"
+#export PYTHONPATH="/usr/local/lib/python3.10/site-packages/":$PYTHONPATH
+#export PYTHONWARNINGS="ignore:Unverified HTTPS request"
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/php@7.4/bin:$PATH"
@@ -35,3 +35,6 @@ eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
 
 export PATH="$HOME/.poetry/bin:$PATH"
+export NVM_DIR=~/.nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
