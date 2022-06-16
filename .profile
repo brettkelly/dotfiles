@@ -26,3 +26,5 @@ HISTSIZE=1000
 # Give me vi keybindings in bash
 #set -o vi
 
+
+export PATH="$HOME/.poetry/bin:$PATH"
