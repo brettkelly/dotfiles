@@ -41,4 +41,8 @@ elif [[ `uname` == "Darwin" ]]; then
     source ~/.mac.zsh
 fi
 
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
+export JAVA_HOME=/usr/libexec/java_home

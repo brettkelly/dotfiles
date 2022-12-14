@@ -11,3 +11,4 @@ Brewfile.lock.json
 .bash*
 hosts.yml
 .config/gh/state.yml
+.poetry
