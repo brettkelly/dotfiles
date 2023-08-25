@@ -36,7 +36,8 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[python]": {
-        "editor.defaultFormatter": "ms-python.python"
+        "editor.defaultFormatter": "ms-python.python",
+        "editor.formatOnType": true
     },
     "files.exclude": {
         "**/.pyc": true
@@ -63,7 +64,6 @@
     "[json]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "aws.profile": "profile:default",
     "aws.lambda.recentlyUploaded": {
         "profile:default": {
             "us-west-1": "cape-jazz-push-test"

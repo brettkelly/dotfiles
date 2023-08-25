@@ -26,14 +26,14 @@ alias fdns="sudo killall -HUP mDNDResponder"
 alias wps="wpscan --url"
 alias mmd="multimarkdown"
 alias python=/usr/local/bin/python3 
-alias bigfiles="du -a . | sort -n -r | head -n 20"
+alias bigfiles="du -ah . | sort -n -r | head -n 20"
 alias cil="curl -IL"
 alias killbt="sudo pkill bluetoothd"
 alias brew="arch -arm64 brew"
 alias ghrc="gh repo create --clone --private"
 
 # view folders sorted by disk usage
-alias folders='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'
+alias folders='find . -maxdepth 1 -type d -print0 | xargs -0 du -hsk | sort -rn'
 
 # quick navigation
 alias ..="cd .."
