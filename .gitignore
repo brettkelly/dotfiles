@@ -1,14 +1,24 @@
-*~
-.*.sw?
+# System files
 .DS_Store
-.vim/backu*
-Brewfile.lock.json
-.vim/plugge*
-.wp-cli/packages/cache
-.local/share/virtualen*
-.ssh/id_rs*
-*.spl
-.bash*
-hosts.yml
-.config/gh/state.yml
-.poetry
+*.swp
+*.swo
+
+# Temp/Cache directories
+.local/lib/
+.local/share/
+.local/state/
+.wp-cli/cache/
+.config/iterm2/sockets/
+.config/op/op-daemon.sock
+.config/configstore/
+
+# Python
+__pycache__/
+*.py[cod]
+.poetry/lib/
+.poetry/env/
+
+# Current Vim setup (until Neovim migration)
+.vim/backup/
+.vim/.netrwhist
+.vim/plugged/

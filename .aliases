@@ -1,5 +1,6 @@
-# vim: filetype=sh
-
+alias cd="z"
+alias ls="eza --icons=always"
+alias ll="eza --icons=always -la"
 alias dl="cd ~/Downloads"
 alias de="cd ~/Desktop"
 alias dev="cd ~/Development"
@@ -10,8 +11,6 @@ alias gpom="git push origin master"
 alias gitz="git archive --format zip --output \"\$(PWD).zip\" master -0"
 alias gst="git status"
 alias gcm="git commit -a -m "
-alias ll="ls -Gla"
-alias ls="ls -G"
 alias h="history"
 alias hg="history | grep"
 alias szr="source ~/.zshrc"

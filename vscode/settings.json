@@ -3,16 +3,13 @@
     "python.formatting.provider": "autopep8",
     "git.autofetch": true,
     "git.enableSmartCommit": true,
-    "workbench.editorAssociations": {
-        "*.ipynb": "jupyter.notebook.ipynb"
-    },
     "editor.fontFamily": "Fira Code Regular, Monaco, 'Courier New', monospace",
     "editor.fontSize": 16,
     "workbench.iconTheme": "vscode-icons",
     "liveServer.settings.donotShowInfoMsg": true,
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": "explicit"
     },
     "eslint.validate": [
         "javascript"
@@ -143,5 +140,17 @@
         "zip",
         "zlib",
         "wordpress"
+    ],
+    "workbench.editor.empty.hint": "hidden",
+    "workbench.settings.applyToAllProfiles": [],
+    "intelephense.files.include": [
+        "**/*.php",
+        "wp-content/plugins/elementor/**/*.php",
+        "wp-content/themes/**/*.php"
+    ],
+    "intelephense.files.exclude": [
+        "**/node_modules/**",
+        "**/vendor/**",
+        "**/cache/**"
     ]
 }
