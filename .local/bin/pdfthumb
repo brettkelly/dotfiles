@@ -3,4 +3,4 @@
 filename=$(basename -- "$1")
 plain="${filename%.*}";
 newfile="${plain}.thumb.jpg";
-convert -density 288 "${1}"[0] -resize 75% -background White -layers flatten "${newfile}"
+magick convert -density 288 "${1}"[0] -resize 75% -background White -layers flatten "${newfile}"
