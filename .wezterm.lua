@@ -12,7 +12,7 @@ config.color_scheme = 'Dracula (Official)'
 config.font = wezterm.font("MesloLGS Nerd Font Mono")
 config.font_size = 18
 
-config.enable_tab_bar = false
+-- config.enable_tab_bar = false
 
 config.window_decorations = "RESIZE"
 
