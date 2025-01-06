@@ -31,3 +31,10 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 -- turn off swapfile
 opt.swapfile = false
+
+-- Turn off search highlights when entering insert mode
+vim.api.nvim_create_autocmd('InsertEnter', {
+  callback = function()
+    vim.cmd('nohlsearch')
+  end
+})
