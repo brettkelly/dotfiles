@@ -26,3 +26,5 @@ keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer
 -- yank to system clipboard
 keymap.set({"n","v"}, "<leader>y", [["+y]])
 
+keymap.set("i", "<leader>bb", "{<CR><CR>}<ESC>ki<TAB>", { desc = "Curly braces" })
+

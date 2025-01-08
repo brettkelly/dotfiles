@@ -5,3 +5,4 @@ return {
         vim.cmd("colorscheme dracula")
     end
 }
+
