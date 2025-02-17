@@ -5,7 +5,6 @@ local keymap = vim.keymap
 keymap.set("i", "jj", "<ESC>", { desc = "Exit insert mode with jj"})
 
 keymap.set("n","<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
---keymap.set("n","i", "<cmd>nohl<CR>", {desc = "Clear search highlights when entering insert mode" })
 
 -- increment/decrement numbers
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
@@ -28,3 +27,27 @@ keymap.set({"n","v"}, "<leader>y", [["+y]])
 
 keymap.set("i", "<leader>bb", "{<CR><CR>}<ESC>ki<TAB>", { desc = "Curly braces" })
 
+-- Obsidian
+-- Open today's daily note
+vim.keymap.set('n', '<leader>td', function()
+    local today = os.date("%Y-%m-%d")
+    local daily_path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Main/daily/" .. today .. ".md"
+    local expanded_path = vim.fn.expand(daily_path)
+    vim.cmd('edit ' .. expanded_path)
+end, { desc = 'Jump to today\'s daily note' })
+
+-- Search daily notes with telescope
+vim.keymap.set('n', '<leader>fd', function()
+    local daily_notes_path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Main/daily"
+    require('telescope.builtin').find_files({
+        prompt_title = "Daily Notes",
+        cwd = vim.fn.expand(daily_notes_path),
+        hidden = false,
+        sorting_strategy = "descending",
+        file_ignore_patterns  = {
+            "^[^.]+$",  -- ignore files without extensions
+            "%.%w+$",   -- ignore all files with extensions
+            "!%.md$"    -- except .md files
+        }
+    })
+end, { desc = 'Find daily notes' })
