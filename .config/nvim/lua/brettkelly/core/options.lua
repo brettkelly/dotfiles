@@ -33,8 +33,51 @@ opt.splitbelow = true -- split horizontal window to the bottom
 opt.swapfile = false
 
 -- Turn off search highlights when entering insert mode
-vim.api.nvim_create_autocmd('InsertEnter', {
+vim.api.nvim_create_autocmd({'InsertEnter','CursorMoved'}, {
   callback = function()
     vim.cmd('nohlsearch')
   end
+})
+
+-- Markdown 
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = "markdown",
+    callback = function()
+        -- Enable auto-formatting
+        vim.opt_local.formatoptions:append("r") -- Auto-insert comment leader after <Enter>
+        vim.opt_local.formatoptions:append("o") -- Auto-insert comment leader after o/O
+        vim.opt_local.formatoptions:append("n") -- Recognize numbered lists
+        vim.opt_local.formatoptions:append("j") -- Remove comment leader when joining lines
+        
+        -- Set list indent settings
+        vim.opt_local.autoindent = true
+        vim.opt_local.smartindent = true
+        
+        -- Enhance list behavior
+        vim.opt_local.comments = "b:*,b:-,b:+,n:>"
+        vim.opt_local.commentstring = "<!-- %s -->"
+    end
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    -- Local mappings for lists
+    vim.keymap.set("i", "<CR>", function()
+      local line = vim.api.nvim_get_current_line()
+      local cursor = vim.api.nvim_win_get_cursor(0)
+      local col = cursor[2]
+      
+      -- Check if we're in a list
+      if line:match("^%s*[-*+]%s") or line:match("^%s*%d+%.%s") then
+        -- If the line is empty except for the list marker, remove it
+        if line:match("^%s*[-*+]%s*$") or line:match("^%s*%d+%.%s*$") then
+          vim.api.nvim_set_current_line("")
+          return "<CR>"
+        end
+        return "<CR>" .. line:match("^%s*[-%*%+%d%.]+ ")
+      end
+      return "<CR>"
+    end, { buffer = true, expr = true })
+  end,
 })
