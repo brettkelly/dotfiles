@@ -1,3 +1,0 @@
-snippet wpwww
-	RewriteCond %{HTTP_HOST} ^${1} [NC]
-	RewriteRule ^(.*)$ http://www.${1}/$1 [L,R=301]
