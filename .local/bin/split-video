@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Check if a file argument is provided
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <video_file>"
+    echo "Example: $0 input.mp4"
+    exit 1
+fi
+
+# Check if FFmpeg is installed
+if ! command -v ffmpeg >/dev/null 2>&1; then
+    echo "Error: FFmpeg is not installed. Please install it first."
+    exit 1
+fi
+
+# Check if ffprobe is installed (comes with FFmpeg)
+if ! command -v ffprobe >/dev/null 2>&1; then
+    echo "Error: ffprobe is not installed. Please install FFmpeg."
+    exit 1
+fi
+
+# Input file
+INPUT="$1"
+
+# Check if file exists
+if [ ! -f "$INPUT" ]; then
+    echo "Error: File '$INPUT' not found!"
+    exit 1
+fi
+
+# Get the base filename without extension
+BASENAME=$(basename "$INPUT" | sed 's/\.[^.]*$//')
+
+# Get duration in seconds
+DURATION=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$INPUT" 2>/dev/null)
+if [ -z "$DURATION" ]; then
+    echo "Error: Could not determine video duration"
+    exit 1
+fi
+
+# Calculate half duration
+HALF=$(echo "$DURATION/2" | bc)
+
+# Create output filenames
+OUTPUT1="${BASENAME}_part1.mp4"
+OUTPUT2="${BASENAME}_part2.mp4"
+
+echo "Splitting '$INPUT' (Duration: ${DURATION}s) into two parts at ${HALF}s..."
+
+# Split the video - first part
+ffmpeg -i "$INPUT" -t "$HALF" -c copy -map 0 "$OUTPUT1" -y
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to create first part"
+    exit 1
+fi
+
+# Split the video - second part
+ffmpeg -i "$INPUT" -ss "$HALF" -c copy -map 0 "$OUTPUT2" -y
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to create second part"
+    exit 1
+fi
+
+echo "Success!"
+echo "Created files:"
+echo "1. $OUTPUT1"
+echo "2. $OUTPUT2"
