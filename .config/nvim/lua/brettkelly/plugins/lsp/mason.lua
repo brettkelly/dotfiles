@@ -38,6 +38,7 @@ return {
 				"prismals",
 				"pyright",
 				"intelephense",
+				"phpactor",
 			},
 		})
 
