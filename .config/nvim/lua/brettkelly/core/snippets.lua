@@ -10,6 +10,15 @@ return function()
         s("date", {
             f(function() return os.date("%Y-%m-%d") end, {}),
         }),
+        s("fm", {
+            t({"---", "type: "}),
+            i(1, ""),
+            t({"", "people:", "- \"[[]]\""}),
+            t({"", "companies:", "- \"[[]]\""}),
+            t({"", "status: "}),
+            i(2, ""),
+            t({"", "---"})
+        }),
     })
 
 
@@ -26,4 +35,6 @@ return function()
         }
       )),
     })
+
+
 end
