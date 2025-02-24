@@ -29,3 +29,4 @@ __pycache__/
 .vim/plugged/
 .vim/.netrwhist
 .vim/backup/
+.config/nvim/after/ftplugin/foo.md
