@@ -1,0 +1,19 @@
+# Ghostty configuration equivalent to your WezTerm config
+
+# Theme/colors (Dracula)
+theme = "dracula"
+
+# Font settings
+font-family = "MesloLGS Nerd Font Mono"
+font-size = 16
+
+# Window settings
+#window-decoration = "none"
+background-opacity = 0.9
+background-blur = 10
+window-padding-x = 10
+window-padding-y = 10
+
+
+# Tab bar (commented out in your WezTerm config)
+# tab-bar-hidden = true
