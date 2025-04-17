@@ -30,8 +30,10 @@ return {
 		end,
 		completion = {
 			nvim_cmp = true,
-			min_chars = 2,
+			min_chars = 3,
 		},
+		use_advanced_uri = false,
+		open_notes_in = "current",
 		ui = {
 			-- Disable some things below here because I set these manually for all Markdown files using treesitter
 			checkboxes = {},

@@ -19,6 +19,26 @@ return {
 					"^.git/", -- Git directory
 					"^node_modules/", -- Node modules if you have any
 					"^.DS_Store", -- Mac files
+					"%.jpg$",
+					"%.jpeg$",
+					"%.png$",
+					"%.gif$",
+					"%.pdf$",
+					"%.obsidian/", -- Ignore Obsidian config files
+				},
+				vimgrep_arguments = {
+					"rg",
+					"--color=never",
+					"--no-heading",
+					"--with-filename",
+					"--line-number",
+					"--column",
+					"--smart-case",
+					"--hidden",
+				},
+				cache_picker = {
+					num_pickers = 5,
+					limit_entries = 1000,
 				},
 				hidden = true,
 				path_display = { "smart" },
@@ -34,6 +54,15 @@ return {
 						hidden = true,
 						no_ignore = true,
 						follow = true,
+						find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
+					},
+				},
+				extensions = {
+					fzf = {
+						fuzzy = true,
+						override_generic_sorter = true,
+						override_file_sorter = true,
+						case_mode = "smart_case",
 					},
 				},
 			},
