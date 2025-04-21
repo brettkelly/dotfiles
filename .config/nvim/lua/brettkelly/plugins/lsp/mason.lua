@@ -50,6 +50,8 @@ return {
 				"black", -- python formatter
 				"pylint", -- python linter
 				"eslint_d", -- js linter
+				"debugpy", -- python debug adapter
+				"php-debug-adapter", -- PHP debug adapter
 			},
 		})
 	end,

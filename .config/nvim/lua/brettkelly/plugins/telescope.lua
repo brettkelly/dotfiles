@@ -88,5 +88,13 @@ return {
 				follow = true,
 			})
 		end, { desc = "Find files" })
+
+		-- DAP
+
+		telescope.load_extension("dap")
+		keymap.set("n", "<leader>dcc", "<cmd>Telescope dap commands<cr>", { desc = "DAP commands" })
+		keymap.set("n", "<leader>dcb", "<cmd>Telescope dap list_breakpoints<cr>", { desc = "DAP list breakpoints" })
+		keymap.set("n", "<leader>dcv", "<cmd>Telescope dap variables<cr>", { desc = "DAP variables" })
+		keymap.set("n", "<leader>dcf", "<cmd>Telescope dap frames<cr>", { desc = "DAP frames" })
 	end,
 }
