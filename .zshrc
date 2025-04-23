@@ -45,6 +45,7 @@ eval "$(pyenv init -)"
 
 # Poetry
 export PATH="$HOME/.poetry/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
