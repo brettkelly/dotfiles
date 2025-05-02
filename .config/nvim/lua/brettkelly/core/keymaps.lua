@@ -27,7 +27,30 @@ keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer
 keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 keymap.set("n", "<leader>Y", 'ggVG"+y', { desc = "Yank entire buffer to system clipboard" })
 
-keymap.set("i", "<leader>bb", "{<CR><CR>}<ESC>ki<TAB>", { desc = "Curly braces" })
+keymap.set("n", "<leader>bb", function()
+	-- Get the current line and its indentation
+	local line = vim.api.nvim_get_current_line()
+	local indent = line:match("^%s*")
+
+	-- Create the lines to insert
+	local text = "{\n" .. indent .. "    \n" .. indent .. "}"
+
+	-- Get cursor position
+	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+
+	-- Insert the text
+	vim.api.nvim_buf_set_text(0, row - 1, col, row - 1, col, vim.split(text, "\n"))
+
+	-- Move cursor to the middle line with proper indentation
+	vim.api.nvim_win_set_cursor(0, { row + 1, #indent + 4 })
+
+	-- Enter insert mode
+	vim.cmd("startinsert")
+end)
+
+-- LSP diagnostics
+keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic error messages" })
+keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic quickfix list" })
 
 -- Obsidian
 -- Open today's daily note
