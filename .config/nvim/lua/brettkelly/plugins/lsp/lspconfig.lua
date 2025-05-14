@@ -5,11 +5,14 @@ return {
 		"hrsh7th/cmp-nvim-lsp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 		{ "folke/neodev.nvim", opts = {} },
-		{ "mason-org/mason-lspconfig.nvim" },
+		"mason-org/mason-lspconfig.nvim",
 	},
 	config = function()
-		-- import lspconfig plugin
 		local lspconfig = require("lspconfig")
+		local mason_lspconfig = require("mason-lspconfig")
+		local cmp_nvim_lsp = require("cmp_nvim_lsp")
+		local keymap = vim.keymap -- for conciseness
+
 		lspconfig.intelephense.setup({
 			filetypes = { "php" },
 			settings = {
@@ -39,14 +42,6 @@ return {
 				},
 			},
 		})
-
-		-- import mason_lspconfig plugin
-		local mason_lspconfig = require("mason-lspconfig")
-
-		-- import cmp-nvim-lsp plugin
-		local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
-		local keymap = vim.keymap -- for conciseness
 
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
