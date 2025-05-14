@@ -5,6 +5,7 @@ return {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
 	config = function()
+		-- Setup mason first
 		local mason = require("mason")
 		mason.setup({
 			ui = {
@@ -16,11 +17,9 @@ return {
 			},
 		})
 
+		-- Required: Clean installation (no setup_handlers yet)
 		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({
-			-- list of servers for mason to install
-			automatic_enable = true,
-			automatic_installation = true,
 			ensure_installed = {
 				"html",
 				"cssls",
@@ -32,12 +31,13 @@ return {
 				"prismals",
 				"pyright",
 				"intelephense",
-				"phpactor",
+				-- "phpactor",
 			},
+			automatic_installation = true,
 		})
 
-		local mason_tool_installer = require("mason-tool-installer")
-		mason_tool_installer.setup({
+		-- Install additional tools
+		require("mason-tool-installer").setup({
 			ensure_installed = {
 				"prettier", -- prettier formatter
 				"stylua", -- lua formatter
