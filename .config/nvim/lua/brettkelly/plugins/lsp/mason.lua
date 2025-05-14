@@ -5,15 +5,7 @@ return {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
 	config = function()
-		-- import mason
 		local mason = require("mason")
-
-		-- import mason-lspconfig
-		local mason_lspconfig = require("mason-lspconfig")
-
-		local mason_tool_installer = require("mason-tool-installer")
-
-		-- enable mason and configure icons
 		mason.setup({
 			ui = {
 				icons = {
@@ -24,6 +16,7 @@ return {
 			},
 		})
 
+		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({
 			-- list of servers for mason to install
 			automatic_enable = true,
@@ -43,6 +36,7 @@ return {
 			},
 		})
 
+		local mason_tool_installer = require("mason-tool-installer")
 		mason_tool_installer.setup({
 			ensure_installed = {
 				"prettier", -- prettier formatter
