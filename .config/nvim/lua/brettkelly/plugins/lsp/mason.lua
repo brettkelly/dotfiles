@@ -31,7 +31,7 @@ return {
 				"prismals",
 				"pyright",
 				"intelephense",
-				-- "phpactor",
+				"phpactor",
 			},
 			automatic_installation = true,
 		})

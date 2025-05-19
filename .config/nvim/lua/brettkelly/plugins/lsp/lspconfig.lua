@@ -27,6 +27,7 @@ return {
 						"bcmath",
 						"bz2",
 						"calendar",
+						"Core",
 						"composer",
 						"curl",
 						"date",
@@ -37,11 +38,34 @@ return {
 						"woocommerce",
 						"wp-cli",
 						"standard",
+						"gravityforms",
 					},
-					files = { maxSize = 5000000 },
+					files = {
+						maxSize = 5000000,
+						associations = { "*.php", "*.phtml", "*.inc", "*.theme", "*.module" },
+					},
+					diagnostics = {
+						enable = true,
+						undefinedFunctions = true,
+						undefinedConstants = true,
+						undefinedClassConstants = true,
+						undefinedMethods = true,
+						undefinedProperties = true,
+						undefinedTypes = true,
+					},
+					completion = {
+						insertUseDeclaration = true,
+						fullyQualifyGlobalConstantsAndFunctions = false,
+						triggerParameterHints = true,
+					},
 					workspace = { root = true },
 				},
 			},
+		})
+
+		lspconfig.phpactor.setup({
+			capabilities = capabilities,
+			filetypes = { "php" },
 		})
 
 		-- Lua
@@ -58,7 +82,7 @@ return {
 		-- HTML, CSS, JS, TS
 		lspconfig.html.setup({ capabilities = capabilities })
 		lspconfig.cssls.setup({ capabilities = capabilities })
-		lspconfig.tsserver.setup({ capabilities = capabilities })
+		-- lspconfig.tsserver.setup({ capabilities = capabilities })
 
 		-- Svelte
 		lspconfig.svelte.setup({
