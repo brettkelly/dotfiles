@@ -17,12 +17,17 @@ return {
 
 		-- Manually setup each server we care about
 		-- PHP with intelephense
+		vim.lsp.handlers["textDocument/diagnostic"] = function() end
 		lspconfig.intelephense.setup({
+			cmd = { "/opt/homebrew/bin/intelephense", "--stdio" },
 			capabilities = capabilities,
 			on_init = function(client)
-				-- remove unsupported method to avoid error
+				local original_supports_method = client.supports_method
 				client.supports_method = function(method)
-					return method ~= "textDocument/diagnostic"
+					if method == "textDocument/diagnostic" then
+						return false
+					end
+					return original_supports_method(method)
 				end
 			end,
 			filetypes = { "php" },

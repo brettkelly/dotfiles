@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  echo "Usage: $0 <directory-name>"
+  exit 1
+fi
+
+git clone git@gist.github.com:8cda73e10a4e051011e9992ef8c8258c.git "$1"
