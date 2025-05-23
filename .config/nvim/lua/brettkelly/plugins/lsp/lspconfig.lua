@@ -19,6 +19,12 @@ return {
 		-- PHP with intelephense
 		lspconfig.intelephense.setup({
 			capabilities = capabilities,
+			on_init = function(client)
+				-- remove unsupported method to avoid error
+				client.supports_method = function(method)
+					return method ~= "textDocument/diagnostic"
+				end
+			end,
 			filetypes = { "php" },
 			settings = {
 				intelephense = {

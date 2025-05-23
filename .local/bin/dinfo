@@ -1,24 +1,152 @@
-#!/bin/sh
+#!/bin/bash
+# Domain Info Collector
+# Get comprehensive information about a domain
 
-# get quick domain info
-# included:
+# Check if domain argument is provided
+if [ -z "$1" ]; then
+    echo "Usage: $0 domain.com"
+    exit 1
+fi
 
-#1. Get domain registrar - Done
-#2. Get webhost - Done
-#3. Get CMS, if applicable
-#4. Get domain expiration
-#5. Get other DNS records (MX, especially) - Done
-#6. Other stuff I haven't thought of
+DOMAIN="$1"
+echo "=== Domain Info for $DOMAIN ==="
 
-# use who-hosts-this.com and whois and dig
+# Function to handle DNS queries with timeout
+dns_query() {
+    dig @8.8.8.8 +short +timeout=3 +tries=2 "$@"
+}
 
-# Host address
-IP="$(dig @8.8.8.8 +short A $1)"
-echo "$IP"
-echo "MX"
-echo "$(dig @8.8.8.8 +short MX $1 | sed 's/\n/, /g')"
-# Registrar URL
-echo "Registrar: $(whois $1 | grep -m 1 "Registrar\ URL:" | awk '{print $3}')"
-# Attempt to get the webhost using the ptr record for the host ip
-HOST="$(whois $IP | grep 'OrgName' | awk '{$1=""; print $0;}' | sed 's/^ *//')"
-echo "(Possible) Host: $HOST"
+# IP Addresses (Both IPv4 and IPv6)
+echo -e "\n== IP Addresses =="
+IPV4=$(dns_query A "$DOMAIN")
+if [ -n "$IPV4" ]; then
+    echo "IPv4: $IPV4"
+else
+    echo "No IPv4 records found"
+fi
+
+IPV6=$(dns_query AAAA "$DOMAIN")
+if [ -n "$IPV6" ]; then
+    echo "IPv6: $IPV6"
+else
+    echo "No IPv6 records found"
+fi
+
+# Email configuration
+echo -e "\n== Email Configuration =="
+MX_RECORDS=$(dns_query MX "$DOMAIN")
+if [ -n "$MX_RECORDS" ]; then
+    echo "MX Records:"
+    echo "$MX_RECORDS" | sort -n
+    
+    # Check for SPF, DKIM, and DMARC
+    TXT_RECORDS=$(dns_query TXT "$DOMAIN")
+    if echo "$TXT_RECORDS" | grep -q "v=spf1"; then
+        echo "SPF: Yes"
+    else
+        echo "SPF: Not found"
+    fi
+    
+    DMARC=$(dns_query TXT "_dmarc.$DOMAIN")
+    if [ -n "$DMARC" ]; then
+        echo "DMARC: Yes"
+    else
+        echo "DMARC: Not found"
+    fi
+else
+    echo "No MX records found"
+fi
+
+# Domain registration info
+echo -e "\n== Domain Registration =="
+WHOIS=$(whois "$DOMAIN" 2>/dev/null)
+REGISTRAR=$(echo "$WHOIS" | grep -m 1 "Registrar:" | awk -F ":" '{print $2}' | sed 's/^ *//')
+REGISTRAR_URL=$(echo "$WHOIS" | grep -m 1 "Registrar URL:" | awk -F ":" '{print $2}' | sed 's/^ *//')
+EXPIRY=$(echo "$WHOIS" | grep -E "Registry Expiry Date:|Expiration Date:" | head -1 | awk -F ":" '{print $2}' | sed 's/^ *//' | cut -d' ' -f1)
+
+if [ -n "$REGISTRAR" ]; then echo "Registrar: $REGISTRAR"; fi
+if [ -n "$EXPIRY" ]; then echo "Expiration Date: $EXPIRY"; fi
+
+# Hosting information
+echo -e "\n== Hosting Information =="
+if [ -n "$IPV4" ]; then
+    HOST_INFO=$(whois "$IPV4" 2>/dev/null | grep -E "OrgName:|Organization:" | head -1 | awk -F ":" '{print $2}' | sed 's/^ *//')
+    if [ -n "$HOST_INFO" ]; then
+        echo "Hosting Provider: $HOST_INFO"
+    else
+        echo "Hosting Provider: Could not determine"
+    fi
+    
+    # Get country
+    COUNTRY=$(whois "$IPV4" 2>/dev/null | grep -E "Country:" | head -1 | awk -F ":" '{print $2}' | sed 's/^ *//')
+    if [ -n "$COUNTRY" ]; then
+        echo "Hosting Country: $COUNTRY"
+    fi
+fi
+
+# Web server information
+echo -e "\n== Web Server Info =="
+HTTP_INFO=$(curl -s -I -m 5 "http://$DOMAIN" 2>/dev/null)
+HTTPS_INFO=$(curl -s -I -m 5 -k "https://$DOMAIN" 2>/dev/null)
+
+# Check which protocol works
+if [ -n "$HTTPS_INFO" ]; then
+    SERVER=$(echo "$HTTPS_INFO" | grep -i "Server:" | awk -F ":" '{print $2}' | sed 's/^ *//')
+    echo "HTTPS: Available"
+    if [ -n "$SERVER" ]; then echo "Server: $SERVER"; fi
+    
+    # Check for security headers
+    if echo "$HTTPS_INFO" | grep -qi "Strict-Transport-Security"; then
+        echo "HSTS: Yes"
+    else
+        echo "HSTS: No"
+    fi
+elif [ -n "$HTTP_INFO" ]; then
+    SERVER=$(echo "$HTTP_INFO" | grep -i "Server:" | awk -F ":" '{print $2}' | sed 's/^ *//')
+    echo "HTTP: Available, HTTPS: Not available"
+    if [ -n "$SERVER" ]; then echo "Server: $SERVER"; fi
+else
+    echo "Web server not responding"
+fi
+
+# Try to detect CMS
+echo -e "\n== CMS Detection =="
+CMS_CHECK=$(curl -s -m 5 "https://$DOMAIN" 2>/dev/null || curl -s -m 5 "http://$DOMAIN" 2>/dev/null)
+if [ -n "$CMS_CHECK" ]; then
+    if echo "$CMS_CHECK" | grep -qi "wordpress"; then
+        echo "CMS: WordPress (detected)"
+    elif echo "$CMS_CHECK" | grep -qi "drupal"; then
+        echo "CMS: Drupal (detected)"
+    elif echo "$CMS_CHECK" | grep -qi "joomla"; then
+        echo "CMS: Joomla (detected)"
+    elif echo "$CMS_CHECK" | grep -qi "wix"; then
+        echo "CMS: Wix (detected)"
+    elif echo "$CMS_CHECK" | grep -qi "shopify"; then
+        echo "CMS: Shopify (detected)"
+    else
+        echo "CMS: Could not determine"
+    fi
+fi
+
+# Check DNS records
+echo -e "\n== Additional DNS Records =="
+NS=$(dns_query NS "$DOMAIN")
+if [ -n "$NS" ]; then
+    echo "Nameservers:"
+    echo "$NS"
+fi
+
+CAA=$(dns_query CAA "$DOMAIN")
+if [ -n "$CAA" ]; then
+    echo "CAA Records: $CAA"
+else
+    echo "No CAA Records"
+fi
+
+TXT=$(dns_query TXT "$DOMAIN" | grep -v "v=spf1")
+if [ -n "$TXT" ]; then
+    echo "TXT Records (non-SPF):"
+    echo "$TXT"
+fi
+
+echo -e "\nScript completed at $(date)"
