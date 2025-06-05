@@ -1,0 +1,27 @@
+#!/bin/bash
+
+iplookup() {
+  if [ -z "$1" ]; then
+    echo "Usage: iplookup <IP_ADDRESS>"
+    return 1
+  fi
+
+  echo "== IP Info =="
+  curl -s "https://ipinfo.io/$1" | jq -r '
+    "IP: \(.ip // "N/A")
+Hostname: \(.hostname // "N/A")
+City: \(.city // "N/A")
+Region: \(.region // "N/A")
+Country: \(.country // "N/A")
+Postal: \(.postal // "N/A")
+Location: \(.loc // "N/A")
+Org: \(.org // "N/A")
+Timezone: \(.timezone // "N/A")
+Anycast: \(.anycast // "N/A")"
+  '
+
+  echo ""
+  echo "== WHOIS =="
+  whois "$1" | grep -Ei 'OrgName|Organization|Country|NetName|CIDR|Owner'
+}
+
