@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+
+# Usage: ./redischeck user@host
+
+REMOTE_HOST="$1"
+
+if [ -z "$REMOTE_HOST" ]; then
+  echo "Usage: $0 user@host"
+  exit 1
+fi
+
+# Colors
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+
+function check_redis_instance() {
+  local label="$1"
+  local redis_cmd="$2"
+
+  echo -e "\n${BOLD}${BLUE}== Redis $label Diagnostics for $REMOTE_HOST ==${RESET}"
+
+  # Check if we can connect
+  AUTH_CHECK=$(ssh "$REMOTE_HOST" "$redis_cmd PING" 2>&1)
+  if echo "$AUTH_CHECK" | grep -q "NOAUTH"; then
+    echo -e "${RED}Skipping $label: requires authentication${RESET}"
+    return
+  fi
+
+  echo -e "\n${BOLD}${YELLOW}-- Memory Usage --${RESET}"
+  ssh "$REMOTE_HOST" "$redis_cmd INFO memory" | grep -E 'used_memory_human|maxmemory_human|mem_fragmentation_ratio' | while read -r line; do
+    echo "$GREEN$line$RESET"
+  done
+
+  echo -e "\n${BOLD}${YELLOW}-- Keyspace Stats (Cache Effectiveness) --${RESET}"
+  HITS=$(ssh "$REMOTE_HOST" "$redis_cmd INFO stats | grep keyspace_hits" | cut -d: -f2 | tr -d '\r\n ')
+  MISSES=$(ssh "$REMOTE_HOST" "$redis_cmd INFO stats | grep keyspace_misses" | cut -d: -f2 | tr -d '\r\n ')
+  echo "$GREEN keyspace_hits:$HITS${RESET}"
+  echo "$GREEN keyspace_misses:$MISSES${RESET}"
+
+  if echo "$HITS" | grep -qE '^[0-9]+$' && echo "$MISSES" | grep -qE '^[0-9]+$'; then
+    TOTAL=$((HITS + MISSES))
+    if [ "$TOTAL" -gt 0 ]; then
+      RATIO=$(awk -v h="$HITS" -v t="$TOTAL" 'BEGIN { printf "%.2f", (h/t)*100 }')
+      echo -e "${BOLD}Hit Ratio:${RESET} ${GREEN}$RATIO%${RESET}"
+    else
+      echo -e "${BOLD}Hit Ratio:${RESET} ${YELLOW}No hits or misses recorded${RESET}"
+    fi
+  else
+    echo -e "${BOLD}Hit Ratio:${RESET} ${RED}N/A (invalid numeric values)${RESET}"
+  fi
+
+  EVICTIONS=$(ssh "$REMOTE_HOST" "$redis_cmd INFO stats | grep evicted_keys" | cut -d: -f2 | tr -d '\r\n ')
+  if echo "$EVICTIONS" | grep -qE '^[0-9]+$'; then
+    if [ "$EVICTIONS" -gt 0 ]; then
+      echo -e "${RED}Evicted Keys:${RESET} $EVICTIONS ${RED}(Warning: memory limit reached)${RESET}"
+    else
+      echo -e "${GREEN}Evicted Keys:${RESET} $EVICTIONS"
+    fi
+  else
+    echo -e "${RED}Evicted Keys: N/A (invalid value: $EVICTIONS)${RESET}"
+  fi
+
+  echo -e "\n${BOLD}${YELLOW}-- Slow Log (Top 5) --${RESET}"
+  ssh "$REMOTE_HOST" "$redis_cmd SLOWLOG GET 5" 2>/dev/null | while read -r line; do
+    if echo "$line" | grep -qE "SET|GET|HGETALL"; then
+      echo "$RED$line$RESET"
+    else
+      echo "$line"
+    fi
+  done
+
+  echo -e "\n${BOLD}${YELLOW}-- Latency Spikes --${RESET}"
+  ssh "$REMOTE_HOST" "$redis_cmd LATENCY LATEST" | while read -r line; do
+    echo "$line" | grep -qE 'command|latest|spike' && echo "$GREEN$line$RESET"
+  done
+}
+
+# Main Redis
+check_redis_instance "Main" "redis-cli"
+
+# Object and Page Redis (try socket then fallback to TCP)
+for role in object page; do
+  for path in /var/run/redis /run/redis; do
+    SOCK="$path/redis-${role}.sock"
+    CHECK=$(ssh "$REMOTE_HOST" "[ -S $SOCK ] && echo exists || echo missing")
+    if [ "$CHECK" = "exists" ]; then
+      check_redis_instance "$role" "redis-cli -s $SOCK"
+      continue 2
+    fi
+  done
+
+  # TCP fallback
+  PORT=""
+  [ "$role" = "object" ] && PORT=6378
+  [ "$role" = "page" ] && PORT=6377
+  echo -e "\n${BOLD}${BLUE}== Redis $role Diagnostics for $REMOTE_HOST ==${RESET} (using TCP fallback on port $PORT)"
+  check_redis_instance "$role" "redis-cli -h 127.0.0.1 -p $PORT"
+done
+
+echo -e "\n${BOLD}${BLUE}== Done ==${RESET}"

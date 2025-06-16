@@ -1,0 +1,96 @@
+#!/bin/bash
+
+# Usage: ./check-server.sh user@host
+
+REMOTE_HOST="$1"
+
+if [ -z "$REMOTE_HOST" ]; then
+  echo "Usage: $0 user@host"
+  exit 1
+fi
+
+# Colors
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+
+print_header() {
+  echo -e "\n${BOLD}${BLUE}== $1 ==${RESET}"
+}
+
+print_section() {
+  echo -e "\n${BOLD}${YELLOW}-- $1 --${RESET}"
+}
+
+print_cmd() {
+  echo -e "${GREEN}$1${RESET}"
+}
+
+print_header "Server Health for $REMOTE_HOST"
+
+# === SYSTEM LOAD ===
+print_section "System Load"
+ssh "$REMOTE_HOST" "uptime"
+
+# === MEMORY ===
+print_section "Memory Usage"
+ssh "$REMOTE_HOST" "free -m"
+
+# === DISK ===
+print_section "Disk Usage"
+ssh "$REMOTE_HOST" "df -h /"
+
+# === PHP-FPM ===
+print_section "PHP-FPM Status"
+# Check multiple PHP-FPM versions
+print_section "PHP-FPM 7.4 Status"
+ssh "$REMOTE_HOST" "systemctl status php7.4-fpm | head -10 || echo 'php7.4-fpm not found'"
+print_section "PHP-FPM 8.0 Status"
+ssh "$REMOTE_HOST" "systemctl status php8.0-fpm | head -10 || echo 'php8.0-fpm not found'"
+print_section "PHP-FPM 8.1 Status"
+ssh "$REMOTE_HOST" "systemctl status php8.1-fpm | head -10 || echo 'php8.1-fpm not found'"
+print_section "PHP-FPM 8.2 Status"
+ssh "$REMOTE_HOST" "systemctl status php8.2-fpm | head -10 || echo 'php8.2-fpm not found'"
+print_section "PHP-FPM 8.3 Status"
+ssh "$REMOTE_HOST" "systemctl status php8.3-fpm | head -10 || echo 'php8.3-fpm not found'"
+
+# === MySQL ===
+print_section "MySQL Status"
+ssh "$REMOTE_HOST" "mysqladmin processlist status"
+ssh "$REMOTE_HOST" "mysql -e \"SHOW GLOBAL STATUS LIKE 'Threads_connected';\""
+
+# === NGINX ERRORS ===
+print_section "Recent NGINX 5xx Errors"
+ssh "$REMOTE_HOST" "tail -n 100 /var/log/nginx/error.log | grep -E '502|503|504' || echo 'No recent 5xx errors'"
+
+# === WP SITES ===
+print_section "WordPress Sites Check"
+ssh "$REMOTE_HOST" '
+  for path in /var/www/*/htdocs; do
+      site="${path%/htdocs}"
+      echo -e "\n\033[1mSite: $site\033[0m"
+      wp --path="$path" core version --allow-root 2>/dev/null
+      wp --path="$path" plugin list --status=active --field=name --allow-root 2>/dev/null | sed "s/^/ - Plugin: /"
+      wp --path="$path" eval "echo wp_using_ext_object_cache() ? \"Redis: enabled\" : \"Redis: disabled\";" --allow-root 2>/dev/null 
+      echo
+  done
+'
+
+# === WP CRON ===
+print_section "WP-Cron Due Events (per site)"
+ssh "$REMOTE_HOST" '
+  for path in /var/www/*/htdocs; do
+      site="${path%/htdocs}"
+      echo -e "\n\033[1mCron for: $site\033[0m"
+      wp --path="$path" cron event list --due-now --fields=hook,next_run_relative 2>/dev/null --allow-root || echo " - wp-cli not available or site error"
+  done
+'
+
+# === SYSTEM LOG ===
+print_section "Recent System Logs"
+ssh "$REMOTE_HOST" "journalctl -xe --no-pager -n 20 | tail -n 10"
+
+print_header "Done"
