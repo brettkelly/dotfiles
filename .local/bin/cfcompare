@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# ANSI color codes
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+if [ -z "$1" ]; then
+  echo "❌ Usage: $0 https://example.com"
+  exit 1
+fi
+
+URL="$1"
+
+get_metrics() {
+  curl -o /dev/null -s -w "%{http_code},%{time_namelookup},%{time_connect},%{time_appconnect},%{time_starttransfer},%{time_total}\\n" "$1"
+}
+
+color_diff() {
+  local delta=$(awk "BEGIN { printf \"%.4f\", ($1 - $2) }")
+  if (( $(echo "$delta < 0" | bc -l) )); then
+    printf "${GREEN}%ss${NC}" "$delta"
+  elif (( $(echo "$delta > 0" | bc -l) )); then
+    printf "${RED}%ss${NC}" "$delta"
+  else
+    printf "%ss" "$delta"
+  fi
+}
+
+IFS=',' read -r CODE1 DNS1 TCP1 SSL1 TTFB1 TOTAL1 <<< "$(get_metrics "$URL")"
+IFS=',' read -r CODE2 DNS2 TCP2 SSL2 TTFB2 TOTAL2 <<< "$(get_metrics "${URL}?skip-worker=1")"
+
+echo ""
+echo "▶️ Cached Request: $URL"
+printf "+------------------------+---------+\n"
+printf "| Metric                 | Value   |\n"
+printf "+------------------------+---------+\n"
+printf "| HTTP Status Code       | %s      |\n" "$CODE1"
+printf "| DNS Lookup Time        | %ss   |\n" "$DNS1"
+printf "| TCP Connect Time       | %ss   |\n" "$TCP1"
+printf "| SSL Handshake Time     | %ss   |\n" "$SSL1"
+printf "| Time to First Byte     | %ss   |\n" "$TTFB1"
+printf "| Total Time             | %ss   |\n" "$TOTAL1"
+printf "+------------------------+---------+\n"
+
+echo ""
+echo "▶️ Uncached Request: ${URL}?skip-worker=1"
+printf "+------------------------+---------+\n"
+printf "| Metric                 | Value   |\n"
+printf "+------------------------+---------+\n"
+printf "| HTTP Status Code       | %s      |\n" "$CODE2"
+printf "| DNS Lookup Time        | %ss   |\n" "$DNS2"
+printf "| TCP Connect Time       | %ss   |\n" "$TCP2"
+printf "| SSL Handshake Time     | %ss   |\n" "$SSL2"
+printf "| Time to First Byte     | %ss   |\n" "$TTFB2"
+printf "| Total Time             | %ss   |\n" "$TOTAL2"
+printf "+------------------------+---------+\n"
+
+echo ""
+echo "▶️ Difference (Cached - Uncached)"
+printf "+------------------------+-----------+\n"
+printf "| Metric                 | Δ Value   |\n"
+printf "+------------------------+-----------+\n"
+printf "| DNS Lookup Time        | %s   |\n" "$(color_diff "$DNS1" "$DNS2")"
+printf "| TCP Connect Time       | %s   |\n" "$(color_diff "$TCP1" "$TCP2")"
+printf "| SSL Handshake Time     | %s   |\n" "$(color_diff "$SSL1" "$SSL2")"
+printf "| Time to First Byte     | %s   |\n" "$(color_diff "$TTFB1" "$TTFB2")"
+printf "| Total Time             | %s   |\n" "$(color_diff "$TOTAL1" "$TOTAL2")"
+printf "+------------------------+-----------+\n"
