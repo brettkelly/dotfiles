@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Usage check
+if [ -z "$1" ]; then
+  echo "Usage: $0 https://example.com"
+  exit 1
+fi
+
+BASE_URL="$1"
+OUTPUT_FILE="page-urls.txt"
+PAGE=1
+PER_PAGE=100
+
+# Realistic headers
+USER_AGENT="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+ACCEPT="application/json"
+ACCEPT_LANG="en-US,en;q=0.9"
+
+> "$OUTPUT_FILE"
+
+while true; do
+  echo "Fetching page $PAGE..."
+
+  RESPONSE=$(curl -sS -A "$USER_AGENT" \
+    -H "Accept: $ACCEPT" \
+    -H "Accept-Language: $ACCEPT_LANG" \
+    -w "\n%{http_code}" \
+    "${BASE_URL}/wp-json/wp/v2/pages?per_page=${PER_PAGE}&page=${PAGE}")
+
+  HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+  BODY=$(echo "$RESPONSE" | sed '$d')
+
+  if [ "$HTTP_CODE" -ne 200 ]; then
+    echo "Error: Received HTTP status $HTTP_CODE"
+    echo "Response:"
+    echo "$BODY"
+    break
+  fi
+
+  if ! echo "$BODY" | jq -e . >/dev/null 2>&1; then
+    echo "Invalid JSON response on page $PAGE. Aborting."
+    echo "$BODY" > error-response.json
+    break
+  fi
+
+  COUNT=$(echo "$BODY" | jq length)
+  if [ "$COUNT" -eq 0 ]; then
+    break
+  fi
+
+  echo "$BODY" | jq -r '.[].link' >> "$OUTPUT_FILE"
+
+  PAGE=$((PAGE + 1))
+done
+
+echo "Done. URLs saved to $OUTPUT_FILE."
