@@ -37,6 +37,7 @@ alias lg=lazygit
 alias env="cd $HOME/.config/nvim/ && nvim ."
 alias cusafe="/Applications/ClickUp.app/Contents/MacOS/ClickUp --disable-gpu --no-sandbox --disable-renderer-backgrounding --disable-backgrounding-occluded-windows"
 alias cat="bat"
+alias n="nvim"
 
 # view folders sorted by disk usage
 alias folders='find . -maxdepth 1 -type d -print0 | xargs -0 du -hsk | sort -rn'

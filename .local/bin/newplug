@@ -1,0 +1,23 @@
+#!/bin/zsh
+
+# Check if a slug was passed
+if [[ -z "$1" ]]; then
+  echo "❌ Usage: $0 <plugin-slug>"
+  exit 1
+fi
+
+PLUGIN_SLUG="$1"
+
+echo "🚀 Creating new plugin repo: $PLUGIN_SLUG"
+
+gh repo create "$PLUGIN_SLUG" \
+  --template brettkelly/ra-plugin-template \
+  --private \
+  --clone \
+
+if [[ $? -eq 0 ]]; then
+  echo "✅ Repo created and cloned successfully."
+  echo "📂 cd $PLUGIN_SLUG"
+else
+  echo "❌ Failed to create repo."
+fi

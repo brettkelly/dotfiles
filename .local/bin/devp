@@ -1,0 +1,15 @@
+#!/bin/zsh
+
+dir=$(fd . ~/Development \
+  --type d \
+  --max-depth 5 \
+  --exclude .git \
+  --exclude node_modules \
+  --exclude .venv \
+  --hidden \
+  --follow \
+  | fzf)
+
+if [ -n "$dir" ]; then
+  nvim "$dir"
+fi
