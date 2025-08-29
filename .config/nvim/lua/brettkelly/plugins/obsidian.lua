@@ -29,8 +29,8 @@ return {
 			return title
 		end,
 		completion = {
-			nvim_cmp = true,
-			min_chars = 3,
+			nvim_cmp = false,
+			min_chars = 2,
 		},
 		use_advanced_uri = false,
 		open_notes_in = "current",
