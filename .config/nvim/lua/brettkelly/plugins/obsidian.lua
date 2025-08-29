@@ -34,11 +34,7 @@ return {
 		},
 		use_advanced_uri = false,
 		open_notes_in = "current",
-		ui = {
-			-- Disable some things below here because I set these manually for all Markdown files using treesitter
-			checkboxes = {},
-			bullets = {},
-		},
+		ui = {},
 		picker = {
 			-- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
 			name = "telescope.nvim",
@@ -57,26 +53,26 @@ return {
 				insert_tag = "<C-l>",
 			},
 		},
+		mappings = {
+			["gf"] = {
+				action = function()
+					return require("obsidian").util.gf_passthrough()
+				end,
+				opts = { noremap = false, expr = true, buffer = true },
+			},
+			["<leader>ti"] = {
+				action = function()
+					return require("obsidian").util.toggle_checkbox()
+				end,
+				opts = { buffer = true },
+			},
+			["<cr>"] = {
+				action = function()
+					return require("obsidian").util.smart_action()
+				end,
+				opts = { buffer = true, expr = true },
+			},
+		},
 		-- see below for full list of options 👇
-	},
-	mappings = {
-		["gf"] = {
-			action = function()
-				return require("obsidian").util.gf_passthrough()
-			end,
-			opts = { noremap = false, expr = true, buffer = true },
-		},
-		["<leader>ti"] = {
-			action = function()
-				return require("obsidian").util.toggle_checkbox()
-			end,
-			opts = { buffer = true },
-		},
-		["<cr>"] = {
-			action = function()
-				return require("obsidian").util.smart_action()
-			end,
-			opts = { buffer = true, expr = true },
-		},
 	},
 }
