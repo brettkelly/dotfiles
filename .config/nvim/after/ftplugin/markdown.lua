@@ -5,8 +5,8 @@ vim.opt_local.textwidth = 120
 vim.opt_local.breakindent = true
 
 -- Clear and set formatoptions correctly
-vim.opt_local.formatoptions = vim.opt_local.formatoptions - { "t", "a", "o" } -- Remove problematic flags
-vim.opt_local.formatoptions = vim.opt_local.formatoptions + { "r", "n" } -- Add list continuation
+vim.opt_local.formatoptions = vim.opt_local.formatoptions - { "a", "o" } -- Remove problematic flags
+vim.opt_local.formatoptions = vim.opt_local.formatoptions + { "t", "r", "n" } -- Add list continuation
 
 -- Disable all automatic indentation
 vim.opt_local.autoindent = false

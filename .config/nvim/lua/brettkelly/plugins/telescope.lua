@@ -49,21 +49,21 @@ return {
 						["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
 					},
 				},
-				pickers = {
-					find_files = {
-						hidden = true,
-						no_ignore = true,
-						follow = true,
-						find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
-					},
+			},
+			pickers = {
+				find_files = {
+					hidden = true,
+					no_ignore = true,
+					follow = true,
+					find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
 				},
-				extensions = {
-					fzf = {
-						fuzzy = true,
-						override_generic_sorter = true,
-						override_file_sorter = true,
-						case_mode = "smart_case",
-					},
+			},
+			extensions = {
+				fzf = {
+					fuzzy = true,
+					override_generic_sorter = true,
+					override_file_sorter = true,
+					case_mode = "smart_case",
 				},
 			},
 		})
@@ -81,7 +81,6 @@ return {
 		keymap.set("n", "<leader>fh", require("telescope.builtin").help_tags, { desc = "Show available keymaps" })
 
 		keymap.set("n", "<leader>ff", function()
-			print(vim.fn.getcwd()) -- This will show the current working directory
 			require("telescope.builtin").find_files({
 				hidden = true,
 				no_ignore = true,

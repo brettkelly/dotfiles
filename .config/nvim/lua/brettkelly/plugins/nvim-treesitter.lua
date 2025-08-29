@@ -27,8 +27,4 @@ return {
 			indent = { enable = true },
 		})
 	end,
-	opts = {
-		indent = { enable = true },
-		highlight = { enable = true },
-	},
 }
