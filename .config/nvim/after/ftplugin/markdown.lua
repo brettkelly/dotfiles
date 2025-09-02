@@ -1,6 +1,5 @@
--- Soft wrapping settings with debug
--- print("Setting wrap for markdown")
 vim.cmd("setlocal wrap linebreak")
+vim.cmd("setlocal spell spelllang=en_us")
 vim.opt_local.textwidth = 0
 vim.opt_local.breakindent = true
 
@@ -41,4 +40,3 @@ vim.keymap.set("i", "<M-CR>", function()
 
 	return "<CR>" .. indent
 end, { buffer = true, expr = true, silent = true })
-
