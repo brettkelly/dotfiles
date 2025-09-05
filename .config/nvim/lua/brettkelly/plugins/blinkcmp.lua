@@ -1,10 +1,15 @@
 return {
 	"saghen/blink.cmp",
 	-- optional: provides snippets for the snippet source
-	dependencies = { "rafamadriz/friendly-snippets" },
+	dependencies = { 
+		"rafamadriz/friendly-snippets",
+		{ "saghen/blink.compat", lazy = true, version = false, opts = {
+			impersonate_nvim_cmp = true,
+		}},
+	},
 
 	-- use a release tag to download pre-built binaries
-	version = "1.*",
+	version = false, -- Use latest for better compat support
 	-- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
 	-- build = 'cargo build --release',
 	-- If you use nix, you can build from source using latest nightly rust with:
@@ -49,6 +54,14 @@ return {
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
 			default = { "lsp", "path", "snippets", "buffer" },
+			per_filetype = {
+				markdown = { "obsidian", "obsidian_new", "obsidian_tags", "lsp", "path", "snippets", "buffer" },
+			},
+			providers = {
+				obsidian = { name = "obsidian", module = "blink.compat.source" },
+				obsidian_new = { name = "obsidian_new", module = "blink.compat.source" },
+				obsidian_tags = { name = "obsidian_tags", module = "blink.compat.source" },
+			},
 		},
 
 		-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance

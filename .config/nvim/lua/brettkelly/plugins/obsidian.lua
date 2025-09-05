@@ -1,5 +1,3 @@
-vim.opt.conceallevel = 1
-
 return {
 	"epwalsh/obsidian.nvim",
 	version = "*", -- recommended, use latest release instead of latest commit
@@ -22,19 +20,21 @@ return {
 		workspaces = {
 			{
 				name = "Main",
-				path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Main",
+				path = "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Main",
 			},
 		},
 		note_id_func = function(title)
 			return title
 		end,
 		completion = {
-			nvim_cmp = false,
+			nvim_cmp = true,
 			min_chars = 2,
 		},
 		use_advanced_uri = false,
 		open_notes_in = "current",
-		ui = {},
+		ui = {
+			enable = false,
+		},
 		picker = {
 			-- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
 			name = "telescope.nvim",
@@ -75,4 +75,5 @@ return {
 		},
 		-- see below for full list of options 👇
 	},
+	
 }

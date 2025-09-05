@@ -1,6 +1,8 @@
 return {
   "hrsh7th/nvim-cmp",
-  enabled = false, -- Disabled in favor of blink.cmp
+  enabled = function()
+    return vim.bo.filetype == "markdown"
+  end,
   event = "InsertEnter",
   dependencies = {
     "hrsh7th/cmp-buffer", -- source for text in buffer
