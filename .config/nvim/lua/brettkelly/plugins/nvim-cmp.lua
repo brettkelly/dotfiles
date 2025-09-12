@@ -1,10 +1,8 @@
 return {
   "hrsh7th/nvim-cmp",
-  enabled = function()
-    return vim.bo.filetype == "markdown"
-  end,
-  event = "InsertEnter",
+  ft = "markdown",
   dependencies = {
+    "hrsh7th/cmp-nvim-lsp", -- lsp source for nvim-cmp
     "hrsh7th/cmp-buffer", -- source for text in buffer
     "hrsh7th/cmp-path", -- source for file system paths
     {
@@ -48,6 +46,7 @@ return {
       }),
       -- sources for autocompletion
       sources = cmp.config.sources({
+        { name = "obsidian" }, -- obsidian note completion
         { name = "nvim_lsp" },
         { name = "luasnip" }, -- snippets
         { name = "buffer" }, -- text within current buffer
