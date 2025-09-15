@@ -1,5 +1,5 @@
 # Theme/colors (Dracula)
-theme = "flexoki-dark"
+theme = catppuccin-frappe
 
 # Font settings
 font-family = "MesloLGS Nerd Font Mono"
