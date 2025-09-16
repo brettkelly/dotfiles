@@ -2,11 +2,9 @@
 theme = catppuccin-frappe
 
 # Font settings
-font-family = "MesloLGS Nerd Font Mono"
 font-size = 16
 
 # Window settings
-#window-decoration = "none"
 background-opacity = 0.9
 background-blur = 10
 window-padding-x = 10
