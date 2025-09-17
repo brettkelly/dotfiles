@@ -5,7 +5,6 @@ export DOWNLOADS="$HOME/Downloads/"
 export DEV="$HOME/Development/"
 export SCRATCH="$DEV/Scratch/"
 export SHELL="/bin/zsh"
-export WIKI="$HOME/vimwiki/"
 #export PS1="\u [\w] \\$ "
 export PATH="/usr/local/opt/ruby/bin:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$PATH"
 
