@@ -23,7 +23,7 @@ _comp_options+=(globdots)
 # ---- Key Bindings ----
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
-bindkey -v # vim motions
+#bindkey -v # vim motions
 
 # ---- Path Configuration ----
 typeset -U PATH
