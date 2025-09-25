@@ -15,5 +15,5 @@ window-padding-y = 10
 # tab-bar-hidden = true
 title = " "
 
-mouse-shift-capture = never
-mouse-scroll-multiplier = 0
+# mouse-shift-capture = never
+# mouse-scroll-multiplier = 0
