@@ -1,0 +1,298 @@
+#!/bin/zsh
+
+# DNS Propagation Checker
+# Usage: ./dns_check.sh domain.com [record_type]
+# Example: ./dns_check.sh example.com A
+# Example: ./dns_check.sh example.com MX
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Global DNS servers with locations (zsh associative array syntax)
+typeset -A DNS_SERVERS
+DNS_SERVERS=(
+    # Major global providers
+    "8.8.8.8" "Google|US"
+    "1.1.1.1" "Cloudflare|US"
+    "9.9.9.9" "Quad9|US"
+    "208.67.222.222" "OpenDNS|US"
+    "64.6.64.6" "Verisign|US"
+    
+    # European servers
+    "94.140.14.14" "AdGuard|Cyprus"
+    "185.222.222.222" "DNS.SB|Germany"
+    "77.88.8.8" "Yandex|Russia"
+    "80.80.80.80" "Freenom|Netherlands"
+    "193.17.47.1" "SafeDNS|UK"
+    "194.132.32.32" "Level3|Europe"
+    
+    # Asia-Pacific servers
+    "210.2.4.8" "CAT|Thailand"
+    "168.95.1.1" "HiNet|Taiwan"
+    "203.80.96.10" "VNPT|Vietnam"
+    "180.76.76.76" "Baidu|China"
+    "114.114.114.114" "114DNS|China"
+    "223.5.5.5" "AliDNS|China"
+    "8.26.56.26" "Comodo|Asia"
+    
+    # Additional global coverage
+    "156.154.70.1" "Neustar|US"
+    "74.82.42.42" "Hurricane Electric|US"
+    "199.85.126.10" "Norton|US"
+    "216.146.35.35" "Dyn|US"
+    "45.90.28.167" "NextDNS|Anycast"
+    "185.228.168.9" "CleanBrowsing|Anycast"
+)
+
+# Function to display help
+show_help() {
+    echo -e "${BLUE}DNS Propagation Checker${NC}"
+    echo ""
+    echo "Usage: $0 <domain> [record_type] [options]"
+    echo ""
+    echo "Parameters:"
+    echo "  domain      Domain name to check (required)"
+    echo "  record_type DNS record type: A, AAAA, MX, CNAME, TXT, NS, SOA (default: A)"
+    echo ""
+    echo "Options:"
+    echo "  -h, --help     Show this help message"
+    echo "  -v, --verbose  Show detailed output for each server"
+    echo "  -t, --timeout  Timeout in seconds for each query (default: 5)"
+    echo "  -s, --summary  Show only summary statistics"
+    echo ""
+    echo "Examples:"
+    echo "  $0 example.com"
+    echo "  $0 example.com MX"
+    echo "  $0 example.com A --verbose"
+    echo "  $0 example.com TXT --timeout 10"
+}
+
+# Function to query DNS server
+query_dns() {
+    local domain=$1
+    local record_type=$2
+    local dns_server=$3
+    local timeout_val=$4
+    
+    # Check if timeout command exists, if not use a simpler approach
+    if command -v timeout >/dev/null 2>&1; then
+        # GNU timeout is available
+        local result=$(timeout ${timeout_val}s dig +short @${dns_server} ${domain} ${record_type} 2>/dev/null)
+        local exit_code=$?
+        
+        if [ $exit_code -eq 124 ]; then
+            echo "TIMEOUT"
+            return
+        elif [ $exit_code -ne 0 ]; then
+            echo "NO_RECORD"
+            return
+        fi
+    else
+        # No timeout command available (macOS), use dig with built-in timeout
+        local result=$(dig +short +time=3 +tries=2 @${dns_server} ${domain} ${record_type} 2>/dev/null)
+        local exit_code=$?
+        
+        if [ $exit_code -ne 0 ]; then
+            echo "NO_RECORD"
+            return
+        fi
+    fi
+    
+    # Check if result is empty or contains error messages
+    if [ -z "$result" ]; then
+        echo "NO_RECORD"
+    elif echo "$result" | grep -q "connection timed out\|no servers could be reached\|network unreachable"; then
+        echo "TIMEOUT"
+    else
+        # Return the result
+        echo "$result"
+    fi
+}
+
+# Function to format and display results
+display_result() {
+    local server=$1
+    local location=$2
+    local result=$3
+    local verbose=$4
+    
+    # Split location into company and country
+    local company=$(echo "$location" | cut -d'|' -f1)
+    local country=$(echo "$location" | cut -d'|' -f2)
+    
+    if [ "$result" = "TIMEOUT" ]; then
+        printf "%-15s %-18s %-12s ${RED}%-10s${NC}" "$server" "$company" "$country" "TIMEOUT"
+        echo
+    elif [ "$result" = "NO_RECORD" ]; then
+        printf "%-15s %-18s %-12s ${RED}%-10s${NC}" "$server" "$company" "$country" "NO RECORD"
+        echo
+    else
+        printf "%-15s %-18s %-12s ${GREEN}%-10s${NC}" "$server" "$company" "$country" "SUCCESS"
+        
+        # Clean and format the result
+        local clean_result=$(echo "$result" | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//' | tr '\n' ';' | sed 's/;$//' | sed 's/;;*/; /g')
+        
+        if [ "$verbose" = "true" ]; then
+            # Verbose mode: show records nicely formatted
+            echo
+            echo "    ${BLUE}Records:${NC}"
+            echo "$result" | while IFS= read -r line; do
+                if [ -n "$line" ]; then
+                    line=$(echo "$line" | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')
+                    echo "      $line"
+                fi
+            done
+        else
+            # Compact mode: show all records on one line separated by semicolons
+            echo -e " ${BLUE}$clean_result${NC}"
+        fi
+    fi
+}
+
+# Main function
+main() {
+    local domain=""
+    local record_type="A"
+    local verbose=false
+    local timeout=5
+    local summary_only=false
+    
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -h|--help)
+                show_help
+                exit 0
+                ;;
+            -v|--verbose)
+                verbose=true
+                shift
+                ;;
+            -t|--timeout)
+                timeout="$2"
+                shift 2
+                ;;
+            -s|--summary)
+                summary_only=true
+                shift
+                ;;
+            -*)
+                echo "Unknown option $1"
+                show_help
+                exit 1
+                ;;
+            *)
+                if [ -z "$domain" ]; then
+                    domain="$1"
+                else
+                    record_type="$1"
+                fi
+                shift
+                ;;
+        esac
+    done
+    
+    # Validate domain
+    if [ -z "$domain" ]; then
+        echo -e "${RED}Error: Domain name is required${NC}"
+        show_help
+        exit 1
+    fi
+    
+    # Validate record type
+    case "$record_type" in
+        A|AAAA|MX|CNAME|TXT|NS|SOA) ;;
+        *)
+            echo -e "${RED}Error: Invalid record type. Supported types: A, AAAA, MX, CNAME, TXT, NS, SOA${NC}"
+            exit 1
+            ;;
+    esac
+    
+    # Check if dig is available
+    if ! command -v dig &> /dev/null; then
+        echo -e "${RED}Error: 'dig' command not found. Please install dnsutils package.${NC}"
+        exit 1
+    fi
+    
+    echo -e "${BLUE}Checking DNS propagation for ${YELLOW}${domain}${BLUE} (${record_type} record)${NC}"
+    echo -e "${BLUE}Timeout: ${timeout}s${NC}"
+    echo ""
+    
+    # Statistics
+    local total_servers=0
+    local successful_queries=0
+    local failed_queries=0
+    local timeout_queries=0
+    local unique_results=()
+    
+    if [ "$summary_only" = "false" ]; then
+        printf "%-15s %-18s %-12s %-10s %s\n" "DNS Server" "Provider" "Country" "Status" "Records"
+        printf "%-15s %-18s %-12s %-10s %s\n" "----------" "--------" "-------" "------" "-------"
+    fi
+    
+    # Query each DNS server
+    for server in ${(k)DNS_SERVERS}; do
+        local location="${DNS_SERVERS[$server]}"
+        local result=$(query_dns "$domain" "$record_type" "$server" "$timeout")
+        
+        total_servers=$((total_servers + 1))
+        
+        if [ "$result" = "TIMEOUT" ]; then
+            timeout_queries=$((timeout_queries + 1))
+        elif [ "$result" = "NO_RECORD" ]; then
+            failed_queries=$((failed_queries + 1))
+        else
+            successful_queries=$((successful_queries + 1))
+            # Store unique results
+            if [[ ! " ${unique_results[@]} " =~ " ${result} " ]]; then
+                unique_results+=("$result")
+            fi
+        fi
+        
+        if [ "$summary_only" = "false" ]; then
+            display_result "$server" "$location" "$result" "$verbose"
+        fi
+    done
+    
+    # Display summary
+    echo ""
+    echo -e "${BLUE}=== SUMMARY ===${NC}"
+    echo -e "Total DNS servers queried: ${total_servers}"
+    echo -e "Successful queries: ${GREEN}${successful_queries}${NC}"
+    echo -e "Failed queries: ${RED}${failed_queries}${NC}"
+    echo -e "Timeout queries: ${YELLOW}${timeout_queries}${NC}"
+    
+    if [ ${#unique_results[@]} -gt 0 ]; then
+        echo ""
+        echo -e "${BLUE}Unique results found:${NC}"
+        for result in "${unique_results[@]}"; do
+            echo -e "  ${GREEN}${result}${NC}"
+        done
+        
+        if [ ${#unique_results[@]} -eq 1 ]; then
+            echo ""
+            echo -e "${GREEN}✓ DNS appears to be fully propagated globally!${NC}"
+        else
+            echo ""
+            echo -e "${YELLOW}⚠ Multiple different results found - DNS propagation may still be in progress${NC}"
+        fi
+    else
+        echo ""
+        echo -e "${RED}✗ No successful DNS resolutions found${NC}"
+    fi
+    
+    # Calculate propagation percentage
+    local propagation_percentage=0
+    if [ $total_servers -gt 0 ]; then
+        propagation_percentage=$(( (successful_queries * 100) / total_servers ))
+    fi
+    
+    echo -e "Propagation status: ${propagation_percentage}% (${successful_queries}/${total_servers} servers)"
+}
+
+# Run main function with all arguments
+main "$@"
