@@ -1,6 +1,6 @@
 return {
   "hrsh7th/nvim-cmp",
-  ft = "markdown",
+  event = "InsertEnter",
   dependencies = {
     "hrsh7th/cmp-nvim-lsp", -- lsp source for nvim-cmp
     "hrsh7th/cmp-buffer", -- source for text in buffer
@@ -18,9 +18,7 @@ return {
   },
   config = function()
     local cmp = require("cmp")
-
     local luasnip = require("luasnip")
-
     local lspkind = require("lspkind")
 
     -- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
@@ -35,7 +33,7 @@ return {
           luasnip.lsp_expand(args.body)
         end,
       },
-      mapping = cmp.mapping.preset.insert({
+      mapping = cmp.mapping and cmp.mapping.preset.insert({
         ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
         ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
@@ -43,7 +41,7 @@ return {
         ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
         ["<C-e>"] = cmp.mapping.abort(), -- close completion window
         ["<CR>"] = cmp.mapping.confirm({ select = false }),
-      }),
+      }) or {},
       -- sources for autocompletion
       sources = cmp.config.sources({
         { name = "obsidian" }, -- obsidian note completion

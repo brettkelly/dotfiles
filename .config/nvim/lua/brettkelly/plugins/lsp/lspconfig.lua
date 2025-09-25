@@ -2,18 +2,18 @@ return {
 	"neovim/nvim-lspconfig",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
-		"saghen/blink.cmp", -- Use blink.cmp for LSP capabilities
+		"hrsh7th/cmp-nvim-lsp", -- For LSP capabilities with nvim-cmp
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 		{ "folke/neodev.nvim", opts = {} },
 		"mason-org/mason-lspconfig.nvim", -- Ensure this loads before lspconfig
 		"mason-org/mason.nvim", -- Explicit dependency
 	},
 	config = function()
-		-- Import lspconfig first
+		-- Import lspconfig (suppress deprecation warning for now)
 		local lspconfig = require("lspconfig")
 
-		-- Get capabilities for all servers from blink.cmp
-		local capabilities = require("blink.cmp").get_lsp_capabilities()
+		-- Get capabilities for all servers from nvim-cmp
+		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 		-- Manually setup each server we care about
 		-- PHP with intelephense

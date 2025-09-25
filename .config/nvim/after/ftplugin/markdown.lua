@@ -11,6 +11,23 @@ vim.opt_local.breakindent = true
 --  print("textwidth: " .. vim.bo.textwidth)
 --end, 500)
 
+-- Configure nvim-cmp for Obsidian with reduced noise
+local cmp_ok, cmp = pcall(require, 'cmp')
+if cmp_ok then
+	cmp.setup.buffer({
+		sources = cmp.config.sources({
+			{ name = "obsidian", keyword_length = 2 },
+			{ name = "obsidian_new", keyword_length = 2 },
+			{ name = "obsidian_tags", keyword_length = 2 },
+			{ name = "path", keyword_length = 3 },
+			-- Removed buffer, lsp, snippets to reduce noise
+		}),
+		completion = {
+			keyword_length = 2, -- Require at least 2 characters before showing completions
+		}
+	})
+end
+
 -- Let obsidian handle <cr> mapping, use different key for list continuation
 vim.keymap.set("i", "<M-CR>", function()
 	local line = vim.api.nvim_get_current_line()
