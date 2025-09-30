@@ -1,0 +1,16 @@
+#!/bin/bash
+SESSION="default"
+
+# Create session with first window
+tmux new-session -d -s $SESSION -n "notes"
+tmux send-keys -t $SESSION:notes "cd ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Main && nvim ." C-m
+
+# Add more windows
+tmux new-window -t $SESSION -n "nvim conf"
+tmux send-keys -t $SESSION:"nvim conf" "nvim ~/dotfiles/.config/nvim/" C-m
+
+tmux new-window -t $SESSION -n "zsh"
+# No command needed for the zsh window - it'll just be a shell
+
+# Attach to session
+tmux attach -t $SESSION

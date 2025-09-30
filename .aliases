@@ -1,7 +1,7 @@
 alias cd="z"
 alias vim="nvim"
 alias ls="eza --icons=always"
-alias ll="eza --icons=always -la"
+alias ll="eza --icons=always --sort=modified -la"
 alias dl="cd ~/Downloads"
 alias de="cd ~/Desktop"
 alias dev="cd ~/Development"
