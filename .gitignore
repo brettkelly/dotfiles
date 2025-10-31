@@ -30,3 +30,4 @@ __pycache__/
 .vim/.netrwhist
 .vim/backup/
 .config/nvim/after/ftplugin/foo.md
+.local/bin/claude
