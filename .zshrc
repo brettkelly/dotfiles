@@ -71,8 +71,6 @@ eval "$(zoxide init zsh)"
 # ---- OS-Specific Configuration ----
 if [[ `uname` == "Linux" ]]; then
     source ~/.linux.zsh
-elif [[ `uname` == "Darwin" ]]; then
-    source ~/.mac.zsh
 fi
 
 # ---- Sources ----

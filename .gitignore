@@ -1,33 +1,95 @@
-# System files
+# ============================================
+# macOS System Files
+# ============================================
 .DS_Store
+**/.DS_Store
+.AppleDouble
+.LSOverride
 .Spotlight-V100
 .Trashes
+.DocumentRevisions-V100
+.fseventsd
+.TemporaryItems
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# ============================================
+# Editor Temporary Files
+# ============================================
 *.swp
 *.swo
+*~
+.netrwhist
 
+# ============================================
 # Python
+# ============================================
 *.py[cod]
 __pycache__/
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ============================================
+# Runtime/Cache Directories
+# ============================================
+# These should be regenerated, not committed
 .local/lib/
 .local/share/
 .local/state/
-.local/bin/pipenv*
 
-# Package directories
+# ============================================
+# Package Manager Installations
+# ============================================
 .poetry/
+.local/bin/pipenv*
+.local/bin/poetry
 
-# Caches
+# ============================================
+# Application Caches
+# ============================================
 .wp-cli/cache/
+.wpscan/cache/
 .config/iterm2/sockets/
-.config/op/op-daemon.sock
 .config/configstore/
 
-# Local configs that may contain sensitive info
+# ============================================
+# Sensitive/Local Configs
+# ============================================
 .config/gh/hosts.yml
+.config/op/op-daemon.sock
+.ssh/id_*
+.ssh/*.pem
+.ssh/known_hosts*
 
-# Vim
+# ============================================
+# Vim/Neovim
+# ============================================
 .vim/plugged/
 .vim/.netrwhist
 .vim/backup/
+.config/nvim/lazy-lock.json
+
+# ============================================
+# Legacy/Archive
+# ============================================
+# Archive directory is for reference only
+archive/
+
+# ============================================
+# Temporary/Test Files
+# ============================================
 .config/nvim/after/ftplugin/foo.md
 .local/bin/claude
+temp/
+tmp/
+*.tmp
+*.bak
+*.log
+
+# ============================================
+# Claude Code
+# ============================================
+**/.claude/settings.local.json
+.claude/state/
