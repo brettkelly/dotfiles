@@ -78,6 +78,7 @@ FILES=(
     ".hushlogin"
     ".linux.zsh"
     ".local"
+    ".p10k.zsh"
     ".profile"
     ".tmux.conf"
     ".zprofile"
