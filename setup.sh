@@ -6,6 +6,7 @@ set -e  # Exit on error
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 echo -e "${GREEN}=== Dotfiles Setup ===${NC}\n"
@@ -14,6 +15,21 @@ echo -e "${GREEN}=== Dotfiles Setup ===${NC}\n"
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKUP_DIR="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
 
+# Detect platform
+OS="$(uname -s)"
+case "$OS" in
+    Darwin*)
+        PLATFORM="macos"
+        ;;
+    Linux*)
+        PLATFORM="linux"
+        ;;
+    *)
+        PLATFORM="unknown"
+        ;;
+esac
+
+echo "Platform detected: $PLATFORM"
 echo "Dotfiles directory: $DOTFILES_DIR"
 echo "Backup directory: $BACKUP_DIR"
 echo ""
@@ -24,8 +40,10 @@ FILES=(
     ".config"
     ".digrc"
     ".hushlogin"
+    ".linux.zsh"
     ".local"
     ".profile"
+    ".tmux.conf"
     ".zprofile"
     ".zsh"
     ".zshrc"
@@ -71,8 +89,41 @@ if [ -d "$BACKUP_DIR" ]; then
 fi
 
 echo ""
+
+# Offer to install tools
+echo -e "${BLUE}Would you like to install required tools now? (y/n)${NC}"
+read -r response
+if [[ "$response" =~ ^[Yy]$ ]]; then
+    if [ -x "$DOTFILES_DIR/install-tools.sh" ]; then
+        echo ""
+        echo -e "${GREEN}Running install-tools.sh...${NC}"
+        "$DOTFILES_DIR/install-tools.sh"
+    else
+        echo -e "${RED}install-tools.sh not found or not executable${NC}"
+    fi
+else
+    echo ""
+    echo "Skipping tool installation."
+fi
+
+echo ""
 echo "Next steps:"
-echo "  1. Install Homebrew: /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
-echo "  2. Install packages: brew bundle --file=$DOTFILES_DIR/Brewfile"
-echo "  3. Install Tmux Plugin Manager: git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
-echo "  4. Reload shell: exec zsh"
+
+if [ "$PLATFORM" = "macos" ]; then
+    echo "  macOS-specific instructions:"
+    echo "  1. Homebrew should be installed (or run: /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\")"
+    echo "  2. Install packages: brew bundle --file=$DOTFILES_DIR/Brewfile"
+elif [ "$PLATFORM" = "linux" ]; then
+    echo "  Linux-specific instructions:"
+    echo "  1. Run the installation script if you haven't already: $DOTFILES_DIR/install-tools.sh"
+    echo "  2. Ensure all tools are installed (zsh, neovim, tmux, etc.)"
+else
+    echo "  Unknown platform. Please install tools manually."
+fi
+
+echo ""
+echo "  Common next steps (all platforms):"
+echo "  1. Install Tmux Plugin Manager: git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
+echo "  2. Reload shell: exec zsh (or logout and login again)"
+echo "  3. In tmux, press prefix + I (capital i) to install plugins"
+echo "  4. Open nvim and run :Lazy sync to install plugins"

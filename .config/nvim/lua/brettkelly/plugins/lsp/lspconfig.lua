@@ -18,8 +18,37 @@ return {
 		-- Manually setup each server we care about
 		-- PHP with intelephense
 		vim.lsp.handlers["textDocument/diagnostic"] = function() end
+
+		-- Helper function to find LSP command dynamically
+		local function find_lsp_cmd(cmd_name)
+			-- Try Mason's installation directory first
+			local mason_bin = vim.fn.expand("~/.local/share/nvim/mason/bin/" .. cmd_name)
+			if vim.fn.executable(mason_bin) == 1 then
+				return mason_bin
+			end
+
+			-- Try system PATH
+			if vim.fn.executable(cmd_name) == 1 then
+				return cmd_name
+			end
+
+			-- Fallback to Homebrew paths (macOS)
+			local brew_paths = {
+				"/opt/homebrew/bin/" .. cmd_name,
+				"/usr/local/bin/" .. cmd_name,
+			}
+			for _, path in ipairs(brew_paths) do
+				if vim.fn.executable(path) == 1 then
+					return path
+				end
+			end
+
+			-- Return the command name as fallback (will fail gracefully)
+			return cmd_name
+		end
+
 		lspconfig.intelephense.setup({
-			cmd = { "/opt/homebrew/bin/intelephense", "--stdio" },
+			cmd = { find_lsp_cmd("intelephense"), "--stdio" },
 			capabilities = capabilities,
 			on_init = function(client)
 				local original_supports_method = client.supports_method

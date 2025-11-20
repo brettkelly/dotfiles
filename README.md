@@ -1,117 +1,195 @@
 # Brett's Dotfiles
 
-Modern macOS development environment configuration focused on Neovim, Zsh, and Tmux.
+Modern, portable development environment configuration focused on Neovim, Zsh, and Tmux.
+Works seamlessly on both **macOS** and **Linux (Ubuntu)**.
 
 ## What's Included
 
 ### Core Configurations
 - **Shell**: Zsh with Powerlevel10k prompt, autosuggestions, syntax highlighting
 - **Editor**: Neovim (Lua-based) with LSP, completion, and extensive plugins
-- **Terminal**: Ghostty terminal emulator (Catppuccin theme)
+- **Terminal**: Ghostty terminal emulator (Catppuccin theme) on macOS
 - **Multiplexer**: Tmux with vim-style navigation and Catppuccin theme
 - **Version Control**: Git with global ignore patterns
 
 ### Development Tools
 - **Languages**: Python (pyenv, Poetry), Node (NVM), PHP (multiple versions), Ruby (rbenv)
-- **LSP Servers**: Configured via Mason (PHP/Intelephense, and more)
-- **Package Management**: Homebrew with comprehensive Brewfile
+- **LSP Servers**: Configured via Mason (PHP/Intelephense, Python/Pyright, Lua, HTML/CSS, and more)
+- **Package Management**:
+  - macOS: Homebrew with comprehensive Brewfile
+  - Linux: apt with automatic installation script
 - **Cloud**: AWS CLI and SAM CLI
 - **Utilities**: 35+ custom shell scripts for various tasks
 
 ### Highlights
-- XDG Base Directory compliant (`.config/` for configs)
-- Modern CLI tools: `bat`, `eza`, `zoxide`, `fzf`
-- WordPress/PHP development optimized
-- Markdown/prose writing support (Obsidian.nvim, vim-pencil)
-- Extensive collection of custom utilities
+- **Portable**: Works on both macOS and Linux (Ubuntu/Debian)
+- **Dynamic path detection**: Automatically finds tools regardless of installation location
+- **XDG Base Directory compliant** (`.config/` for configs)
+- **Modern CLI tools**: `bat`, `eza`, `zoxide`, `fzf`, `ripgrep`, `fd`
+- **WordPress/PHP development** optimized
+- **Markdown/prose writing** support (Obsidian.nvim, vim-pencil)
+- **Extensive collection** of custom utilities
 
 ## Prerequisites
 
-- macOS (tested on macOS Sonoma 14.6+)
+### All Platforms
 - Git
 - Basic command line knowledge
+- Sudo access (for package installation)
+
+### Platform-Specific
+- **macOS**: Tested on macOS Sonoma 14.6+ (Apple Silicon and Intel)
+- **Linux**: Ubuntu 20.04+ or Debian-based distributions
 
 ## Installation
 
-### 1. Clone this repository
+### Quick Start (Automated)
+
+**All platforms:**
+
+```bash
+# Clone this repository
+git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+
+# Run the setup script
+./setup.sh
+```
+
+The setup script will:
+1. Detect your platform (macOS or Linux)
+2. Backup any existing configurations to `~/.dotfiles_backup_<timestamp>`
+3. Create symlinks from your home directory to the dotfiles
+4. Offer to install required tools automatically
+5. Show platform-specific next steps
+
+When prompted, answer **yes** to install tools automatically. This will run `install-tools.sh` which handles platform-specific package installation.
+
+### Manual Installation
+
+If you prefer manual control or the automated script fails:
+
+<details>
+<summary><strong>macOS Installation</strong></summary>
+
+#### 1. Clone and setup
 
 ```bash
 git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-```
-
-### 2. Run the setup script
-
-```bash
 ./setup.sh
 ```
 
-This will:
-- Backup any existing configurations to `~/.dotfiles_backup_<timestamp>`
-- Create symlinks from your home directory to the dotfiles
-- Show you next steps for installing dependencies
-
-### 3. Install Homebrew (if not already installed)
+#### 2. Install Homebrew (if not already installed)
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-### 4. Install all packages and applications
+#### 3. Install packages via Homebrew
 
 ```bash
 brew bundle --file=~/dotfiles/Brewfile
 ```
 
-This installs:
-- 60+ CLI tools (git, neovim, python, node, etc.)
-- Fonts (MesloLGS Nerd Font)
-- Applications (Obsidian, 1Password CLI, etc.)
+This installs 60+ tools including:
+- Core: git, zsh, neovim, tmux
+- Modern CLI: bat, eza, fzf, ripgrep, fd, zoxide
+- Languages: python, node, php, ruby
+- Development: gh (GitHub CLI), lazygit, docker
+- Fonts: MesloLGS Nerd Font
+- Apps: Obsidian, 1Password CLI
 - VSCode extensions
 
-### 5. Install Tmux Plugin Manager
+#### 4. Install Tmux Plugin Manager
 
 ```bash
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-Then in tmux, press `prefix + I` (default: `Ctrl+b` then `I`) to install plugins.
-
-### 6. Install Zsh plugins
-
-The configuration uses Powerlevel10k, zsh-autosuggestions, and zsh-syntax-highlighting. Install them:
-
-```bash
-# Powerlevel10k
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-
-# zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-
-# zsh-syntax-highlighting
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
-```
-
-### 7. Reload your shell
+#### 5. Reload shell
 
 ```bash
 exec zsh
 ```
 
-If Powerlevel10k doesn't automatically start configuration, run:
+If Powerlevel10k config doesn't start automatically: `p10k configure`
+
+</details>
+
+<details>
+<summary><strong>Linux (Ubuntu) Installation</strong></summary>
+
+#### 1. Clone and setup
+
 ```bash
-p10k configure
+git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+./setup.sh
 ```
 
-### 8. Install Neovim plugins
+#### 2. Install all tools
 
-Open Neovim, and Lazy.nvim will automatically install all plugins:
+```bash
+./install-tools.sh
+```
+
+This script will:
+- Update apt repositories
+- Install zsh, neovim (latest from PPA), tmux
+- Install zsh plugins (Powerlevel10k, autosuggestions, syntax-highlighting)
+- Install modern CLI tools (bat, eza, fzf, ripgrep, fd, zoxide)
+- Install development tools (git, gh, build-essential)
+- Install version managers (pyenv, nvm, rbenv)
+
+The script uses `sudo` for system package installation.
+
+#### 3. Install Tmux Plugin Manager
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+#### 4. Set zsh as default shell (if not prompted during install-tools.sh)
+
+```bash
+chsh -s $(which zsh)
+```
+
+You'll need to log out and back in for this to take effect.
+
+#### 5. Reload shell
+
+```bash
+exec zsh
+```
+
+If Powerlevel10k config doesn't start automatically: `p10k configure`
+
+</details>
+
+### Post-Installation (All Platforms)
+
+#### 1. Start tmux and install plugins
+
+```bash
+tmux
+# Then press: Ctrl+b followed by I (capital i)
+```
+
+#### 2. Install Neovim plugins
 
 ```bash
 nvim
+# Lazy.nvim will automatically install all plugins
+# Wait for completion, then restart nvim
 ```
 
-Wait for all plugins to install, then restart Neovim.
+#### 3. Configure Powerlevel10k (if not done automatically)
+
+```bash
+p10k configure
+```
 
 ## Directory Structure
 
@@ -227,26 +305,79 @@ For Homebrew packages:
 brew bundle --file=~/dotfiles/Brewfile
 ```
 
+## Platform Differences
+
+### What's Different on Linux vs macOS?
+
+**Automatic Adaptations:**
+- **Package manager**: Homebrew (macOS) vs apt (Ubuntu)
+- **Tool paths**: Dynamically detected (no hardcoded paths)
+- **Zsh plugin locations**: `/opt/homebrew/share/` vs `/usr/share/`
+- **Clipboard**: `pbcopy/pbpaste` (macOS) vs `xclip/xsel` (Linux)
+- **Tool names**: Some tools have different names on Ubuntu (e.g., `batcat` → `bat`)
+
+**Platform-Specific Files:**
+- `.linux.zsh`: Loaded only on Linux, contains Linux-specific aliases and configs
+- All core configs work identically on both platforms
+
+### How Portability Works
+
+The dotfiles use several mechanisms to work across platforms:
+
+1. **Platform detection**: `.local/lib/platform.sh` provides helper functions
+2. **Dynamic path resolution**: Tools are found via `command -v` instead of hardcoded paths
+3. **Conditional loading**: Configuration files check OS and adapt behavior
+4. **Fallback chains**: Multiple possible locations checked for each tool
+
 ## Troubleshooting
 
 ### Fonts look weird
-Install MesloLGS Nerd Font: `brew install font-meslo-lg-nerd-font`
+**macOS**: `brew install font-meslo-lg-nerd-font`
+**Linux**: Download from [Nerd Fonts](https://www.nerdfonts.com/), install to `~/.local/share/fonts/`
 
 ### Zsh plugins not working
-Make sure you've cloned the plugin repositories (see step 6 above).
+Run the install script again: `./install-tools.sh`
+Or install manually (see Manual Installation section above)
 
 ### Neovim LSP not working
 Open Neovim and run `:checkhealth` to diagnose issues.
+LSP servers install automatically via Mason, but you can manually trigger: `:Mason`
 
 ### Tmux plugins not loading
-Install TPM and press `prefix + I` in tmux to install plugins.
+Install TPM: `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
+Then in tmux: `prefix + I` (Ctrl+b then Shift+i)
+
+### Command not found errors on Linux
+Some tools may have different names:
+- `bat` might be `batcat` (alias is set automatically in `.linux.zsh`)
+- `fd` might be `fdfind` (alias is set automatically)
+
+### Shell doesn't change to zsh on Linux
+Run: `chsh -s $(which zsh)` and log out/in again
 
 ## Notes
 
+- **Portability**: These dotfiles work on both macOS and Linux (Ubuntu/Debian) with automatic platform detection
 - **Archive folder**: Contains legacy configs (WezTerm, iTerm2) for reference
 - **Cache files**: `.local/share/`, `.local/lib/`, and `.poetry/` are gitignored and regenerated on install
 - **PHP Focus**: Heavily optimized for WordPress/PHP development
 - **Completion**: Both nvim-cmp and blink.cmp are configured while evaluating performance
+- **Remote servers**: Perfect for maintaining consistent environments on remote Linux machines
+
+## Contributing
+
+Found an issue or want to add support for another Linux distribution?
+- For bugs: Open an issue with platform details (OS, version)
+- For new distros: Add package manager support to `install-tools.sh`
+
+## Testing
+
+Tested on:
+- macOS Sonoma 14.6+ (Apple Silicon and Intel)
+- Ubuntu 22.04 LTS
+- Ubuntu 24.04 LTS
+
+Should work on any Debian-based Linux distribution with minor adjustments.
 
 ## License
 

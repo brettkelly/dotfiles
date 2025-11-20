@@ -1,12 +1,47 @@
+# Source platform detection utilities
+if [[ -f "$HOME/.local/lib/platform.sh" ]]; then
+    source "$HOME/.local/lib/platform.sh"
+fi
+
 export VISUAL=vim
 export EDITOR="$VISUAL"
 export DOTFILES="$HOME/dotfiles/"
 export DOWNLOADS="$HOME/Downloads/"
 export DEV="$HOME/Development/"
 export SCRATCH="$DEV/Scratch/"
-export SHELL="/bin/zsh"
+
+# Dynamic shell path detection
+if command -v zsh &> /dev/null; then
+    export SHELL="$(command -v zsh)"
+else
+    export SHELL="/bin/zsh"
+fi
+
 #export PS1="\u [\w] \\$ "
-export PATH="/usr/local/opt/ruby/bin:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$PATH"
+
+# Build PATH dynamically
+export PATH="$HOME/.local/bin:$PATH"
+
+# Add Homebrew to PATH if on macOS
+if [[ "$(uname -s)" == "Darwin" ]]; then
+    if [[ -d "/opt/homebrew" ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    elif [[ -d "/usr/local/Homebrew" ]]; then
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
+
+    # Add Homebrew Ruby if available
+    if [[ -d "/opt/homebrew/opt/ruby/bin" ]]; then
+        export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+    elif [[ -d "/usr/local/opt/ruby/bin" ]]; then
+        export PATH="/usr/local/opt/ruby/bin:$PATH"
+    fi
+fi
+
+# Add gem directory to PATH if it exists
+if [[ -d "$HOME/.gem/ruby/2.7.0/bin" ]]; then
+    export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
+fi
 
 # Jacked from github.com/lukesmithxyz; for future use if I end up categorizing 
 # home-grown scripts into subdirs.
