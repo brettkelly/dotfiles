@@ -62,4 +62,8 @@ HISTSIZE=1000
 
 
 export PATH="$HOME/.poetry/bin:$PATH"
-. "$HOME/.cargo/env"
+
+# Cargo (Rust) environment
+if [[ -f "$HOME/.cargo/env" ]]; then
+    . "$HOME/.cargo/env"
+fi
