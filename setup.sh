@@ -9,6 +9,42 @@ RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Parse command line arguments
+AUTO_INSTALL=false
+SKIP_INSTALL=false
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --auto|--yes|-y)
+            AUTO_INSTALL=true
+            shift
+            ;;
+        --no-install)
+            SKIP_INSTALL=true
+            shift
+            ;;
+        --help|-h)
+            echo "Usage: $0 [OPTIONS]"
+            echo ""
+            echo "Options:"
+            echo "  --auto, --yes, -y    Automatically install all tools without prompting"
+            echo "  --no-install         Skip tool installation (only create symlinks)"
+            echo "  --help, -h           Show this help message"
+            echo ""
+            echo "Examples:"
+            echo "  $0                   Interactive mode (will prompt for tool installation)"
+            echo "  $0 --auto            Automatic mode (installs everything)"
+            echo "  $0 --no-install      Only create symlinks, skip tool installation"
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1"
+            echo "Run '$0 --help' for usage information"
+            exit 1
+            ;;
+    esac
+done
+
 echo -e "${GREEN}=== Dotfiles Setup ===${NC}\n"
 
 # Get the directory where this script is located
@@ -90,20 +126,33 @@ fi
 
 echo ""
 
-# Offer to install tools
-echo -e "${BLUE}Would you like to install required tools now? (y/n)${NC}"
-read -r response
-if [[ "$response" =~ ^[Yy]$ ]]; then
+# Handle tool installation based on flags
+if [ "$SKIP_INSTALL" = true ]; then
+    echo -e "${YELLOW}Skipping tool installation (--no-install flag)${NC}"
+elif [ "$AUTO_INSTALL" = true ]; then
+    echo -e "${GREEN}Auto-installing tools (--auto flag)...${NC}"
     if [ -x "$DOTFILES_DIR/install-tools.sh" ]; then
-        echo ""
-        echo -e "${GREEN}Running install-tools.sh...${NC}"
         "$DOTFILES_DIR/install-tools.sh"
     else
         echo -e "${RED}install-tools.sh not found or not executable${NC}"
+        exit 1
     fi
 else
-    echo ""
-    echo "Skipping tool installation."
+    # Interactive mode - ask user
+    echo -e "${BLUE}Would you like to install required tools now? (y/n)${NC}"
+    read -r response
+    if [[ "$response" =~ ^[Yy]$ ]]; then
+        if [ -x "$DOTFILES_DIR/install-tools.sh" ]; then
+            echo ""
+            echo -e "${GREEN}Running install-tools.sh...${NC}"
+            "$DOTFILES_DIR/install-tools.sh"
+        else
+            echo -e "${RED}install-tools.sh not found or not executable${NC}"
+        fi
+    else
+        echo ""
+        echo "Skipping tool installation."
+    fi
 fi
 
 echo ""

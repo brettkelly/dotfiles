@@ -221,6 +221,31 @@ install_dev_tools_ubuntu() {
         sudo apt-get install -y gh
     fi
 
+    # lazygit (Git TUI)
+    if ! has_command lazygit; then
+        LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+        curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+        tar xf lazygit.tar.gz lazygit
+        sudo install lazygit /usr/local/bin
+        rm lazygit lazygit.tar.gz
+        print_success "lazygit installed"
+    fi
+
+    # tree (directory visualization)
+    if ! has_command tree; then
+        sudo apt-get install -y tree
+    fi
+
+    # jq (JSON processor)
+    if ! has_command jq; then
+        sudo apt-get install -y jq
+    fi
+
+    # htop (process viewer)
+    if ! has_command htop; then
+        sudo apt-get install -y htop
+    fi
+
     print_success "Development tools installed"
 }
 
