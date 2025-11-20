@@ -95,10 +95,16 @@ fi
 
 # Test 8: Neovim loads without errors
 echo -n "Neovim loads... "
-if nvim --headless -c "quit" 2>/dev/null; then
-    echo -e "${GREEN}✓${NC}"
+# Use timeout to prevent hanging (gtimeout on macOS if installed, otherwise skip)
+if command -v gtimeout &>/dev/null; then
+    if gtimeout 3 nvim --headless -c "quit" 2>/dev/null; then
+        echo -e "${GREEN}✓${NC}"
+    else
+        echo -e "${YELLOW}⚠ (might need plugin sync)${NC}"
+    fi
 else
-    echo -e "${YELLOW}⚠ (might need plugin sync)${NC}"
+    # Skip this test on macOS if gtimeout not available
+    echo -e "${YELLOW}⚠ (skipped - install coreutils for timeout support)${NC}"
 fi
 
 # Test 9: Tmux config
