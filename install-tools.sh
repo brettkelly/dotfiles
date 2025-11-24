@@ -162,9 +162,9 @@ install_modern_cli_tools_ubuntu() {
     fi
 
     # yazi
-    if ! has_command yazi; then
-        sudo apt-get install -y yazi
-    fi
+#    if ! has_command yazi; then
+#        sudo apt-get install -y yazi
+#    fi
 
     # bat (batcat on Ubuntu)
     if ! has_command bat && ! has_command batcat; then
