@@ -1,3 +1,5 @@
+---@diagnostic disable: deprecated
+-- TODO: Migrate to vim.lsp.config() when ready (see :help lspconfig-nvim-0.11)
 return {
 	"neovim/nvim-lspconfig",
 	event = { "BufReadPre", "BufNewFile" },
@@ -9,7 +11,6 @@ return {
 		"mason-org/mason.nvim", -- Explicit dependency
 	},
 	config = function()
-		-- Import lspconfig (suppress deprecation warning for now)
 		local lspconfig = require("lspconfig")
 
 		-- Get capabilities for all servers from nvim-cmp
