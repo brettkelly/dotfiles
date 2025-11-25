@@ -3,7 +3,12 @@ if [[ -f "$HOME/.local/lib/platform.sh" ]]; then
     source "$HOME/.local/lib/platform.sh"
 fi
 
-export VISUAL=vim
+# Set editor to nvim (found dynamically in PATH)
+if command -v nvim &> /dev/null; then
+    export VISUAL="nvim"
+else
+    export VISUAL="vim"
+fi
 export EDITOR="$VISUAL"
 export DOTFILES="$HOME/dotfiles/"
 export DOWNLOADS="$HOME/Downloads/"
