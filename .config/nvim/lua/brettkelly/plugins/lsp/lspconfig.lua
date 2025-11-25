@@ -1,39 +1,29 @@
----@diagnostic disable: deprecated
--- TODO: Migrate to vim.lsp.config() when ready (see :help lspconfig-nvim-0.11)
 return {
 	"neovim/nvim-lspconfig",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
-		"hrsh7th/cmp-nvim-lsp", -- For LSP capabilities with nvim-cmp
+		"hrsh7th/cmp-nvim-lsp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 		{ "folke/neodev.nvim", opts = {} },
-		"mason-org/mason-lspconfig.nvim", -- Ensure this loads before lspconfig
-		"mason-org/mason.nvim", -- Explicit dependency
+		"mason-org/mason-lspconfig.nvim",
+		"mason-org/mason.nvim",
 	},
 	config = function()
-		local lspconfig = require("lspconfig")
-
 		-- Get capabilities for all servers from nvim-cmp
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-		-- Manually setup each server we care about
-		-- PHP with intelephense
+		-- Disable diagnostic handler for PHP (too noisy)
 		vim.lsp.handlers["textDocument/diagnostic"] = function() end
 
 		-- Helper function to find LSP command dynamically
 		local function find_lsp_cmd(cmd_name)
-			-- Try Mason's installation directory first
 			local mason_bin = vim.fn.expand("~/.local/share/nvim/mason/bin/" .. cmd_name)
 			if vim.fn.executable(mason_bin) == 1 then
 				return mason_bin
 			end
-
-			-- Try system PATH
 			if vim.fn.executable(cmd_name) == 1 then
 				return cmd_name
 			end
-
-			-- Fallback to Homebrew paths (macOS)
 			local brew_paths = {
 				"/opt/homebrew/bin/" .. cmd_name,
 				"/usr/local/bin/" .. cmd_name,
@@ -43,12 +33,11 @@ return {
 					return path
 				end
 			end
-
-			-- Return the command name as fallback (will fail gracefully)
 			return cmd_name
 		end
 
-		lspconfig.intelephense.setup({
+		-- Configure servers using vim.lsp.config (Neovim 0.11+)
+		vim.lsp.config("intelephense", {
 			cmd = { find_lsp_cmd("intelephense"), "--stdio" },
 			capabilities = capabilities,
 			on_init = function(client)
@@ -104,13 +93,12 @@ return {
 			},
 		})
 
-		lspconfig.phpactor.setup({
+		vim.lsp.config("phpactor", {
 			capabilities = capabilities,
 			filetypes = { "php" },
 		})
 
-		-- Lua
-		lspconfig.lua_ls.setup({
+		vim.lsp.config("lua_ls", {
 			capabilities = capabilities,
 			settings = {
 				Lua = {
@@ -120,12 +108,10 @@ return {
 			},
 		})
 
-		-- HTML, CSS, JS, TS
-		lspconfig.html.setup({ capabilities = capabilities })
-		lspconfig.cssls.setup({ capabilities = capabilities })
+		vim.lsp.config("html", { capabilities = capabilities })
+		vim.lsp.config("cssls", { capabilities = capabilities })
 
-		-- Svelte
-		lspconfig.svelte.setup({
+		vim.lsp.config("svelte", {
 			capabilities = capabilities,
 			on_attach = function(client, bufnr)
 				vim.api.nvim_create_autocmd("BufWritePost", {
@@ -137,14 +123,12 @@ return {
 			end,
 		})
 
-		-- GraphQL
-		lspconfig.graphql.setup({
+		vim.lsp.config("graphql", {
 			capabilities = capabilities,
 			filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
 		})
 
-		-- Emmet
-		lspconfig.emmet_ls.setup({
+		vim.lsp.config("emmet_ls", {
 			capabilities = capabilities,
 			filetypes = {
 				"html",
@@ -158,66 +142,41 @@ return {
 			},
 		})
 
-		-- Python
-		lspconfig.pyright.setup({ capabilities = capabilities })
+		vim.lsp.config("pyright", { capabilities = capabilities })
+		vim.lsp.config("tailwindcss", { capabilities = capabilities })
 
-		-- Tailwind CSS
-		lspconfig.tailwindcss.setup({ capabilities = capabilities })
+		-- Enable all configured servers
+		vim.lsp.enable({
+			"intelephense",
+			"phpactor",
+			"lua_ls",
+			"html",
+			"cssls",
+			"svelte",
+			"graphql",
+			"emmet_ls",
+			"pyright",
+			"tailwindcss",
+		})
 
 		-- LSP attach keymaps
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 			callback = function(ev)
-				local opts = { buffer = ev.buf, silent = true }
 				local keymap = vim.keymap.set
 
-				keymap(
-					"n",
-					"gR",
-					"<cmd>Telescope lsp_references<CR>",
-					{ buffer = ev.buf, desc = "Show LSP references" }
-				)
+				keymap("n", "gR", "<cmd>Telescope lsp_references<CR>", { buffer = ev.buf, desc = "Show LSP references" })
 				keymap("n", "gD", vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Go to declaration" })
-				keymap(
-					"n",
-					"gd",
-					"<cmd>Telescope lsp_definitions<CR>",
-					{ buffer = ev.buf, desc = "Show LSP definitions" }
-				)
-				keymap(
-					"n",
-					"gi",
-					"<cmd>Telescope lsp_implementations<CR>",
-					{ buffer = ev.buf, desc = "Show LSP implementations" }
-				)
-				keymap(
-					"n",
-					"gt",
-					"<cmd>Telescope lsp_type_definitions<CR>",
-					{ buffer = ev.buf, desc = "Show LSP type definitions" }
-				)
-				keymap(
-					{ "n", "v" },
-					"<leader>ca",
-					vim.lsp.buf.code_action,
-					{ buffer = ev.buf, desc = "See available code actions" }
-				)
+				keymap("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { buffer = ev.buf, desc = "Show LSP definitions" })
+				keymap("n", "gi", "<cmd>Telescope lsp_implementations<CR>", { buffer = ev.buf, desc = "Show LSP implementations" })
+				keymap("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", { buffer = ev.buf, desc = "Show LSP type definitions" })
+				keymap({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = ev.buf, desc = "See available code actions" })
 				keymap("n", "<leader>rn", vim.lsp.buf.rename, { buffer = ev.buf, desc = "Smart rename" })
-				keymap(
-					"n",
-					"<leader>D",
-					"<cmd>Telescope diagnostics bufnr=0<CR>",
-					{ buffer = ev.buf, desc = "Show buffer diagnostics" }
-				)
+				keymap("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", { buffer = ev.buf, desc = "Show buffer diagnostics" })
 				keymap("n", "<leader>d", vim.diagnostic.open_float, { buffer = ev.buf, desc = "Show line diagnostics" })
 				keymap("n", "[d", vim.diagnostic.goto_prev, { buffer = ev.buf, desc = "Go to previous diagnostic" })
 				keymap("n", "]d", vim.diagnostic.goto_next, { buffer = ev.buf, desc = "Go to next diagnostic" })
-				keymap(
-					"n",
-					"K",
-					vim.lsp.buf.hover,
-					{ buffer = ev.buf, desc = "Show documentation for what is under cursor" }
-				)
+				keymap("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Show documentation for what is under cursor" })
 				keymap("n", "<leader>rs", ":LspRestart<CR>", { buffer = ev.buf, desc = "Restart LSP" })
 			end,
 		})
