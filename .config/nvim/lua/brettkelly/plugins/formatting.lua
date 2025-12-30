@@ -21,11 +21,17 @@ return {
 				lua = { "stylua" },
 				python = { "isort", "black" },
 				php = { "php-cs-fixer" },
+				dart = { "dart_format" },
 			},
 			formatters = {
 				["php-cs-fixer"] = {
 					command = "php-cs-fixer",
 					args = { "fix", "--rules-@PSR2", "-" },
+					stdin = true,
+				},
+				["dart_format"] = {
+					command = "dart",
+					args = { "format", "--output=show", "--stdin-name", "$FILENAME" },
 					stdin = true,
 				},
 			},

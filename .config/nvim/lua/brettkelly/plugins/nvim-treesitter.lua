@@ -21,6 +21,7 @@ return {
 				"html",
 				"markdown",
 				"markdown_inline",
+				"dart",
 			},
 			sync_install = false,
 			highlight = { enable = true },
