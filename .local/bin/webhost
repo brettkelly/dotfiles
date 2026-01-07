@@ -1,0 +1,114 @@
+#!/bin/bash
+# Determine the web hosting company for a given domain
+
+if [ -z "$1" ]; then
+  echo "Usage: webhost <domain>"
+  echo "Example: webhost example.com"
+  exit 1
+fi
+
+# Strip protocol and path if provided
+domain=$(echo "$1" | sed -E 's|^https?://||' | sed 's|/.*||')
+
+echo ""
+echo "== Domain: $domain =="
+
+# Resolve domain to IP
+ip=$(dig +short "$domain" A | head -1)
+
+if [ -z "$ip" ]; then
+  echo "Could not resolve domain to IP"
+  exit 1
+fi
+
+echo "IP: $ip"
+echo ""
+
+# Get hosting info from ipinfo.io
+echo "== Hosting Info =="
+hostinfo=$(curl -s "https://ipinfo.io/$ip")
+
+org=$(echo "$hostinfo" | jq -r '.org // "N/A"')
+hostname=$(echo "$hostinfo" | jq -r '.hostname // "N/A"')
+city=$(echo "$hostinfo" | jq -r '.city // "N/A"')
+region=$(echo "$hostinfo" | jq -r '.region // "N/A"')
+country=$(echo "$hostinfo" | jq -r '.country // "N/A"')
+
+echo "Organization: $org"
+echo "Hostname: $hostname"
+echo "Location: $city, $region, $country"
+echo ""
+
+# Check HTTP headers for CDN/hosting clues
+echo "== Server Headers =="
+headers=$(curl -sI --max-time 5 "https://$domain" 2>/dev/null || curl -sI --max-time 5 "http://$domain" 2>/dev/null)
+
+server=$(echo "$headers" | grep -i "^server:" | head -1 | cut -d: -f2- | xargs)
+via=$(echo "$headers" | grep -i "^via:" | head -1 | cut -d: -f2- | xargs)
+cdn=$(echo "$headers" | grep -iE "^(x-cache|x-served-by|cf-ray|x-amz|x-vercel|x-netlify|x-github):" | head -3)
+
+[ -n "$server" ] && echo "Server: $server"
+[ -n "$via" ] && echo "Via: $via"
+[ -n "$cdn" ] && echo "$cdn"
+echo ""
+
+# Identify likely host based on org and headers
+echo "== Likely Host =="
+host_guess=""
+
+case "$org" in
+  *AMAZON*|*AWS*|*EC2*)       host_guess="Amazon Web Services (AWS)" ;;
+  *GOOGLE*|*GCP*)             host_guess="Google Cloud Platform" ;;
+  *MICROSOFT*|*AZURE*)        host_guess="Microsoft Azure" ;;
+  *CLOUDFLARE*)               host_guess="Cloudflare (CDN/Proxy)" ;;
+  *DIGITALOCEAN*)             host_guess="DigitalOcean" ;;
+  *LINODE*|*AKAMAI*)          host_guess="Linode/Akamai" ;;
+  *VULTR*)                    host_guess="Vultr" ;;
+  *HETZNER*)                  host_guess="Hetzner" ;;
+  *OVH*)                      host_guess="OVH" ;;
+  *GODADDY*)                  host_guess="GoDaddy" ;;
+  *BLUEHOST*|*NEWFOLD*)       host_guess="Bluehost/Newfold" ;;
+  *HOSTGATOR*)                host_guess="HostGator" ;;
+  *SITEGROUND*)               host_guess="SiteGround" ;;
+  *DREAMHOST*)                host_guess="DreamHost" ;;
+  *WPENGINE*|*WP\ ENGINE*)    host_guess="WP Engine" ;;
+  *KINSTA*)                   host_guess="Kinsta" ;;
+  *FLYWHEEL*)                 host_guess="Flywheel" ;;
+  *NETLIFY*)                  host_guess="Netlify" ;;
+  *VERCEL*)                   host_guess="Vercel" ;;
+  *FASTLY*)                   host_guess="Fastly (CDN)" ;;
+  *RACKSPACE*)                host_guess="Rackspace" ;;
+  *LIQUID\ WEB*)              host_guess="Liquid Web" ;;
+  *SQUARESPACE*)              host_guess="Squarespace" ;;
+  *SHOPIFY*)                  host_guess="Shopify" ;;
+  *WIX*)                      host_guess="Wix" ;;
+  *GITHUB*)                   host_guess="GitHub Pages" ;;
+  *HEROKU*|*SALESFORCE*)      host_guess="Heroku/Salesforce" ;;
+  *RENDER*)                   host_guess="Render" ;;
+  *RAILWAY*)                  host_guess="Railway" ;;
+esac
+
+# Check headers for additional clues
+if echo "$headers" | grep -qi "cf-ray"; then
+  [ -n "$host_guess" ] && host_guess="$host_guess (via Cloudflare)" || host_guess="Cloudflare (CDN/Proxy)"
+elif echo "$headers" | grep -qi "x-vercel"; then
+  host_guess="Vercel"
+elif echo "$headers" | grep -qi "x-netlify"; then
+  host_guess="Netlify"
+elif echo "$headers" | grep -qi "x-github-request"; then
+  host_guess="GitHub Pages"
+elif echo "$headers" | grep -qi "x-amz"; then
+  [ -z "$host_guess" ] && host_guess="Amazon Web Services (AWS)"
+fi
+
+if [ -n "$host_guess" ]; then
+  echo "$host_guess"
+else
+  echo "Unknown - check Organization above"
+fi
+echo ""
+
+# WHOIS hosting details
+echo "== WHOIS Details =="
+whois "$ip" 2>/dev/null | grep -Ei 'OrgName|Organization|NetName|descr|owner' | head -8
+echo ""
