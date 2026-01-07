@@ -5,7 +5,7 @@ vim.opt_local.softtabstop = 2
 vim.opt_local.expandtab = true
 
 -- Dart uses 80 character line width by default
-vim.opt_local.colorcolumn = "80"
+-- vim.opt_local.colorcolumn = "80"
 
 -- Treesitter-based folding (useful for large widget trees)
 vim.opt_local.foldmethod = "expr"

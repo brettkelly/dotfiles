@@ -1,6 +1,43 @@
-#!/bin/sh
+#!/usr/bin/env bash
+set -euo pipefail
 
-filename=$(basename -- "$1")
-plain="${filename%.*}";
-newfile="${plain}.thumb.jpg";
-magick convert -density 288 "${1}"[0] -resize 75% -background White -layers flatten "${newfile}"
+usage() {
+    echo "Usage: $(basename "$0") [-d density] [-q quality] [-o outfile] <input.pdf>"
+    echo "  -d  DPI for rendering (default: 288)"
+    echo "  -q  JPEG quality 1-100 (default: 85)"
+    echo "  -o  Output file (default: <input>.thumb.jpg)"
+    exit 1
+}
+
+density=288
+quality=85
+outfile=""
+
+while getopts "d:q:o:h" opt; do
+    case $opt in
+        d) density=$OPTARG ;;
+        q) quality=$OPTARG ;;
+        o) outfile=$OPTARG ;;
+        *) usage ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+[[ $# -lt 1 ]] && usage
+[[ ! -f "$1" ]] && { echo "Error: File '$1' not found"; exit 1; }
+
+input="$1"
+if [[ -z "$outfile" ]]; then
+    dir=$(dirname "$input")
+    base=$(basename "$input" .pdf)
+    outfile="${dir}/${base}.thumb.jpg"
+fi
+
+magick -density "$density" "${input}[0]" \
+    -resize 75% \
+    -background white \
+    -flatten \
+    -quality "$quality" \
+    "$outfile"
+
+echo "Created: $outfile"
