@@ -93,3 +93,5 @@ tmp/
 # ============================================
 **/.claude/settings.local.json
 .claude/state/
+.tmux/plugins/tmux-continuum
+.tmux/plugins/tmux-resurrect
