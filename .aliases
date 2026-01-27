@@ -7,8 +7,8 @@ alias de="cd ~/Desktop"
 alias dev="cd ~/Development"
 alias sc="cd ~/Development/Scratch/"
 alias gd="cd /Volumes/GoogleDrive/My\ Drive"
-alias oo="cd ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Main"
-alias obs="cd && cd ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Main && nvim ."
+alias oo="cd ~/obsidian-vault/"
+alias obs="cd && cd ~/obsidian-vault/ && nvim ."
 alias dt="cd ~/dotfiles"
 alias gpom="git push origin master"
 alias gitz="git archive --format zip --output \"\$(PWD).zip\" master -0"
@@ -39,6 +39,7 @@ alias cusafe="/Applications/ClickUp.app/Contents/MacOS/ClickUp --disable-gpu --n
 alias cat="bat"
 alias n="nvim"
 alias bup="brew update && brew upgrade"
+alias asst='cd "$OBSIDIAN_VAULT" && claude --continue'
 
 # view folders sorted by disk usage
 alias folders='find . -maxdepth 1 -type d -print0 | xargs -0 du -hsk | sort -rn'

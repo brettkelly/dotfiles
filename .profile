@@ -14,6 +14,7 @@ export DOTFILES="$HOME/dotfiles/"
 export DOWNLOADS="$HOME/Downloads/"
 export DEV="$HOME/Development/"
 export SCRATCH="$DEV/Scratch/"
+export OBSIDIAN_VAULT="$HOME/obsidian-vault/"
 
 # Dynamic shell path detection
 if command -v zsh &> /dev/null; then
