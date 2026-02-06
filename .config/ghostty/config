@@ -17,3 +17,4 @@ title = " "
 
 # mouse-shift-capture = never
 # mouse-scroll-multiplier = 0
+shell-integration-features = ssh-terminfo,ssh-env
