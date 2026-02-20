@@ -37,12 +37,13 @@ if [[ -z "$DISPLAY" ]] && [[ -n "$WSL_DISTRO_NAME" ]]; then
 fi
 
 # ---- Linux-specific PATH additions ----
-# Add local bin if not already in PATH
-[[ ":$PATH:" != *":$HOME/.local/bin:"* ]] && export PATH="$HOME/.local/bin:$PATH"
-
 # Add cargo (Rust) to PATH if installed
 if [[ -d "$HOME/.cargo/bin" ]]; then
-    [[ ":$PATH:" != *":$HOME/.cargo/bin:"* ]] && export PATH="$HOME/.cargo/bin:$PATH"
+    if typeset -f path_prepend &> /dev/null; then
+        path_prepend "$HOME/.cargo/bin"
+    elif [[ ":$PATH:" != *":$HOME/.cargo/bin:"* ]]; then
+        export PATH="$HOME/.cargo/bin:$PATH"
+    fi
 fi
 
 # ---- Systemd aliases (if systemd is available) ----

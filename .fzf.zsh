@@ -1,13 +1,13 @@
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */Users/brett/.fzf/bin* ]]; then
-  export PATH="${PATH:+${PATH}:}/Users/brett/.fzf/bin"
+if [[ ! "$PATH" == *"$HOME/.fzf/bin"* ]]; then
+  export PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
 fi
 
 # Auto-completion
 # ---------------
-[[ $- == *i* ]] && source "/Users/brett/.fzf/shell/completion.zsh" 2> /dev/null
+[[ $- == *i* && -f "$HOME/.fzf/shell/completion.zsh" ]] && source "$HOME/.fzf/shell/completion.zsh" 2> /dev/null
 
 # Key bindings
 # ------------
-source "/Users/brett/.fzf/shell/key-bindings.zsh"
+[[ -f "$HOME/.fzf/shell/key-bindings.zsh" ]] && source "$HOME/.fzf/shell/key-bindings.zsh"

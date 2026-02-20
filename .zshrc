@@ -26,44 +26,96 @@ bindkey '^[[B' history-search-forward
 #bindkey -v # vim motions
 
 # ---- Path Configuration ----
-typeset -U PATH
-path=(
-    "$HOME/.local/bin"
-    $path
-)
+typeset -U path PATH
+path_prepend() {
+    typeset dir="$1"
+    [[ -n "$dir" && -d "$dir" ]] && path=("$dir" $path)
+}
+
+path_prepend "$HOME/.local/bin"
 
 # Add platform-specific paths
 if [[ "$(uname -s)" == "Darwin" ]]; then
     # macOS Python user packages
-    if [[ -d "$HOME/Library/Python/3.9/bin" ]]; then
-        path=("$HOME/Library/Python/3.9/bin" $path)
-    fi
+    path_prepend "$HOME/Library/Python/3.9/bin"
 
     # Legacy Homebrew paths (for older installations)
-    if [[ -d "/usr/local/sbin" ]]; then
-        path=("/usr/local/sbin" $path)
-    fi
+    path_prepend "/usr/local/sbin"
 fi
 
 # ---- Development Tools ----
 # Python/Pyenv
 if [[ -d "$HOME/.pyenv" ]]; then
     export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init --path)"
-    eval "$(pyenv init -)"
+    path_prepend "$PYENV_ROOT/bin"
+
+    _lazy_load_pyenv() {
+        command -v pyenv &> /dev/null || return 1
+        unset -f pyenv python python3 pip pip3
+        eval "$(pyenv init --path)"
+        eval "$(pyenv init -)"
+    }
+
+    pyenv() {
+        _lazy_load_pyenv || return $?
+        command pyenv "$@"
+    }
+
+    python() {
+        _lazy_load_pyenv || return $?
+        command python "$@"
+    }
+
+    python3() {
+        _lazy_load_pyenv || return $?
+        command python3 "$@"
+    }
+
+    pip() {
+        _lazy_load_pyenv || return $?
+        command pip "$@"
+    }
+
+    pip3() {
+        _lazy_load_pyenv || return $?
+        command pip3 "$@"
+    }
 fi
 
 # Poetry
 if [[ -d "$HOME/.poetry/bin" ]]; then
-    export PATH="$HOME/.poetry/bin:$PATH"
+    path_prepend "$HOME/.poetry/bin"
 fi
-export PATH="$HOME/.local/bin:$PATH"
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+    _lazy_load_nvm() {
+        unset -f nvm node npm npx
+        . "$NVM_DIR/nvm.sh"
+        [[ -s "$NVM_DIR/bash_completion" ]] && . "$NVM_DIR/bash_completion"
+    }
+
+    nvm() {
+        _lazy_load_nvm
+        nvm "$@"
+    }
+
+    node() {
+        _lazy_load_nvm
+        command node "$@"
+    }
+
+    npm() {
+        _lazy_load_nvm
+        command npm "$@"
+    }
+
+    npx() {
+        _lazy_load_nvm
+        command npx "$@"
+    }
+fi
 
 # Java
 if [[ "$(uname -s)" == "Darwin" ]] && [[ -x /usr/libexec/java_home ]]; then
@@ -76,13 +128,13 @@ fi
 # PHP - dynamically find PHP from Homebrew or system
 if command -v brew &> /dev/null; then
     # Try to find PHP 8.1 from Homebrew
-    local brew_prefix=$(brew --prefix 2>/dev/null)
+    brew_prefix="$(brew --prefix 2>/dev/null)"
     if [[ -d "$brew_prefix/opt/php@8.1/bin" ]]; then
-        export PATH="$brew_prefix/opt/php@8.1/bin:$PATH"
-        export PATH="$brew_prefix/opt/php@8.1/sbin:$PATH"
+        path_prepend "$brew_prefix/opt/php@8.1/bin"
+        path_prepend "$brew_prefix/opt/php@8.1/sbin"
     elif [[ -d "$brew_prefix/opt/php/bin" ]]; then
-        export PATH="$brew_prefix/opt/php/bin:$PATH"
-        export PATH="$brew_prefix/opt/php/sbin:$PATH"
+        path_prepend "$brew_prefix/opt/php/bin"
+        path_prepend "$brew_prefix/opt/php/sbin"
     fi
 fi
 
@@ -95,7 +147,7 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 eval "$(zoxide init zsh)"
 
 # ---- OS-Specific Configuration ----
-if [[ `uname` == "Linux" ]]; then
+if [[ "$(uname)" == "Linux" ]]; then
     source ~/.linux.zsh
 fi
 
@@ -108,19 +160,19 @@ if [[ -f "$HOME/.local/lib/platform.sh" ]]; then
     source "$HOME/.local/lib/platform.sh"
 
     # Powerlevel10k
-    local p10k_path=$(find_p10k_theme 2>/dev/null)
+    p10k_path="$(find_p10k_theme 2>/dev/null)"
     if [[ -n "$p10k_path" && -f "$p10k_path" ]]; then
         source "$p10k_path"
     fi
 
     # zsh-autosuggestions
-    local autosuggestions_path=$(find_zsh_plugin "zsh-autosuggestions" 2>/dev/null)
+    autosuggestions_path="$(find_zsh_plugin "zsh-autosuggestions" 2>/dev/null)"
     if [[ -n "$autosuggestions_path" && -f "$autosuggestions_path" ]]; then
         source "$autosuggestions_path"
     fi
 
     # zsh-syntax-highlighting
-    local highlighting_path=$(find_zsh_plugin "zsh-syntax-highlighting" 2>/dev/null)
+    highlighting_path="$(find_zsh_plugin "zsh-syntax-highlighting" 2>/dev/null)"
     if [[ -n "$highlighting_path" && -f "$highlighting_path" ]]; then
         source "$highlighting_path"
     fi
@@ -161,4 +213,4 @@ if [[ -d "$HOME/perl5" ]]; then
 fi
 
 # opencode
-export PATH=/Users/brett/.opencode/bin:$PATH
+path_prepend "$HOME/.opencode/bin"

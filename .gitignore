@@ -95,3 +95,4 @@ tmp/
 .claude/state/
 .tmux/plugins/tmux-continuum
 .tmux/plugins/tmux-resurrect
+FORBRETT.md

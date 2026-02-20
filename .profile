@@ -25,8 +25,16 @@ fi
 
 #export PS1="\u [\w] \\$ "
 
-# Build PATH dynamically
-export PATH="$HOME/.local/bin:$PATH"
+# Build PATH dynamically and idempotently
+path_prepend_if_dir() {
+    [ -d "$1" ] || return
+    case ":$PATH:" in
+        *":$1:"*) ;;
+        *) PATH="$1:$PATH" ;;
+    esac
+}
+
+path_prepend_if_dir "$HOME/.local/bin"
 
 # Add Homebrew to PATH if on macOS
 if [[ "$(uname -s)" == "Darwin" ]]; then
@@ -38,15 +46,15 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
 
     # Add Homebrew Ruby if available
     if [[ -d "/opt/homebrew/opt/ruby/bin" ]]; then
-        export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+        path_prepend_if_dir "/opt/homebrew/opt/ruby/bin"
     elif [[ -d "/usr/local/opt/ruby/bin" ]]; then
-        export PATH="/usr/local/opt/ruby/bin:$PATH"
+        path_prepend_if_dir "/usr/local/opt/ruby/bin"
     fi
 fi
 
 # Add gem directory to PATH if it exists
 if [[ -d "$HOME/.gem/ruby/2.7.0/bin" ]]; then
-    export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
+    path_prepend_if_dir "$HOME/.gem/ruby/2.7.0/bin"
 fi
 
 # Jacked from github.com/lukesmithxyz; for future use if I end up categorizing 
@@ -67,7 +75,8 @@ HISTSIZE=1000
 #set -o vi
 
 
-export PATH="$HOME/.poetry/bin:$PATH"
+path_prepend_if_dir "$HOME/.poetry/bin"
+export PATH
 
 # Cargo (Rust) environment
 if [[ -f "$HOME/.cargo/env" ]]; then
