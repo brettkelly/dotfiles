@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+: "${CF_API_TOKEN:?Set CF_API_TOKEN first}"
+WORKER_NAME="${1:-edge-cache-html}"
+
+api() {
+curl -sS -H "Authorization: Bearer $CF_API_TOKEN" \
+-H "Content-Type: application/json" \
+"https://api.cloudflare.com/client/v4/$1"
+}
+
+zones_json="$(api "zones?per_page=1000")"
+ok="$(echo "$zones_json" | jq -r '.success // false')"
+if [[ "$ok" != "true" ]]; then
+echo "Zones API failed:"
+echo "$zones_json" | jq .
+exit 1
+fi
+
+echo "Finding routes for worker: $WORKER_NAME" >&2
+
+echo "$zones_json" | jq -r '.result[] | [.id,.name] | @tsv' | while IFS=$'\t' read -r zone_id zone_name; do
+routes_json="$(api "zones/$zone_id/workers/routes")"
+success="$(echo "$routes_json" | jq -r '.success // false')"
+if [[ "$success" != "true" ]]; then
+echo "WARN: failed routes for $zone_name ($zone_id)" >&2
+echo "$routes_json" | jq -c '.errors // []' >&2
+continue
+fi
+
+echo "$routes_json" | jq -r --arg z "$zone_name" --arg w "$WORKER_NAME" '
+(.result // [])
+| .[]
+| select(.script == $w)
+| "\($z)\t\(.pattern)\t\(.script)"
+'
+done | sort
