@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [[ $# -lt 1 || $# -gt 2 ]]; then
+  echo "Usage: $0 <new-instance-name> [target-parent-dir]"
+  exit 1
+fi
+
+INSTANCE_NAME="$1"
+TARGET_PARENT_DIR="${2:-$PWD}"
+
+if [[ ! -d "$TARGET_PARENT_DIR" ]]; then
+  echo "Parent directory does not exist: $TARGET_PARENT_DIR"
+  exit 1
+fi
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_URL="${DOCKER_WP_REPO_URL:-$(git -C "$SCRIPT_DIR" remote get-url origin)}"
+TARGET_DIR="$TARGET_PARENT_DIR/$INSTANCE_NAME"
+
+if [[ -e "$TARGET_DIR" ]]; then
+  echo "Target already exists: $TARGET_DIR"
+  exit 1
+fi
+
+echo "Cloning $REPO_URL -> $TARGET_DIR"
+git clone "$REPO_URL" "$TARGET_DIR"
+
+echo "Running setup and startup commands"
+bash "$TARGET_DIR/setup.sh"
+make -C "$TARGET_DIR" up
+make -C "$TARGET_DIR" wp-install
+
+echo
+echo "Instance ready: $TARGET_DIR"
+echo "WordPress: https://localhost:8443"
+echo "phpMyAdmin: http://localhost:8897"
+echo "Optional Mailpit: make -C \"$TARGET_DIR\" mailpit-up"

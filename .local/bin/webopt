@@ -1,12 +1,62 @@
-#!/bin/sh
+#!/usr/bin/env bash
+set -euo pipefail
 
-filename=$(basename -- "$1")
-plain="${filename%.*}";
-newf="${plain}.optimized.jpg";
-if [ -z "$2" ]
-then
-    width="2000"
+usage() {
+  cat <<'EOF'
+Usage: webopt <input-file> [width] [quality]
+  input-file: image path
+  width:      max width in px (default: 2000)
+  quality:    JPEG quality 1-100 (default: 85)
+EOF
+}
+
+[[ $# -lt 1 || $# -gt 3 ]] && {
+  usage
+  exit 1
+}
+
+in="$1"
+width="${2:-2000}"
+quality="${3:-85}"
+
+[[ -f "$in" ]] || {
+  echo "Error: file not found: $in" >&2
+  exit 1
+}
+[[ "$width" =~ ^[0-9]+$ ]] || {
+  echo "Error: width must be numeric" >&2
+  exit 1
+}
+[[ "$quality" =~ ^[0-9]+$ ]] || {
+  echo "Error: quality must be numeric" >&2
+  exit 1
+}
+(( quality >= 1 && quality <= 100 )) || {
+  echo "Error: quality must be 1-100" >&2
+  exit 1
+}
+
+if command -v magick >/dev/null 2>&1; then
+  im=(magick)
+elif command -v convert >/dev/null 2>&1; then
+  im=(convert)
 else
-    width="$2"
+  echo "Error: ImageMagick not found (magick/convert)" >&2
+  exit 1
 fi
-convert "$filename" -sampling-factor 4:2:0 -strip -resize "$width"x -quality 85 -interlace JPEG "$newf"
+
+dir="$(dirname "$in")"
+base="$(basename "$in")"
+name="${base%.*}"
+out="${dir}/${name}.optimized.jpg"
+
+"${im[@]}" "$in" \
+  -auto-orient \
+  -sampling-factor 4:2:0 \
+  -strip \
+  -resize "${width}x>" \
+  -quality "$quality" \
+  -interlace JPEG \
+  "$out"
+
+echo "Wrote: $out"
