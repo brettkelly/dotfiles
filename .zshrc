@@ -214,3 +214,4 @@ fi
 
 # opencode
 path_prepend "$HOME/.opencode/bin"
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
