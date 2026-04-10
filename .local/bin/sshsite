@@ -1,0 +1,215 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [[ $# -ne 1 ]]; then
+  echo "Usage: sshsite <domain>"
+  exit 1
+fi
+
+normalize_domain() {
+  local value="$1"
+
+  value="${value#http://}"
+  value="${value#https://}"
+  value="${value%%/*}"
+  value="${value%%\?*}"
+  value="${value%%#*}"
+  value="${value%.}"
+
+  printf '%s\n' "$value" | tr '[:upper:]' '[:lower:]'
+}
+
+domain="$(normalize_domain "$1")"
+env_file="$HOME/.env"
+ssh_config="$HOME/.ssh/config"
+api_base="https://my.gridpane.com/oauth/api/v1"
+
+if [[ ! -f "$env_file" ]]; then
+  echo "Missing env file: $env_file"
+  exit 1
+fi
+
+if [[ ! -f "$ssh_config" ]]; then
+  echo "Missing SSH config: $ssh_config"
+  exit 1
+fi
+
+token_line="$(grep -m1 -E '^GRIDPANE_API_TOKEN=' "$env_file" || true)"
+
+if [[ -z "$token_line" ]]; then
+  echo "GRIDPANE_API_TOKEN not found in $env_file"
+  exit 1
+fi
+
+api_token="${token_line#GRIDPANE_API_TOKEN=}"
+api_token="${api_token#\"}"
+api_token="${api_token%\"}"
+api_token="${api_token#\'}"
+api_token="${api_token%\'}"
+
+if ! command -v jq >/dev/null 2>&1; then
+  echo "jq is required"
+  exit 1
+fi
+
+api_get() {
+  local url="$1"
+
+  curl -fsS \
+    -H "Authorization: Bearer $api_token" \
+    -H "Accept: application/json" \
+    "$url"
+}
+
+find_site_by_domain() {
+  local endpoint="$1"
+  local mode="$2"
+  local page=1
+  local per_page=100
+  local response last_page result
+
+  while :; do
+    response="$(api_get "$api_base/$endpoint?page=$page&per_page=$per_page")"
+
+    if [[ "$mode" == "site" ]]; then
+      result="$(jq -cer --arg domain "$domain" '
+        def candidates:
+          if type == "array" then .
+          elif type == "object" and (.data? | type) == "array" then .data
+          else []
+          end;
+
+        def matches($input):
+          (.url? // "" | ascii_downcase) as $url
+          | ($input | ascii_downcase) as $wanted
+          | ($input | ascii_downcase | sub("^www\\."; "")) as $bare
+          | ($bare | if startswith("www.") then . else "www." + . end) as $www
+          | ($url == $wanted) or ($url == $bare) or ($url == $www);
+
+        candidates
+        | map(select(matches($domain)))
+        | first
+      ' <<<"$response" 2>/dev/null || true)"
+    else
+      result="$(jq -cer --arg domain "$domain" '
+        def candidates:
+          if type == "array" then .
+          elif type == "object" and (.data? | type) == "array" then .data
+          elif type == "object" and (.data.domains? | type) == "array" then .data.domains
+          else []
+          end;
+
+        def matches($input):
+          ((.domain_url? // .url? // "") | ascii_downcase) as $url
+          | ($input | ascii_downcase) as $wanted
+          | ($input | ascii_downcase | sub("^www\\."; "")) as $bare
+          | ($bare | if startswith("www.") then . else "www." + . end) as $www
+          | ($url == $wanted) or ($url == $bare) or ($url == $www);
+
+        candidates
+        | map(select(matches($domain)))
+        | first
+      ' <<<"$response" 2>/dev/null || true)"
+    fi
+
+    if [[ "$result" == "null" ]]; then
+      result=""
+    fi
+
+    if [[ -n "$result" ]]; then
+      printf '%s\n' "$result"
+      return 0
+    fi
+
+    last_page="$(jq -r '.meta.last_page // 1' <<<"$response")"
+
+    if [[ "$page" -ge "$last_page" ]]; then
+      return 1
+    fi
+
+    ((page++))
+  done
+}
+
+site_json="$(find_site_by_domain site site || true)"
+
+if [[ -z "$site_json" ]]; then
+  domain_json="$(find_site_by_domain domain domain || true)"
+
+  if [[ -n "$domain_json" ]]; then
+    site_id="$(jq -r '.site_id // empty' <<<"$domain_json")"
+
+    if [[ -n "$site_id" ]]; then
+      site_json="$(api_get "$api_base/site/$site_id")"
+    fi
+  fi
+fi
+
+if [[ -z "$site_json" ]]; then
+  echo "No GridPane site found for $domain"
+  exit 1
+fi
+
+server_ip="$(jq -r '
+  .server.ip?
+  // .ip?
+  // .server_ip?
+  // empty
+' <<<"$site_json")"
+
+server_id="$(jq -r '.server_id // .server.id // empty' <<<"$site_json")"
+
+if [[ -z "$server_ip" && -n "$server_id" ]]; then
+  server_response="$(curl -fsS \
+    -H "Authorization: Bearer $api_token" \
+    -H "Accept: application/json" \
+    "$api_base/server/$server_id")"
+
+  server_ip="$(jq -r '
+    if type == "object" and (.data? | type) == "object" then .data.ip
+    else .ip // empty
+    end
+  ' <<<"$server_response")"
+fi
+
+if [[ -z "$server_ip" ]]; then
+  echo "Could not determine server IP for $domain"
+  exit 1
+fi
+
+ssh_alias="$(awk -v target="$server_ip" '
+  BEGIN { IGNORECASE = 1 }
+
+  function clear_aliases() {
+    alias_count = 0
+    delete aliases
+  }
+
+  tolower($1) == "host" {
+    clear_aliases()
+    for (i = 2; i <= NF; i++) {
+      if ($i !~ /[*?]/) {
+        aliases[++alias_count] = $i
+      }
+    }
+    next
+  }
+
+  tolower($1) == "hostname" {
+    if ($2 == target && alias_count > 0) {
+      print aliases[1]
+      exit
+    }
+  }
+  ' "$ssh_config")"
+
+if [[ -z "$ssh_alias" ]]; then
+  echo "No SSH host alias found for IP $server_ip in $ssh_config"
+  exit 1
+fi
+
+echo "IP: $server_ip"
+echo "SSH Host: $ssh_alias"
+
+ssh -t "$ssh_alias" "cd /var/www/$domain && exec \\${SHELL:-/bin/bash} -l"
