@@ -8,3 +8,6 @@
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
+
+[includeIf "gitdir:~/Development/axxa/"]
+    path = ~/.gitconfig-axxa
